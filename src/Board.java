@@ -16,7 +16,6 @@ public class Board extends JPanel {
 				buttons[i][j].setBorderPainted(false);
 				if ((i + j) % 2 == 1) {
 					buttons[i][j].setBackground(Color.LIGHT_GRAY);
-					System.out.println("here");
 				}
 				add(buttons[i][j]);
 			}

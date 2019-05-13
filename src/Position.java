@@ -23,4 +23,8 @@ public class Position {
 	public void setCol(int col) {
 		this.col = col;
 	}
+	
+	public String toString() {
+		return "(" + row + ", " + col + ")";
+	}
 }

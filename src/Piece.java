@@ -1,6 +1,7 @@
+import java.util.ArrayList;
 
 public abstract class Piece {
-	private Position pos;
+	Position pos;
 	
 	public Piece(Position pos) {
 		this.pos = pos;

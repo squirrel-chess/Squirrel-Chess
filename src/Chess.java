@@ -9,6 +9,10 @@ public class Chess {
 		frame.setResizable(false);
 		frame.add(board);
 		frame.setVisible(true);
+		Bishop b = new Bishop(new Position(4, 4));
+		b.getMoveSet().stream().forEach((s) -> {
+			System.out.println(s);
+		});
 	}
 	
 	public static void main(String[] args) {
