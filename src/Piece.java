@@ -1,15 +1,25 @@
 import java.util.ArrayList;
 
 public abstract class Piece {
-	Position pos;
+	protected Position pos;
+	protected Board b;
+	protected boolean isWhite;
 	
-	public Piece(Position pos) {
+	public Piece(Position pos, Board b, boolean isWhite) {
 		this.pos = pos;
+		this.b = b;
+		this.isWhite = isWhite;
 	}
 	
-	public void move() {
+	public abstract void draw();
+	
+	abstract ArrayList<Position> getMoveSet();
+	
+	public void move(ArrayList<Position> moveSet) {
+		b.highlightMoves(moveSet);
+	}
+	
+	public void remove() {
 		
 	}
-	
-	abstract Position[] getMoveSet();
 }
