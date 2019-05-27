@@ -9,10 +9,6 @@ public class Chess {
 		frame.setResizable(false);
 		frame.add(board);
 		frame.setVisible(true);
-		Queen b = new Queen(new Position(4, 4), board, true);
-		for (Position p : b.getMoveSet())
-			System.out.println(p);
-		b.move(b.getMoveSet());
 	}
 	
 	public static void main(String[] args) {

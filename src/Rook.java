@@ -2,8 +2,8 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
-	public Rook(Position pos, Board b) {
-		super(pos, b);
+	public Rook(Position pos, Board b, boolean isWhite) {
+		super(pos, b, isWhite);
 	}
 
 	@Override
@@ -21,4 +21,7 @@ public class Rook extends Piece {
 		
 	}
 	
+	public String toString() {
+		return "Rook (" + pos.getRow() + ", " + pos.getCol() + ")";
+	}
 }

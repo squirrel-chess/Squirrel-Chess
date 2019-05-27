@@ -29,4 +29,8 @@ public class Queen extends Piece {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public String toString() {
+		return "Queen (" + pos.getRow() + ", " + pos.getCol() + ")";
+	}
 }

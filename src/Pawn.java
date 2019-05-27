@@ -13,15 +13,19 @@ public class Pawn extends Piece {
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (!hasMoved) {
-			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
-			ret.add(new Position(pos.getRow(), pos.getCol() - 2));
+			ret.add(new Position(pos.getRow() - 1, pos.getCol()));
+			ret.add(new Position(pos.getRow() - 2, pos.getCol()));
 		} else
-			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
+			ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 		return ret;
 	}
 
 	@Override
 	public void draw() {
 
+	}
+	
+	public String toString() {
+		return "Pawn (" + pos.getRow() + ", " + pos.getCol() + ")";
 	}
 }

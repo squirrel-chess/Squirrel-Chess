@@ -20,6 +20,10 @@ public abstract class Piece {
 	}
 	
 	public void remove() {
-		
+		b.removePiece(this);
+	}
+	
+	public Position getPos() {
+		return pos;
 	}
 }

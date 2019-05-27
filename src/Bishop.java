@@ -3,8 +3,8 @@ import java.util.stream.Stream;
 
 public class Bishop extends Piece {
 
-	public Bishop(Position pos, Board b) {
-		super(pos, b);
+	public Bishop(Position pos, Board b, boolean isWhite) {
+		super(pos, b, isWhite);
 	}
 
 	@Override
@@ -24,5 +24,8 @@ public class Bishop extends Piece {
 	@Override
 	public void draw() {	
 	}
-
+	
+	public String toString() {
+		return "Bishop (" + pos.getRow() + ", " + pos.getCol() + ")";
+	}
 }
