@@ -9,17 +9,21 @@ public class Queen extends Piece {
 	@Override
 	ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		for (int i = 0; ((pos.getRow() + i) < 8) && ((pos.getCol() + i) < 8); i++)
+		for (int i = 1; ((pos.getRow() + i) < 8) && ((pos.getCol() + i) < 8); i++)
 			ret.add(new Position(pos.getRow() + i, pos.getCol() + i));
-		for (int i = 0; ((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0); i++)
+		for (int i = 1; ((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() + i, pos.getCol() - i));
-		for (int i = 0; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++)
+		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++)
 			ret.add(new Position(pos.getRow() - i, pos.getCol() + i));
-		for (int i = 0; ((pos.getRow() + i) >= 0) && ((pos.getCol() - i) >= 0); i++)
+		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() - i, pos.getCol() - i));
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < pos.getCol(); i++)
 			ret.add(new Position(pos.getRow(), i));
-		for (int i = 0; i < 8; i++)
+		for (int i = pos.getCol() + 1; i < 8; i++)
+			ret.add(new Position(pos.getRow(), i));
+		for (int i = 0; i < pos.getRow(); i++)
+			ret.add(new Position(i, pos.getCol()));
+		for (int i = pos.getRow() + 1; i < 8; i++)
 			ret.add(new Position(i, pos.getCol()));
 		return ret;
 	}
@@ -31,6 +35,6 @@ public class Queen extends Piece {
 	}
 	
 	public String toString() {
-		return "Queen (" + pos.getRow() + ", " + pos.getCol() + ")";
+		return "Queen" + super.toString();
 	}
 }

@@ -9,9 +9,13 @@ public class Rook extends Piece {
 	@Override
 	ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < pos.getCol(); i++)
 			ret.add(new Position(pos.getRow(), i));
-		for (int i = 0; i < 8; i++)
+		for (int i = pos.getCol() + 1; i < 8; i++)
+			ret.add(new Position(pos.getRow(), i));
+		for (int i = 0; i < pos.getRow(); i++)
+			ret.add(new Position(i, pos.getCol()));
+		for (int i = pos.getRow() + 1; i < 8; i++)
 			ret.add(new Position(i, pos.getCol()));
 		return ret;
 	}
@@ -22,6 +26,6 @@ public class Rook extends Piece {
 	}
 	
 	public String toString() {
-		return "Rook (" + pos.getRow() + ", " + pos.getCol() + ")";
+		return "Rook" + super.toString();
 	}
 }

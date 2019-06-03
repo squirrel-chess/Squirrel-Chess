@@ -1,12 +1,8 @@
 import java.awt.Color;
-import java.awt.Graphics;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.util.ArrayList;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 public class Board extends JPanel {
 	Square[][] squares;
@@ -19,11 +15,13 @@ public class Board extends JPanel {
 	}
 
 	public void highlightMoves(Piece p) {
-		for (Position pos : p.getMoveSet())
+		for (Position pos : p.getMoveSet()) {
+			System.out.println(pos);
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
+		}
 	}
 
-	public void unHighlightMoves(Piece p) {
+	public void unhighlightMoves(Piece p) {
 		for (Position pos : p.getMoveSet())
 			if ((pos.getRow() + pos.getCol()) % 2 == 1)
 				squares[pos.getRow()][pos.getCol()].setBackground(Color.LIGHT_GRAY);
@@ -40,7 +38,7 @@ public class Board extends JPanel {
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				squares[i][j] = new Square(false, this);
+				squares[i][j] = new Square(this, new Position(i, j));
 				squares[i][j].setOpaque(true);
 				squares[i][j].setBorderPainted(false);
 				squares[i][j].setText(i + ", " + j);
@@ -97,7 +95,7 @@ public class Board extends JPanel {
 		}
 	}
 
-	private Piece getPieceAtPos(Position pos) {
+	public Piece getPieceAtPos(Position pos) {
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos))
 				return p;

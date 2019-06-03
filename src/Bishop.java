@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.stream.Stream;
 
 public class Bishop extends Piece {
 
@@ -10,14 +9,16 @@ public class Bishop extends Piece {
 	@Override
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		for (int i = 0; ((pos.getRow() + i) < 8) && ((pos.getCol() + i) < 8); i++)
+		for (int i = 1; ((pos.getRow() + i) < 8) && ((pos.getCol() + i) < 8); i++)
 			ret.add(new Position(pos.getRow() + i, pos.getCol() + i));
-		for (int i = 0; ((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0); i++)
+		for (int i = 1; ((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() + i, pos.getCol() - i));
-		for (int i = 0; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++)
+		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++) {
 			ret.add(new Position(pos.getRow() - i, pos.getCol() + i));
-		for (int i = 0; ((pos.getRow() + i) >= 0) && ((pos.getCol() - i) >= 0); i++)
+		} for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() - i, pos.getCol() - i));
+		for (Position p : ret)
+			System.out.println(p);
 		return ret;
 	}
 
@@ -26,6 +27,6 @@ public class Bishop extends Piece {
 	}
 	
 	public String toString() {
-		return "Bishop (" + pos.getRow() + ", " + pos.getCol() + ")";
+		return "Bishop" + super.toString();
 	}
 }

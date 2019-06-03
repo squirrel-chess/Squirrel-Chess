@@ -34,6 +34,6 @@ public class King extends Piece {
 	}
 	
 	public String toString() {
-		return "King (" + pos.getRow() + ", " + pos.getCol() + ")";
+		return "King" + super.toString();
 	}
 }
