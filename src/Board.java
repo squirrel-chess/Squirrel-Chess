@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
-	Square[][] squares;
-	ArrayList<Piece> pieces;
+	private Square[][] squares;
+	private ArrayList<Piece> pieces;
+	private Piece selectedPiece;
 
 	public Board() {
 		pieces = new ArrayList<Piece>();
@@ -14,19 +15,23 @@ public class Board extends JPanel {
 		initPieces();
 	}
 
-	public void highlightMoves(Piece p) {
-		for (Position pos : p.getMoveSet()) {
-			System.out.println(pos);
+	public void highlightMoves(ArrayList<Position> moveSet, Piece p) {
+		for (Position pos : moveSet) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
+			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
+		selectedPiece = p;
 	}
 
-	public void unhighlightMoves(Piece p) {
-		for (Position pos : p.getMoveSet())
+	public void unhighlightMoves(ArrayList<Position> moveSet, Piece p) {
+		for (Position pos : moveSet) {
+			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 			if ((pos.getRow() + pos.getCol()) % 2 == 1)
 				squares[pos.getRow()][pos.getCol()].setBackground(Color.LIGHT_GRAY);
 			else
 				squares[pos.getRow()][pos.getCol()].setBackground(Color.WHITE);
+		}
+		selectedPiece = null;
 	}
 
 	public void removePiece(Piece p) {
@@ -35,6 +40,7 @@ public class Board extends JPanel {
 
 	private void initBoard() {
 		squares = new Square[8][8];
+		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -101,5 +107,9 @@ public class Board extends JPanel {
 				return p;
 		}
 		return null;
+	}
+	
+	public Piece getSelectedPiece() {
+		return selectedPiece;
 	}
 }

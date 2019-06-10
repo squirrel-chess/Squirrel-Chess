@@ -1,5 +1,3 @@
-import java.awt.Color;
-
 import javax.swing.JButton;
 
 public class Square extends JButton {
@@ -16,15 +14,12 @@ public class Square extends JButton {
 	}
 
 	public void click() {
-		if (inMoveSet)
-			return;
-		else if (isClicked)
-			b.unhighlightMoves(b.getPieceAtPos(pos));
+		if (b.getSelectedPiece() == null)
+			b.getPieceAtPos(pos).select();
 		else
-			b.highlightMoves(b.getPieceAtPos(pos));
-		isClicked = !isClicked;
+			b.getSelectedPiece().move(pos);
 	}
-	
+
 	public void setInMoveSet(boolean inMoveSet) {
 		this.inMoveSet = inMoveSet;
 	}

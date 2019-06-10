@@ -15,9 +15,18 @@ public abstract class Piece {
 
 	abstract ArrayList<Position> getMoveSet();
 
-	public void move(ArrayList<Position> moveSet) {
-		b.highlightMoves(this);
+	public void select() {
+		System.out.println(b.getSelectedPiece());
+		if (b.getSelectedPiece() == null)
+			b.highlightMoves(getMoveSet(), this);
+		else if (b.getSelectedPiece() == this) {
+			b.unhighlightMoves(getMoveSet(), b.getSelectedPiece());
+		}
 		
+	}
+
+	public void move(Position pos) {
+		this.pos = pos;
 	}
 
 	public void remove() {
