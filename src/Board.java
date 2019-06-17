@@ -15,21 +15,24 @@ public class Board extends JPanel {
 		initPieces();
 	}
 
-	public void highlightMoves(ArrayList<Position> moveSet, Piece p) {
-		for (Position pos : moveSet) {
+	public void highlightMoves(Piece p) {
+		for (Position pos : p.getMoveSet()) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
+		System.out.println(p.getMoveSet());
 		selectedPiece = p;
 	}
 
-	public void unhighlightMoves(ArrayList<Position> moveSet, Piece p) {
-		for (Position pos : moveSet) {
-			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
-			if ((pos.getRow() + pos.getCol()) % 2 == 1)
-				squares[pos.getRow()][pos.getCol()].setBackground(Color.LIGHT_GRAY);
-			else
-				squares[pos.getRow()][pos.getCol()].setBackground(Color.WHITE);
+	public void unhighlightMoves() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 1) {
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+				} else
+					squares[i][j].setBackground(Color.WHITE);
+				squares[i][j].setInMoveSet(false);
+			}
 		}
 		selectedPiece = null;
 	}
@@ -47,10 +50,10 @@ public class Board extends JPanel {
 				squares[i][j] = new Square(this, new Position(i, j));
 				squares[i][j].setOpaque(true);
 				squares[i][j].setBorderPainted(false);
-				squares[i][j].setText(i + ", " + j);
-				if ((i + j) % 2 == 1) {
+				if ((i + j) % 2 == 1)
 					squares[i][j].setBackground(Color.LIGHT_GRAY);
-				}
+				else
+					squares[i][j].setBackground(Color.WHITE);
 				int a = i;
 				int b = j;
 				squares[i][j].addActionListener((e) -> {
@@ -96,9 +99,7 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(7, 6), this, true));
 		pieces.add(new Rook(new Position(7, 7), this, true));
 
-		for (Piece p : pieces) {
-			squares[p.getPos().getRow()][p.getPos().getCol()].setText(p.toString());
-		}
+		updateText();
 	}
 
 	public Piece getPieceAtPos(Position pos) {
@@ -108,8 +109,23 @@ public class Board extends JPanel {
 		}
 		return null;
 	}
-	
+
 	public Piece getSelectedPiece() {
 		return selectedPiece;
+	}
+
+	public void setSelectedPiece(Piece p) {
+		selectedPiece = p;
+	}
+	
+	public void updateText() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				squares[i][j].setText("");
+			}
+		}
+		for (Piece p : pieces) {
+			squares[p.getPos().getRow()][p.getPos().getCol()].setText(p.toString());
+		}
 	}
 }

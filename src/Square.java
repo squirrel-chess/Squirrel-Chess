@@ -14,10 +14,15 @@ public class Square extends JButton {
 	}
 
 	public void click() {
-		if (b.getSelectedPiece() == null)
+		if (b.getSelectedPiece() == null && b.getPieceAtPos(pos) != null)
 			b.getPieceAtPos(pos).select();
-		else
+		else if (inMoveSet && b.getSelectedPiece() != null)
 			b.getSelectedPiece().move(pos);
+		else {
+			isClicked = false;
+			b.setSelectedPiece(null);
+			b.unhighlightMoves();
+		}
 	}
 
 	public void setInMoveSet(boolean inMoveSet) {

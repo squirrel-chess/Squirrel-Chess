@@ -16,17 +16,20 @@ public abstract class Piece {
 	abstract ArrayList<Position> getMoveSet();
 
 	public void select() {
-		System.out.println(b.getSelectedPiece());
 		if (b.getSelectedPiece() == null)
-			b.highlightMoves(getMoveSet(), this);
-		else if (b.getSelectedPiece() == this) {
-			b.unhighlightMoves(getMoveSet(), b.getSelectedPiece());
+			b.highlightMoves(this);
+		else {
+			b.unhighlightMoves();
 		}
-		
 	}
 
 	public void move(Position pos) {
+		if (b.getPieceAtPos(pos) != null)
+			b.getPieceAtPos(pos).remove();
 		this.pos = pos;
+		b.updateText();
+		b.unhighlightMoves();
+		b.setSelectedPiece(null);
 	}
 
 	public void remove() {
