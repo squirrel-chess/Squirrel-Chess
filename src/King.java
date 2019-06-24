@@ -7,7 +7,7 @@ public class King extends Piece {
 	}
 
 	@Override
-	ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (pos.getRow() + 1 < 8 && pos.getCol() + 1 < 8)
 			ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
@@ -25,7 +25,7 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 1));
 		if (pos.getCol() - 1 >= 0)
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
-		return ret;
+		return removeInvalidMoves(ret);
 	}
 	
 	@Override

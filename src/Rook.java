@@ -7,7 +7,7 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		for (int i = 0; i < pos.getCol(); i++)
 			ret.add(new Position(pos.getRow(), i));
@@ -17,7 +17,7 @@ public class Rook extends Piece {
 			ret.add(new Position(i, pos.getCol()));
 		for (int i = pos.getRow() + 1; i < 8; i++)
 			ret.add(new Position(i, pos.getCol()));
-		return ret;
+		return removeInvalidMoves(ret);
 	}
 
 	@Override

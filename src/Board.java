@@ -20,7 +20,6 @@ public class Board extends JPanel {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
-		System.out.println(p.getMoveSet());
 		selectedPiece = p;
 	}
 
@@ -117,7 +116,7 @@ public class Board extends JPanel {
 	public void setSelectedPiece(Piece p) {
 		selectedPiece = p;
 	}
-	
+
 	public void updateText() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -127,5 +126,20 @@ public class Board extends JPanel {
 		for (Piece p : pieces) {
 			squares[p.getPos().getRow()][p.getPos().getCol()].setText(p.toString());
 		}
+	}
+
+	public void addPiece(Piece p) {
+		pieces.add(p);
+	}
+
+	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
+		ArrayList<Position> ret = new ArrayList<Position>();
+		for (Piece p : pieces) {
+			if (p.isWhite && isWhite)
+				ret.add(p.getPos());
+			else if (!p.isWhite && !isWhite)
+				ret.add(p.getPos());
+		}
+		return ret;
 	}
 }

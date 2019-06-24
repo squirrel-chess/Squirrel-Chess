@@ -13,13 +13,11 @@ public class Bishop extends Piece {
 			ret.add(new Position(pos.getRow() + i, pos.getCol() + i));
 		for (int i = 1; ((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() + i, pos.getCol() - i));
-		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++) {
+		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8); i++)
 			ret.add(new Position(pos.getRow() - i, pos.getCol() + i));
-		} for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() - i) >= 0); i++)
+		for (int i = 1; ((pos.getRow() - i) >= 0) && ((pos.getCol() - i) >= 0); i++)
 			ret.add(new Position(pos.getRow() - i, pos.getCol() - i));
-		for (Position p : ret)
-			System.out.println(p);
-		return ret;
+		return removeInvalidMoves(ret);
 	}
 
 	@Override

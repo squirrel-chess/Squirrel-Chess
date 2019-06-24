@@ -13,7 +13,7 @@ public abstract class Piece {
 
 	public abstract void draw();
 
-	abstract ArrayList<Position> getMoveSet();
+	public abstract ArrayList<Position> getMoveSet();
 
 	public void select() {
 		if (b.getSelectedPiece() == null)
@@ -45,5 +45,16 @@ public abstract class Piece {
 			return ("W(" + pos.getRow() + "," + pos.getCol() + ")");
 		else
 			return ("B(" + pos.getRow() + "," + pos.getCol() + ")");
+	}
+	
+	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
+		ArrayList<Position> posList = b.getAllFriendlyPiecePos(isWhite);
+		for (int i = 0; i < posList.size(); i++) {
+			for (int j = 0; j < moveSet.size(); j++)
+			if (posList.get(i).equals(moveSet.get(j))) {
+				moveSet.remove(j);
+			}
+		}
+		return moveSet;
 	}
 }
