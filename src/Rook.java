@@ -9,13 +9,13 @@ public class Rook extends Piece {
 	@Override
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		for (int i = 0; i < pos.getCol(); i++)
+		for (int i = 0; i < pos.getCol() && b.getPieceAtPos(new Position(pos.getRow(), i)) == null; i++)
 			ret.add(new Position(pos.getRow(), i));
-		for (int i = pos.getCol() + 1; i < 8; i++)
+		for (int i = 7; i > pos.getCol() && b.getPieceAtPos(new Position(pos.getRow(), i)) == null; i--)
 			ret.add(new Position(pos.getRow(), i));
-		for (int i = 0; i < pos.getRow(); i++)
+		for (int i = 0; i < pos.getRow() && b.getPieceAtPos(new Position(i, pos.getCol())) == null; i++)
 			ret.add(new Position(i, pos.getCol()));
-		for (int i = pos.getRow() + 1; i < 8; i++)
+		for (int i = 7; i > pos.getRow() && b.getPieceAtPos(new Position(i, pos.getCol())) == null; i--)
 			ret.add(new Position(i, pos.getCol()));
 		return removeInvalidMoves(ret);
 	}

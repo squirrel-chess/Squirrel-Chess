@@ -8,6 +8,8 @@ public class Board extends JPanel {
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
+	private boolean whiteCastle;
+	private boolean blackCastle;
 
 	public Board() {
 		pieces = new ArrayList<Piece>();
@@ -64,15 +66,18 @@ public class Board extends JPanel {
 	}
 
 	private void initPieces() {
+		Rook r1 = new Rook(new Position(0, 0), this, false);
+		Rook r2 = new Rook(new Position(0, 7), this, false);
+		Rook r3 = new Rook(new Position(7, 0), this, true);
+		Rook r4 = new Rook(new Position(7, 7), this, true);
+		
 		pieces = new ArrayList<Piece>();
-		pieces.add(new Rook(new Position(0, 0), this, false));
 		pieces.add(new Knight(new Position(0, 1), this, false));
 		pieces.add(new Bishop(new Position(0, 2), this, false));
 		pieces.add(new Queen(new Position(0, 3), this, false));
-		pieces.add(new King(new Position(0, 4), this, false));
+		pieces.add(new King(new Position(0, 4), this, false, r1, r2));
 		pieces.add(new Bishop(new Position(0, 5), this, false));
 		pieces.add(new Knight(new Position(0, 6), this, false));
-		pieces.add(new Rook(new Position(0, 7), this, false));
 		pieces.add(new Pawn(new Position(1, 0), this, false));
 		pieces.add(new Pawn(new Position(1, 1), this, false));
 		pieces.add(new Pawn(new Position(1, 2), this, false));
@@ -89,15 +94,16 @@ public class Board extends JPanel {
 		pieces.add(new Pawn(new Position(6, 5), this, true));
 		pieces.add(new Pawn(new Position(6, 6), this, true));
 		pieces.add(new Pawn(new Position(6, 7), this, true));
-		pieces.add(new Rook(new Position(7, 0), this, true));
 		pieces.add(new Knight(new Position(7, 1), this, true));
 		pieces.add(new Bishop(new Position(7, 2), this, true));
 		pieces.add(new Queen(new Position(7, 3), this, true));
-		pieces.add(new King(new Position(7, 4), this, true));
+		pieces.add(new King(new Position(7, 4), this, true, r3, r4));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
-		pieces.add(new Rook(new Position(7, 7), this, true));
-
+		
+		whiteCastle = true;
+		blackCastle = true;
+		
 		updateText();
 	}
 
@@ -141,5 +147,21 @@ public class Board extends JPanel {
 				ret.add(p.getPos());
 		}
 		return ret;
+	}
+	
+	public boolean whiteCanCastle() {
+		return whiteCastle;
+	}
+	
+	public boolean blackCanCastle() {
+		return blackCastle;
+	}
+	
+	public void setWhiteCastle(boolean whiteCastle) {
+		this.whiteCastle = whiteCastle;
+	}
+	
+	public void setBlackCastle(boolean blackCastle) {
+		this.blackCastle = blackCastle;
 	}
 }
