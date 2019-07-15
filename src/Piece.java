@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public abstract class Piece {
 	protected Position pos;
 	protected Board b;
@@ -16,10 +18,12 @@ public abstract class Piece {
 	public abstract ArrayList<Position> getMoveSet();
 
 	public void select() {
-		if (b.getSelectedPiece() == null)
-			b.highlightMoves(this);
-		else {
-			b.unhighlightMoves();
+		if (b.getWhiteTurn() == isWhite) {
+			if (b.getSelectedPiece() == null)
+				b.highlightMoves(this);
+			else {
+				b.unhighlightMoves();
+			}
 		}
 	}
 
@@ -30,6 +34,11 @@ public abstract class Piece {
 		b.updateText();
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
+		b.nextTurn();
+		if (isWhite)
+			JOptionPane.showMessageDialog(null, "Black's turn.");
+		else
+			JOptionPane.showMessageDialog(null, "White's turn.");
 	}
 
 	public void remove() {
@@ -46,14 +55,14 @@ public abstract class Piece {
 		else
 			return ("B(" + pos.getRow() + "," + pos.getCol() + ")");
 	}
-	
+
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
 		ArrayList<Position> posList = b.getAllFriendlyPiecePos(isWhite);
 		for (int i = 0; i < posList.size(); i++) {
 			for (int j = 0; j < moveSet.size(); j++)
-			if (posList.get(i).equals(moveSet.get(j))) {
-				moveSet.remove(j);
-			}
+				if (posList.get(i).equals(moveSet.get(j))) {
+					moveSet.remove(j);
+				}
 		}
 		return moveSet;
 	}

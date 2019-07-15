@@ -1,23 +1,29 @@
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 public class Board extends JPanel {
+	private Chess game;
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
 	private boolean whiteCastle;
 	private boolean blackCastle;
+	private boolean whiteTurn;
 
-	public Board() {
+	public Board(Chess game) {
+		this.game = game;
 		pieces = new ArrayList<Piece>();
 		initBoard();
 		initPieces();
 	}
 
 	public void highlightMoves(Piece p) {
+		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet()) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
@@ -45,6 +51,7 @@ public class Board extends JPanel {
 	private void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
+		setSize(1000, 1000);
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -63,6 +70,9 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
+		whiteTurn = true;
+		whiteCastle = true;
+		blackCastle = true;
 	}
 
 	private void initPieces() {
@@ -72,6 +82,10 @@ public class Board extends JPanel {
 		Rook r4 = new Rook(new Position(7, 7), this, true);
 		
 		pieces = new ArrayList<Piece>();
+		pieces.add(r1);
+		pieces.add(r2);
+		pieces.add(r3);
+		pieces.add(r4);
 		pieces.add(new Knight(new Position(0, 1), this, false));
 		pieces.add(new Bishop(new Position(0, 2), this, false));
 		pieces.add(new Queen(new Position(0, 3), this, false));
@@ -163,5 +177,13 @@ public class Board extends JPanel {
 	
 	public void setBlackCastle(boolean blackCastle) {
 		this.blackCastle = blackCastle;
+	}
+	
+	public void nextTurn() {
+		whiteTurn = !whiteTurn;
+	}
+	
+	public boolean getWhiteTurn() {
+		return whiteTurn;
 	}
 }
