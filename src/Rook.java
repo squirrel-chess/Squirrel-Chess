@@ -53,6 +53,6 @@ public class Rook extends Piece {
 	}
 	
 	public String toString() {
-		return "Rook" + super.toString();
+		return super.toString() + "Rook";
 	}
 }

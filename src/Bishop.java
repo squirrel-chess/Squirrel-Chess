@@ -25,6 +25,6 @@ public class Bishop extends Piece {
 	}
 	
 	public String toString() {
-		return "Bishop" + super.toString();
+		return super.toString() + "Bishop";
 	}
 }

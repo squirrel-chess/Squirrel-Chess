@@ -14,28 +14,15 @@ public class Pawn extends Piece {
 	@Override
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		if (isWhite) {
-			if (!hasMoved) {
-				ret.add(new Position(pos.getRow() - 1, pos.getCol()));
-				ret.add(new Position(pos.getRow() - 2, pos.getCol()));
-			} else {
-				ret.add(new Position(pos.getRow() - 1, pos.getCol()));
-				if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
-					ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
-				if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
-					ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
-			}
+		if (!hasMoved) {
+			ret.add(new Position(pos.getRow() - 1, pos.getCol()));
+			ret.add(new Position(pos.getRow() - 2, pos.getCol()));
 		} else {
-			if (!hasMoved) {
-				ret.add(new Position(pos.getRow() + 1, pos.getCol()));
-				ret.add(new Position(pos.getRow() + 2, pos.getCol()));
-			} else {
-				ret.add(new Position(pos.getRow() + 1, pos.getCol()));
-				if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
-					ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
-				if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
-					ret.add(new Position(pos.getRow() + 1, pos.getCol() - 1));
-			}
+			ret.add(new Position(pos.getRow() - 1, pos.getCol()));
+			if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
+				ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
+			if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
+				ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
 		}
 		return removeInvalidMoves(ret);
 	}
@@ -59,7 +46,7 @@ public class Pawn extends Piece {
 	}
 
 	public String toString() {
-		return "Pawn" + super.toString();
+		return super.toString() + "Pawn";
 	}
 
 	private void promoMenu() {

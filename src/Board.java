@@ -1,16 +1,20 @@
 import java.awt.Color;
-import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.Timer;
 
 public class Board extends JPanel {
 	private Chess game;
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
+	private Timer whiteTimer;
+	private Timer blackTimer;
+	private Time whiteTime;
+	private Time blackTime;
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
@@ -18,6 +22,16 @@ public class Board extends JPanel {
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
+		whiteTime = new Time();
+		blackTime = new Time();
+		whiteTimer = new Timer(1000, (e) -> {
+			whiteTime.increment();
+		});
+		blackTimer = new Timer(1000, (e) -> {
+			blackTime.increment();
+		});
+		setPreferredSize(new Dimension(1000, 1000));
+		game.setText("White's turn.");
 		initBoard();
 		initPieces();
 	}
@@ -80,7 +94,7 @@ public class Board extends JPanel {
 		Rook r2 = new Rook(new Position(0, 7), this, false);
 		Rook r3 = new Rook(new Position(7, 0), this, true);
 		Rook r4 = new Rook(new Position(7, 7), this, true);
-		
+
 		pieces = new ArrayList<Piece>();
 		pieces.add(r1);
 		pieces.add(r2);
@@ -114,10 +128,10 @@ public class Board extends JPanel {
 		pieces.add(new King(new Position(7, 4), this, true, r3, r4));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
-		
+
 		whiteCastle = true;
 		blackCastle = true;
-		
+
 		updateText();
 	}
 
@@ -162,27 +176,35 @@ public class Board extends JPanel {
 		}
 		return ret;
 	}
-	
+
 	public boolean whiteCanCastle() {
 		return whiteCastle;
 	}
-	
+
 	public boolean blackCanCastle() {
 		return blackCastle;
 	}
-	
+
 	public void setWhiteCastle(boolean whiteCastle) {
 		this.whiteCastle = whiteCastle;
 	}
-	
+
 	public void setBlackCastle(boolean blackCastle) {
 		this.blackCastle = blackCastle;
 	}
-	
+
 	public void nextTurn() {
 		whiteTurn = !whiteTurn;
+		for (Piece p : pieces) {
+			p.setPos(new Position(7 - p.getPos().getRow(), 7 - p.getPos().getCol()));
+		}
+		updateText();
+		if (whiteTurn)
+			game.setText("White's turn.");
+		else
+			game.setText("Black's turn.");
 	}
-	
+
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
