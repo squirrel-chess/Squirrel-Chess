@@ -23,7 +23,7 @@ public class Board extends JPanel {
 		pieces = new ArrayList<Piece>();
 		whiteTime = new Time(5, 0);
 		blackTime = new Time(5, 0);
-		timer = new Timer(1000, (e) -> {
+		timer = new Timer(10, (e) -> {
 			if (whiteTurn)
 				whiteTime.increment();
 			else
@@ -33,6 +33,7 @@ public class Board extends JPanel {
 		game.setText("White's turn.");
 		initBoard();
 		initPieces();
+		timer.start();
 	}
 
 	public void highlightMoves(Piece p) {
