@@ -11,7 +11,6 @@ public class Board extends JPanel {
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
-	private Timer timer;
 	private Time whiteTime;
 	private Time blackTime;
 	private boolean whiteCastle;
@@ -23,17 +22,10 @@ public class Board extends JPanel {
 		pieces = new ArrayList<Piece>();
 		whiteTime = new Time(5, 0);
 		blackTime = new Time(5, 0);
-		timer = new Timer(10, (e) -> {
-			if (whiteTurn)
-				whiteTime.increment();
-			else
-				blackTime.increment();
-		});
 		setPreferredSize(new Dimension(1000, 1000));
 		game.setText("White's turn.");
 		initBoard();
 		initPieces();
-		timer.start();
 	}
 
 	public void highlightMoves(Piece p) {
@@ -194,16 +186,16 @@ public class Board extends JPanel {
 	}
 
 	public void nextTurn() {
+		if (whiteTurn)
+			whiteTime.update();
+		else
+			blackTime.update();
 		whiteTurn = !whiteTurn;
 		for (Piece p : pieces) {
 			p.setPos(new Position(7 - p.getPos().getRow(), 7 - p.getPos().getCol()));
 		}
 		updateText();
 		System.out.println("White: " + whiteTime + "\nBlack: " + blackTime);
-		if (whiteTurn)
-			game.setText(blackTime + "\nWhite's turn.\n" + whiteTime);
-		else
-			game.setText(whiteTime + "\nBlack's turn.\n" + blackTime);
 	}
 
 	public boolean getWhiteTurn() {

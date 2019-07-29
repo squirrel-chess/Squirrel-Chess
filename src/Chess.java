@@ -12,7 +12,7 @@ public class Chess {
 	private JLabel text;
 	
 	public Chess() {
-		JFrame frame = new JFrame("Squirrel Chess");
+		frame = new JFrame("Squirrel Chess");
 		text = new JLabel();
 		frame.setResizable(false);
 		frame.setLayout(new FlowLayout());
@@ -23,7 +23,8 @@ public class Chess {
 	}
 	
 	public void setText(String str) {
-		text.setText(str);
+		text.setText("<html>" + str + "</html>");
+		frame.pack();
 	}
 	
 	public static void main(String[] args) {
