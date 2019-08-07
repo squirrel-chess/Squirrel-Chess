@@ -35,6 +35,10 @@ public abstract class Piece {
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		b.nextTurn();
+	//	if (isWhite)
+			//JOptionPane.showMessageDialog(null, "Black's turn.");
+	//	else
+			//JOptionPane.showMessageDialog(null, "White's turn.");
 	}
 
 	public void remove() {
@@ -47,13 +51,9 @@ public abstract class Piece {
 
 	public String toString() {
 		if (isWhite)
-			return "White ";
+			return ("W(" + pos.getRow() + "," + pos.getCol() + ")");
 		else
-			return "Black ";
-	}
-	
-	public void setPos(Position pos) {
-		this.pos = pos;
+			return ("B(" + pos.getRow() + "," + pos.getCol() + ")");
 	}
 
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
