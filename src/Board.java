@@ -212,4 +212,5 @@ public class Board extends JPanel {
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
+	// test
 }
