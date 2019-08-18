@@ -5,7 +5,7 @@ public class Queen extends Piece {
 	public Queen(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 	}
-
+//Queen is boss
 	@Override
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
