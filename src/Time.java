@@ -14,19 +14,21 @@ public class Time {
 
 	public void update() {
 		long timeChange = System.currentTimeMillis() - lastTime;
-		mins -= timeChange / 60000;
-		timeChange -= timeChange / 60000;
-		secs -= timeChange / 1000;
-		timeChange -= timeChange / 1000;
-		millis -= timeChange;
+		long minChange = timeChange / 60000;
+		long secChange = (timeChange - (minChange * 60000)) / 1000;
+		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));
+		mins -= minChange;
+		secs -= secChange;
+		millis -= milliChange;
+		
 		if (millis < 0) {
-			int secChange = -millis / 1000;
-			secs -= secChange;
-			millis -= 
-			millis = millis + 1000;		
+			secs--;
+			millis = millis + 1000;
 		}
+		
 		if (secs < 0) {
-			
+			mins--;
+			secs = secs + 60;
 		}
 		lastTime = System.currentTimeMillis();
 	}
