@@ -191,9 +191,6 @@ public class Board extends JPanel {
 		else
 			blackTime.update();
 		whiteTurn = !whiteTurn;
-		for (Piece p : pieces) {
-			p.setPos(new Position(7 - p.getPos().getRow(), 7 - p.getPos().getCol()));
-		}
 		updateText();
 		System.out.println("White: " + whiteTime + "\nBlack: " + blackTime);
 	}
