@@ -20,6 +20,7 @@ public class Chess {
 		frame.setVisible(true);
 		frame.add(text);
 		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
 	public void setText(String str) {

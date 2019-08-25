@@ -1,33 +1,34 @@
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.JTextArea;
 
 public class Board extends JPanel {
 	private Chess game;
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
-	private Time whiteTime;
-	private Time blackTime;
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
+	private Rook rook1;
+	private Rook rook2;
+	private King king;
 
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		whiteTime = new Time(5, 0);
-		blackTime = new Time(5, 0);
-		setPreferredSize(new Dimension(1000, 1000));
-		game.setText("White's turn.");
 		initBoard();
-		initPieces();
+		initPieces();	
 	}
 
+	public King getKing() {
+		return king;
+	}
+	
 	public void highlightMoves(Piece p) {
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet()) {
@@ -81,21 +82,26 @@ public class Board extends JPanel {
 		blackCastle = true;
 	}
 
+	Rook whiteR1;
+	Rook whiteR2;
+	Rook blackR1;
+	Rook blackR2;
+	
 	private void initPieces() {
-		Rook r1 = new Rook(new Position(0, 0), this, false);
-		Rook r2 = new Rook(new Position(0, 7), this, false);
-		Rook r3 = new Rook(new Position(7, 0), this, true);
-		Rook r4 = new Rook(new Position(7, 7), this, true);
-
+		 blackR1 = new Rook(new Position(0, 0), this, false);
+		 blackR2 = new Rook(new Position(0, 7), this, false);
+		 whiteR1 = new Rook(new Position(7, 0), this, true);
+		 whiteR2 = new Rook(new Position(7, 7), this, true);
+		
 		pieces = new ArrayList<Piece>();
-		pieces.add(r1);
-		pieces.add(r2);
-		pieces.add(r3);
-		pieces.add(r4);
+		pieces.add(whiteR1);
+		pieces.add(whiteR2);
+		pieces.add(blackR1);
+		pieces.add(blackR2);
 		pieces.add(new Knight(new Position(0, 1), this, false));
 		pieces.add(new Bishop(new Position(0, 2), this, false));
 		pieces.add(new Queen(new Position(0, 3), this, false));
-		pieces.add(new King(new Position(0, 4), this, false, r1, r2));
+		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
 		pieces.add(new Bishop(new Position(0, 5), this, false));
 		pieces.add(new Knight(new Position(0, 6), this, false));
 		pieces.add(new Pawn(new Position(1, 0), this, false));
@@ -117,16 +123,29 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(7, 1), this, true));
 		pieces.add(new Bishop(new Position(7, 2), this, true));
 		pieces.add(new Queen(new Position(7, 3), this, true));
-		pieces.add(new King(new Position(7, 4), this, true, r3, r4));
+		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
-
+		
 		whiteCastle = true;
 		blackCastle = true;
-
+		
 		updateText();
 	}
 
+	public Rook getWhiteR1() {
+		return whiteR1;
+	}
+	public Rook getWhiteR2() {
+		return whiteR2;
+	}
+	public Rook getBlackR1() {
+		return blackR1;
+	}
+	public Rook getBlackR2() {
+		return blackR2;
+	}
+	
 	public Piece getPieceAtPos(Position pos) {
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos))
@@ -168,33 +187,27 @@ public class Board extends JPanel {
 		}
 		return ret;
 	}
-
+	
 	public boolean whiteCanCastle() {
 		return whiteCastle;
 	}
-
+	
 	public boolean blackCanCastle() {
 		return blackCastle;
 	}
-
+	
 	public void setWhiteCastle(boolean whiteCastle) {
 		this.whiteCastle = whiteCastle;
 	}
-
+	
 	public void setBlackCastle(boolean blackCastle) {
 		this.blackCastle = blackCastle;
 	}
-
+	
 	public void nextTurn() {
-		if (whiteTurn)
-			whiteTime.update();
-		else
-			blackTime.update();
 		whiteTurn = !whiteTurn;
-		updateText();
-		System.out.println("White: " + whiteTime + "\nBlack: " + blackTime);
 	}
-
+	
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
