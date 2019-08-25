@@ -206,7 +206,6 @@ public class Board extends JPanel {
 	
 	public void nextTurn() {
 		whiteTurn = !whiteTurn;
-		
 	}
 	
 	public boolean getWhiteTurn() {
