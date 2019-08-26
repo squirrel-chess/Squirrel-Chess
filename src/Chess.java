@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 public class Chess {
 	
 	private JFrame frame;
-	private JPanel textPanel;
 	private JLabel text;
 	
 	public Chess() {

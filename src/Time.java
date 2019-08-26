@@ -1,12 +1,12 @@
 public class Time {
 	private int mins;
 	private int secs;
-	private int decimal;
+	private int millis;
 	
 	public Time(int mins, int secs) {
 		this.mins = mins;
 		this.secs = secs;
-		this.decimal = 0;
+		this.millis = 0;
 	}
 
 
@@ -22,7 +22,7 @@ public class Time {
 		if (millis < 0) {
 			secs--;
 			millis = millis + 1000;
-
+		}
 	
 	public void increment() {
 		decimal--;

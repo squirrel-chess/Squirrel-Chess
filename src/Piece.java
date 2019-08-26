@@ -51,9 +51,9 @@ public abstract class Piece {
 
 	public String toString() {
 		if (isWhite)
-			return ("W(" + pos.getRow() + "," + pos.getCol() + ")");
+			return "White ";
 		else
-			return ("B(" + pos.getRow() + "," + pos.getCol() + ")");
+			return "Black ";
 	}
 
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
