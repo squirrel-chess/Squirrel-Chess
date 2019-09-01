@@ -3,9 +3,12 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 
 public class Board extends JPanel {
 	private Chess game;
@@ -20,6 +23,10 @@ public class Board extends JPanel {
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
+	
+	public Position wKingPos;
+	public Position bKingPos;
+
 
 	public Board(Chess game) {
 		this.game = game;
@@ -28,7 +35,8 @@ public class Board extends JPanel {
 		blackTime = new Time(5, 0);
 		game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 		initBoard();
-		initPieces();	
+		initPieces();
+		timer.start();
 	}
 
 	public King getKing() {
@@ -133,6 +141,9 @@ public class Board extends JPanel {
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
 		
+		wKingPos = new Position(7, 4);
+		bKingPos = new Position(0, 4);
+		
 		whiteCastle = true;
 		blackCastle = true;
 		
@@ -193,6 +204,42 @@ public class Board extends JPanel {
 		}
 		return ret;
 	}
+	
+	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
+		for (Piece p : pieces) {
+			if (p.isWhite != isWhite) {
+				for (Position pos : p.getMoveSet()) {
+					if (isWhite) {
+						if (pos.equals(wKingPos)) {
+							return true;
+						}
+					} else {
+						if (pos.equals(bKingPos)) {
+							return true;
+						}
+					}
+				}
+			}
+		}
+		return false;
+	}
+//	public boolean testCheckMate(boolean isWhite) {
+//		if(testCheck(true)) {
+//			if(king.getMoveSet() == null) {
+//				return false;
+//			} else {
+//				if() {
+//					
+//				}
+//			}
+//		}
+//	}
+	
+//	public void ifCheckmate() {
+//		if(testCheckMate(true)) {
+//			System.out.println("hi");
+//		}
+//	}
 	
 	public boolean whiteCanCastle() {
 		return whiteCastle;
