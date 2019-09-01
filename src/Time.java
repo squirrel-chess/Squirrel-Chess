@@ -1,12 +1,14 @@
 public class Time {
 	private int mins;
 	private int secs;
-	private int decimal;
+	private int millis;
+	private long lastTime;
 	
 	public Time(int mins, int secs) {
 		this.mins = mins;
 		this.secs = secs;
-		this.decimal = 0;
+		this.millis = 0;
+		lastTime = System.currentTimeMillis();
 	}
 
 
@@ -18,23 +20,14 @@ public class Time {
 		mins -= minChange;
 		secs -= secChange;
 		millis -= milliChange;
-		
-		if (millis < 0) {
-			secs--;
-			millis = millis + 1000;
 
-	
-	public void increment() {
-		decimal--;
-		if (decimal < 0) {
-			decimal = decimal + 100;
+		if (millis < 0) {
+			millis = millis + 1000;
 			secs--;
 
 		}
 		
-		if (secs < 0) {]
-			mins--;
-			secs = secs + 60;
+		if (secs < 0) {
 			secs = secs + 60;
 			mins--;
 		}
@@ -50,9 +43,9 @@ public class Time {
 	
 	public String toString() {
 		if (secs >= 10) {
-			return mins + ":" + secs + "." + decimal;
+			return mins + ":" + secs + "." + millis;
 		} else {
-			return mins + ":0" + secs + "." + decimal;
+			return mins + ":0" + secs + "." + millis;
 		}
 	}
 }
