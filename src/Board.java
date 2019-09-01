@@ -1,4 +1,5 @@
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ public class Board extends JPanel {
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
-	private Timer timer;
 	private Time whiteTime;
 	private Time blackTime;
 	private boolean whiteCastle;
@@ -33,15 +33,7 @@ public class Board extends JPanel {
 		pieces = new ArrayList<Piece>();
 		whiteTime = new Time(5, 0);
 		blackTime = new Time(5, 0);
-		timer = new Timer(10, (e) -> {
-			if (whiteTurn) {
-				whiteTime.increment();
-			} else {
-				blackTime.increment();
-			}
-		});
-		setPreferredSize(new Dimension(1000, 1000));
-		game.setText("White's turn.");
+		game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 		initBoard();
 		initPieces();
 		timer.start();
@@ -80,7 +72,7 @@ public class Board extends JPanel {
 	private void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
-		setSize(1000, 1000);
+		setPreferredSize(new Dimension(1000, 1000));
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -266,6 +258,15 @@ public class Board extends JPanel {
 	}
 	
 	public void nextTurn() {
+		if (whiteTurn) {
+			whiteTime.endTurn();
+			blackTime.startTurn();
+			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+		} else {
+			blackTime.endTurn();
+			whiteTime.startTurn();
+			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+		}
 		whiteTurn = !whiteTurn;
 	}
 	
