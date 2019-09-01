@@ -10,9 +10,12 @@ public class Time {
 		this.millis = 0;
 		lastTime = System.currentTimeMillis();
 	}
+	
+	public void startTurn() {
+		lastTime = System.currentTimeMillis();
+	}
 
-
-	public void update() {
+	public void endTurn() {
 		long timeChange = System.currentTimeMillis() - lastTime;
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;

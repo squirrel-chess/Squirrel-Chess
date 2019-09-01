@@ -12,6 +12,8 @@ public class Board extends JPanel {
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
+	private Time whiteTime;
+	private Time blackTime;
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
@@ -22,6 +24,9 @@ public class Board extends JPanel {
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
+		whiteTime = new Time(5, 0);
+		blackTime = new Time(5, 0);
+		game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 		initBoard();
 		initPieces();	
 	}
@@ -206,6 +211,15 @@ public class Board extends JPanel {
 	}
 	
 	public void nextTurn() {
+		if (whiteTurn) {
+			whiteTime.endTurn();
+			blackTime.startTurn();
+			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+		} else {
+			blackTime.endTurn();
+			whiteTime.startTurn();
+			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+		}
 		whiteTurn = !whiteTurn;
 	}
 	
