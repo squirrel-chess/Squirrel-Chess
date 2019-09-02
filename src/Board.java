@@ -1,14 +1,9 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
-import javax.swing.Timer;
 
 public class Board extends JPanel {
 	private Chess game;
@@ -71,8 +66,8 @@ public class Board extends JPanel {
 	private void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
-		setPreferredSize(new Dimension(1000, 1000));
 		setLayout(new GridLayout(8, 8));
+		setPreferredSize(new Dimension (1000, 1000));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				squares[i][j] = new Square(this, new Position(i, j));

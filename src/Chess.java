@@ -14,7 +14,6 @@ public class Chess {
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		text = new JLabel();
-		frame.setResizable(false);
 		frame.setLayout(new FlowLayout());
 		frame.add(new Board(this));
 		frame.setVisible(true);
@@ -26,6 +25,10 @@ public class Chess {
 	public void setText(String str) {
 		text.setText("<html>" + str + "</html>");
 		frame.pack();
+	}
+	
+	public Dimension getFrameDimension() {
+		return frame.getSize();
 	}
 	
 	public static void main(String[] args) {
