@@ -36,7 +36,6 @@ public class Board extends JPanel {
 		game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 		initBoard();
 		initPieces();
-
 	}
 
 	public King getKing() {
