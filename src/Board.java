@@ -1,4 +1,7 @@
 import java.awt.Color;
+
+// ADD CHECK BRANCH
+
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -15,8 +18,6 @@ public class Board extends JPanel {
 	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
 	private Timer timer;
-	private Time whiteTime;
-	private Time blackTime;
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
@@ -31,14 +32,7 @@ public class Board extends JPanel {
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		whiteTime = new Time(5, 0);
-		blackTime = new Time(5, 0);
 		timer = new Timer(10, (e) -> {
-			if (whiteTurn) {
-				whiteTime.increment();
-			} else {
-				blackTime.increment();
-			}
 		});
 		setPreferredSize(new Dimension(1000, 1000));
 		game.setText("White's turn.");
@@ -231,23 +225,17 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
-//	public boolean testCheckMate(boolean isWhite) {
-//		if(testCheck(true)) {
-//			if(king.getMoveSet() == null) {
-//				return false;
-//			} else {
-//				if() {
-//					
-//				}
-//			}
-//		}
-//	}
 	
-//	public void ifCheckmate() {
-//		if(testCheckMate(true)) {
-//			System.out.println("hi");
-//		}
-//	}
+	public boolean textCheckmate(boolean isWhite) { // checking if the king of isWhite color is in check
+		SimBoard sb = new SimBoard(this, pieces);
+		for (Piece p : sb.pieces) {
+			ArrayList<Position> moveSet = p.getMoveSet();
+			for (Position pos : moveSet) {
+				// ASIFJOAIPWEJHOIAWEHTOIWEHT
+			}
+		}
+		return false;
+	}
 	
 	public boolean whiteCanCastle() {
 		return whiteCastle;
@@ -265,7 +253,7 @@ public class Board extends JPanel {
 		this.blackCastle = blackCastle;
 	}
 	
-	public void nextTurn() {
+	public void nextTurn() { 
 		whiteTurn = !whiteTurn;
 	}
 	

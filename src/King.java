@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+// ADD CHECK BRANCH
+
 public class King extends Piece {
 
 	private Rook rook1;
@@ -94,7 +96,9 @@ public class King extends Piece {
 	
 	@Override
 	public void move(Position pos) {
-		System.out.println("ran");
+		
+		super.move(pos);
+		
 		if(whiteLeftAbleToCastle() == true && ifCastledWhite == false) {
 			if(pos.equals(new Position(7,2))) {
 				this.pos=pos;
@@ -113,7 +117,7 @@ public class King extends Piece {
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
 			b.nextTurn();
-			//after castles white king cant move 
+			//after castles white king can't move 
 		}
 		if(blackLeftAbleToCastle() == true && ifCastledBlack == false) {
 			if(pos.equals(new Position(0,2))) {
@@ -134,6 +138,13 @@ public class King extends Piece {
 			b.setSelectedPiece(null);
 			b.nextTurn();
 		}
+		
+		if (isWhite) {
+			b.wKingPos = pos;
+		} else {
+			b.bKingPos = pos;
+		}
+		
 	}
 	
 	public String toString() {
