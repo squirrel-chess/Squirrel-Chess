@@ -19,10 +19,9 @@ public class Board extends JPanel {
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
-	
+
 	public Position wKingPos;
 	public Position bKingPos;
-
 
 	public Board(Chess game) {
 		this.game = game;
@@ -35,7 +34,7 @@ public class Board extends JPanel {
 	public King getKing() {
 		return king;
 	}
-	
+
 	public void highlightMoves(Piece p) {
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet()) {
@@ -49,9 +48,16 @@ public class Board extends JPanel {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
-					squares[i][j].setBackground(Color.LIGHT_GRAY);
-				} else
+					if (whiteTurn) {
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
+					} else {
+						squares[i][j].setBackground(Color.GRAY);
+					}
+				} else if (whiteTurn) {
 					squares[i][j].setBackground(Color.WHITE);
+				} else {
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+				}
 				squares[i][j].setInMoveSet(false);
 			}
 		}
@@ -71,10 +77,11 @@ public class Board extends JPanel {
 				squares[i][j] = new Square(this, new Position(i, j));
 				squares[i][j].setOpaque(true);
 				squares[i][j].setBorderPainted(false);
-				if ((i + j) % 2 == 1)
+				if ((i + j) % 2 == 1) {
 					squares[i][j].setBackground(Color.LIGHT_GRAY);
-				else
+				} else {
 					squares[i][j].setBackground(Color.WHITE);
+				}
 				int a = i;
 				int b = j;
 				squares[i][j].addActionListener((e) -> {
@@ -92,13 +99,13 @@ public class Board extends JPanel {
 	Rook whiteR2;
 	Rook blackR1;
 	Rook blackR2;
-	
+
 	private void initPieces() {
-		 blackR1 = new Rook(new Position(0, 0), this, false);
-		 blackR2 = new Rook(new Position(0, 7), this, false);
-		 whiteR1 = new Rook(new Position(7, 0), this, true);
-		 whiteR2 = new Rook(new Position(7, 7), this, true);
-		
+		blackR1 = new Rook(new Position(0, 0), this, false);
+		blackR2 = new Rook(new Position(0, 7), this, false);
+		whiteR1 = new Rook(new Position(7, 0), this, true);
+		whiteR2 = new Rook(new Position(7, 7), this, true);
+
 		pieces = new ArrayList<Piece>();
 		pieces.add(whiteR1);
 		pieces.add(whiteR2);
@@ -132,34 +139,37 @@ public class Board extends JPanel {
 		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
-		
+
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-		
+
 		whiteCastle = true;
 		blackCastle = true;
-		
+
 		updateText();
 	}
 
 	public Rook getWhiteR1() {
 		return whiteR1;
 	}
+
 	public Rook getWhiteR2() {
 		return whiteR2;
 	}
+
 	public Rook getBlackR1() {
 		return blackR1;
 	}
+
 	public Rook getBlackR2() {
 		return blackR2;
 	}
-	
+  
 	public void startTime() {
 		whiteTime = new Time(5, 0);
 		blackTime = new Time(5, 0);
 	}
-	
+
 	public Piece getPieceAtPos(Position pos) {
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos))
@@ -201,7 +211,7 @@ public class Board extends JPanel {
 		}
 		return ret;
 	}
-	
+
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {
 			if (p.isWhite != isWhite) {
@@ -231,29 +241,29 @@ public class Board extends JPanel {
 //			}
 //		}
 //	}
-	
+
 //	public void ifCheckmate() {
 //		if(testCheckMate(true)) {
 //			System.out.println("hi");
 //		}
 //	}
-	
+
 	public boolean whiteCanCastle() {
 		return whiteCastle;
 	}
-	
+
 	public boolean blackCanCastle() {
 		return blackCastle;
 	}
-	
+
 	public void setWhiteCastle(boolean whiteCastle) {
 		this.whiteCastle = whiteCastle;
 	}
-	
+
 	public void setBlackCastle(boolean blackCastle) {
 		this.blackCastle = blackCastle;
 	}
-	
+
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
@@ -265,8 +275,23 @@ public class Board extends JPanel {
 			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 		}
 		whiteTurn = !whiteTurn;
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 1) {
+					if (whiteTurn) {
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
+					} else {
+						squares[i][j].setBackground(Color.GRAY);
+					}
+				} else if (whiteTurn) {
+					squares[i][j].setBackground(Color.WHITE);
+				} else {
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+				}
+			}
+		}
 	}
-	
+
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
