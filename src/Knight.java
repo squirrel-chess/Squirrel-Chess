@@ -25,7 +25,6 @@ public class Knight extends Piece {
 			ret.add(new Position(pos.getRow() + 1, pos.getCol() - 2));
 		if (pos.getRow() - 1 >= 0 && pos.getCol() - 2 >= 0)
 			ret.add(new Position(pos.getRow() - 1, pos.getCol() - 2));
-		System.out.println("Got knight move set");
 		return removeInvalidMoves(ret);
 	}
 	

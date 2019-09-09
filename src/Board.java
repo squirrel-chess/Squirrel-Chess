@@ -226,15 +226,42 @@ public class Board extends JPanel {
 		return false;
 	}
 	
-	public boolean textCheckmate(boolean isWhite) { // checking if the king of isWhite color is in check
-		SimBoard sb = new SimBoard(this, pieces);
-		for (Piece p : sb.pieces) {
-			ArrayList<Position> moveSet = p.getMoveSet();
-			for (Position pos : moveSet) {
-				// ASIFJOAIPWEJHOIAWEHTOIWEHT
+	public boolean testCheckmate(boolean isWhite) { // checking if the king of isWhite color is in check
+		for (int i = 0; i < pieces.size(); i++) {
+			Piece p = pieces.get(i);			
+			if (p.isWhite == isWhite) {
+				
+				System.out.println(p.toString());
+				
+				Position original = p.getPos();
+				for (int j = 0; j < p.getMoveSet().size(); j++) {
+					Position pos = p.getMoveSet().get(j);
+					Piece taken = p.simMove(pos);
+					if (isWhite) {
+						if (testCheck(isWhite) == false) {
+							if (taken != null) {
+								pieces.add(taken);
+							}
+							p.simMove(original);
+							return false;
+						}
+					} else {
+						if (testCheck(!isWhite) == false) {
+							if (taken != null) {
+								pieces.add(taken);
+							}
+							p.simMove(original);	
+							return false;
+						}
+					}
+					if (taken != null) {
+						pieces.add(taken);
+					}
+					p.simMove(original);
+				}
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	public boolean whiteCanCastle() {
