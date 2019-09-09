@@ -19,7 +19,7 @@ public class Chess {
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		text = new JLabel();
-		board = new Board(this);
+		board = new Board(this, Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes")), Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds")));
 		frame.setLayout(new BorderLayout());
 		frame.add(board, BorderLayout.CENTER);
 		frame.setVisible(true);

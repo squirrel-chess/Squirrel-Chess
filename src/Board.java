@@ -16,6 +16,8 @@ public class Board extends JPanel {
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
+	int mins;
+	int secs;
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
@@ -23,10 +25,10 @@ public class Board extends JPanel {
 	public Position wKingPos;
 	public Position bKingPos;
 
-	public Board(Chess game) {
+	public Board(Chess game, int mins, int secs) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		game.setText("White's turn.");
+		game.setText(mins + ":" + secs + "<br>White's turn.<br>" + mins + ":" + secs);
 		initBoard();
 		initPieces();
 	}
@@ -166,8 +168,8 @@ public class Board extends JPanel {
 	}
   
 	public void startTime() {
-		whiteTime = new Time(5, 0);
-		blackTime = new Time(5, 0);
+		whiteTime = new Time(mins, secs);
+		blackTime = new Time(mins, secs);
 	}
 
 	public Piece getPieceAtPos(Position pos) {
