@@ -1,5 +1,5 @@
 import java.awt.Color;
-
+import java.awt.Dimension;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;

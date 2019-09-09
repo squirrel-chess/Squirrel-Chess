@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -26,9 +27,7 @@ public class Board extends JPanel {
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		whiteTime = new Time(5, 0);
-		blackTime = new Time(5, 0);
-		game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+		game.setText("White's turn.");
 		initBoard();
 		initPieces();
 	}
@@ -67,7 +66,6 @@ public class Board extends JPanel {
 		squares = new Square[8][8];
 		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
-		setPreferredSize(new Dimension (1000, 1000));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				squares[i][j] = new Square(this, new Position(i, j));
@@ -155,6 +153,11 @@ public class Board extends JPanel {
 	}
 	public Rook getBlackR2() {
 		return blackR2;
+	}
+	
+	public void startTime() {
+		whiteTime = new Time(5, 0);
+		blackTime = new Time(5, 0);
 	}
 	
 	public Piece getPieceAtPos(Position pos) {
