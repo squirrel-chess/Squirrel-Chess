@@ -28,7 +28,9 @@ public class Board extends JPanel {
 	public Board(Chess game, int mins, int secs) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		game.setText(mins + ":" + secs + "<br>White's turn.<br>" + mins + ":" + secs);
+		game.setText("White's turn.");
+		this.mins = mins;
+		this.secs = secs;
 		initBoard();
 		initPieces();
 	}

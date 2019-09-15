@@ -14,12 +14,17 @@ public class Chess {
 	private JLabel text;
 	private Board board;
 	private Dimension frameDim;
+	private int mins, secs;
 	private int width, height;
 	
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		text = new JLabel();
-		board = new Board(this, Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes")), Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds")));
+		do {
+			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
+			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+		} while (!(mins >= 0 && secs >= 0 && secs < 60));
+		board = new Board(this, mins, secs);
 		frame.setLayout(new BorderLayout());
 		frame.add(board, BorderLayout.CENTER);
 		frame.setVisible(true);
