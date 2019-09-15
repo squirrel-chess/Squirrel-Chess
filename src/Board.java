@@ -233,7 +233,7 @@ public class Board extends JPanel {
 				
 				System.out.println(p.toString());
 				
-				Position original = p.getPos();
+				Position original = p.getPos();		// save original position of piece
 				for (int j = 0; j < p.getMoveSet().size(); j++) {
 					Position pos = p.getMoveSet().get(j);
 					Piece taken = p.simMove(pos);
