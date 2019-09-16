@@ -57,9 +57,7 @@ public class Pawn extends Piece {
 		}
 		return removeInvalidMoves(ret);
 	}
-//	boolean ifMovedTwo() {
-//		
-//	}
+	
 	@Override
 	public void move(Position pos) {
 		if(isWhite && pos.getRow()-2==0) {

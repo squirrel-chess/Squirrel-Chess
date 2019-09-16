@@ -219,13 +219,31 @@ public class Board extends JPanel {
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {
 			if (p.isWhite != isWhite) {
+				
+				//TEMP
+				System.out.println();
+				//TEMP
+				
 				for (Position pos : p.getMoveSet()) {
+					
+					System.out.println("Piece: " + p.toString());
+					
 					if (isWhite) {
 						if (pos.equals(wKingPos)) {
+							
+							//TEMP
+							System.out.println("CHECK!");
+							//TEMP
+							
 							return true;
 						}
 					} else {
 						if (pos.equals(bKingPos)) {
+							
+							//TEMP
+							System.out.println("CHECK!");
+							//TEMP
+							
 							return true;
 						}
 					}
@@ -234,6 +252,7 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
+	
 //	public boolean testCheckMate(boolean isWhite) {
 //		if(testCheck(true)) {
 //			if(king.getMoveSet() == null) {
@@ -243,12 +262,6 @@ public class Board extends JPanel {
 //					
 //				}
 //			}
-//		}
-//	}
-
-//	public void ifCheckmate() {
-//		if(testCheckMate(true)) {
-//			System.out.println("hi");
 //		}
 //	}
 
