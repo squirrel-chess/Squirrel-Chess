@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Board extends JPanel {
@@ -168,7 +169,7 @@ public class Board extends JPanel {
 	public Rook getBlackR2() {
 		return blackR2;
 	}
-  
+
 	public void startTime() {
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
@@ -271,12 +272,22 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			blackTime.startTurn();
-			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			if (whiteTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
+				System.exit(0);
+			} else {
+				blackTime.startTurn();
+				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			}
 		} else {
 			blackTime.endTurn();
-			whiteTime.startTurn();
-			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			if (blackTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
+				System.exit(0);
+			} else {
+				whiteTime.startTurn();
+				game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			}
 		}
 		whiteTurn = !whiteTurn;
 		for (int i = 0; i < 8; i++) {

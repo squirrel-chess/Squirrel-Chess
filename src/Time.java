@@ -44,6 +44,10 @@ public class Time {
 		return secs;
 	}
 	
+	public boolean isZero() {
+		return mins < 0;
+	}
+	
 	public String toString() {
 		if (secs >= 10) {
 			return mins + ":" + secs + "." + millis;
