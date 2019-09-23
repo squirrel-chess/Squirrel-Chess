@@ -26,13 +26,19 @@ public class Board extends JPanel {
 	public Position wKingPos;
 	public Position bKingPos;
 
-	public Board(Chess game, int mins, int secs) {
+	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		game.setText("White's turn.");
-		this.mins = mins;
-		this.secs = secs;
 		initBoard();
+		newGame();
+	}
+	
+	public void newGame() {
+		game.setText("White's turn.");
+		do {
+			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
+			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+		} while (!(mins >= 0 && secs >= 0 && secs < 60));
 		initPieces();
 	}
 
@@ -274,7 +280,7 @@ public class Board extends JPanel {
 			whiteTime.endTurn();
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-				System.exit(0);
+				newGame();
 			} else {
 				blackTime.startTurn();
 				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
@@ -283,7 +289,7 @@ public class Board extends JPanel {
 			blackTime.endTurn();
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-				System.exit(0);
+				newGame();
 			} else {
 				whiteTime.startTurn();
 				game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);

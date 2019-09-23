@@ -16,11 +16,7 @@ public class Chess {
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		text = new JLabel();
-		do {
-			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
-			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
-		} while (!(mins >= 0 && secs >= 0 && secs < 60));
-		board = new Board(this, mins, secs);
+		board = new Board(this);
 		frame.setLayout(new BorderLayout());
 		frame.add(board, BorderLayout.CENTER);
 		frame.setVisible(true);
