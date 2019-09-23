@@ -11,7 +11,10 @@ public class Pawn extends Piece {
 		hasMoved = false;
 	}
 	boolean movedTwo = false;
+	Piece lastPiece;
+	int lastCol;
 	@Override
+	
 	public ArrayList<Position> getMoveSet() {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (isWhite) {//white
@@ -48,6 +51,13 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
+				if(ifWhiteMovedTwoInFrontRight()) {
+					ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
+				} 
+				
+				if(ifWhiteMovedTwoInFrontLeft()) {
+					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
+				} 
 			}
 			
 			if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
@@ -57,9 +67,20 @@ public class Pawn extends Piece {
 		}
 		return removeInvalidMoves(ret);
 	}
-//	boolean ifMovedTwo() {
-//		
-//	}
+	boolean ifWhiteMovedTwoInFrontRight() {
+		if(pos.getRow() == 4 && pos.getCol()-(lastCol) ==-1) {
+			return true;
+		} else {
+		return false;
+		}
+	}
+	boolean ifWhiteMovedTwoInFrontLeft() {
+		if(pos.getRow() == 4 && pos.getCol()-(lastCol) ==1) {
+			return true;
+		} else {
+		return false;
+		}
+	}
 	@Override
 	public void move(Position pos) {
 		if(isWhite && pos.getRow()-2==0) {
@@ -74,6 +95,8 @@ public class Pawn extends Piece {
 			if (pos.getRow() == 7)
 				promoMenu();
 		}
+		lastPiece = b.getPieceAtPos(pos);
+		 lastCol = lastPiece.getPos().getCol();
 	}
 
 	@Override
