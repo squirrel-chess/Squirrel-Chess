@@ -40,6 +40,19 @@ public abstract class Piece {
 	//	else
 			//JOptionPane.showMessageDialog(null, "White's turn.");
 	}
+	
+	public Piece simMove(Position pos) {
+		if (b.getPieceAtPos(pos) != null) {
+			Piece removed = b.getPieceAtPos(pos);
+			b.getPieceAtPos(pos).remove();
+			
+			this.pos = pos;
+			
+			return removed;
+		}
+		this.pos = pos;
+		return null;
+	}
 
 	public void remove() {
 		b.removePiece(this);

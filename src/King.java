@@ -95,11 +95,20 @@ public class King extends Piece {
 	@Override
 	public void move(Position pos) {
 //		System.out.println("ran");
+		
 		if (b.getPieceAtPos(pos) != null)
 			b.getPieceAtPos(pos).remove();
 		if (whiteLeftAbleToCastle() == true) {
 			if (pos.equals(new Position(7, 2))) {
 				this.pos = pos;
+				
+				// for check
+				if (isWhite) {
+					b.wKingPos = pos;
+				} else {
+					b.bKingPos = pos;
+				}
+				
 				ifCastledWhite = true;
 				b.getWhiteR1().move(new Position(7, 3));
 				ifWKMoved = true;
@@ -108,6 +117,14 @@ public class King extends Piece {
 		} else if (whiteRightAbleToCastle() == true) {
 			if (pos.equals(new Position(7, 6))) {
 				this.pos = pos;
+				
+				// for check
+				if (isWhite) {
+					b.wKingPos = pos;
+				} else {
+					b.bKingPos = pos;
+				}
+				
 				ifCastledWhite = true;
 				b.getWhiteR2().move(new Position(7, 5));
 				ifWKMoved = true;
@@ -115,6 +132,14 @@ public class King extends Piece {
 			}
 		} else {
 			this.pos = pos;
+			
+			// for check
+			if (isWhite) {
+				b.wKingPos = pos;
+			} else {
+				b.bKingPos = pos;
+			}
+			
 			b.updateText();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
@@ -123,6 +148,14 @@ public class King extends Piece {
 		if (blackLeftAbleToCastle() == true) {
 			if (pos.equals(new Position(0, 2))) {
 				this.pos = pos;
+				
+				// for check
+				if (isWhite) {
+					b.wKingPos = pos;
+				} else {
+					b.bKingPos = pos;
+				}
+				
 				ifCastledBlack = true;
 				b.getBlackR1().move(new Position(0, 3));
 				ifBKMoved = true;
@@ -131,6 +164,14 @@ public class King extends Piece {
 		} else if (blackRightAbleToCastle() == true) {
 			if (pos.equals(new Position(0, 6))) {
 				this.pos = pos;
+				
+				// for check
+				if (isWhite) {
+					b.wKingPos = pos;
+				} else {
+					b.bKingPos = pos;
+				}
+				
 			//	ifCastledBlack = true;
 				b.getBlackR2().move(new Position(0, 5));
 				ifBKMoved = true;
@@ -138,6 +179,14 @@ public class King extends Piece {
 			}
 		} else {
 			this.pos = pos;
+			
+			// for check
+			if (isWhite) {
+				b.wKingPos = pos;
+			} else {
+				b.bKingPos = pos;
+			}
+			
 			b.updateText();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
