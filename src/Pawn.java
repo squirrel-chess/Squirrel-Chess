@@ -12,7 +12,8 @@ public class Pawn extends Piece {
 	}
 	boolean movedTwo = false;
 	Piece lastPiece;
-	int lastCol;
+	int lastBCol;
+	int lastWCol;
 	@Override
 	
 	public ArrayList<Position> getMoveSet() {
@@ -51,13 +52,13 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
-				if(ifWhiteMovedTwoInFrontRight()) {
-					ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
-				} 
-				
-				if(ifWhiteMovedTwoInFrontLeft()) {
-					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
-				} 
+//				if(ifWhiteMovedTwoInFrontRight()) {
+//					ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
+//				} 
+//				
+//				if(ifWhiteMovedTwoInFrontLeft()) {
+//					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
+//				} 
 			}
 			
 			if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
@@ -67,20 +68,7 @@ public class Pawn extends Piece {
 		}
 		return removeInvalidMoves(ret);
 	}
-	boolean ifWhiteMovedTwoInFrontRight() {
-		if(pos.getRow() == 4 && pos.getCol()-(lastCol) ==-1) {
-			return true;
-		} else {
-		return false;
-		}
-	}
-	boolean ifWhiteMovedTwoInFrontLeft() {
-		if(pos.getRow() == 4 && pos.getCol()-(lastCol) ==1) {
-			return true;
-		} else {
-		return false;
-		}
-	}
+	
 	@Override
 	public void move(Position pos) {
 		if(isWhite && pos.getRow()-2==0) {
@@ -96,7 +84,43 @@ public class Pawn extends Piece {
 				promoMenu();
 		}
 		lastPiece = b.getPieceAtPos(pos);
-		 lastCol = lastPiece.getPos().getCol();
+		if (isWhite) {
+			System.out.println("di");
+			lastWCol = lastPiece.getPos().getCol();
+			System.out.println(lastWCol);
+		} else {
+			 lastBCol = lastPiece.getPos().getCol();
+			 System.out.println(lastBCol);
+		}
+		if(ifWhiteMovedTwoInFrontLeft() == true) {
+			System.out.println("movedleft");
+			boolean moved2WLeft = true;
+		}
+		
+//		 System.out.println(lastCol);
+	}
+	boolean ifWhiteMovedTwoInFrontRight() {
+		if(pos.getRow() == 4 && (lastWCol-lastBCol) == 1) {
+			return true;
+		} else {
+		return false;
+		}
+	}
+	boolean ifWhiteMovedTwoInFrontLeft() {
+		System.out.println("WCol" + lastWCol);
+		System.out.println("lastBCol: " + lastBCol);
+		System.out.println("pos get col:" + pos.getCol());
+		if(pos.getRow() == 4 && (lastWCol-lastBCol) == -1) {
+			System.out.println("d");
+			
+			return true;
+			
+		} else {
+		//	System.out.println("d");
+		
+		//	System.out.println(lastWCol - lastBCol);
+		return false;
+		}
 	}
 
 	@Override
