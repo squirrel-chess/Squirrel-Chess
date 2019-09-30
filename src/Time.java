@@ -3,14 +3,13 @@ public class Time {
 	private int secs;
 	private int millis;
 	private long lastTime;
-	
+
 	public Time(int mins, int secs) {
 		this.mins = mins;
 		this.secs = secs;
-		this.millis = 0;
 		lastTime = System.currentTimeMillis();
 	}
-	
+
 	public void startTurn() {
 		lastTime = System.currentTimeMillis();
 	}
@@ -29,30 +28,46 @@ public class Time {
 			secs--;
 
 		}
-		
+
 		if (secs < 0) {
 			secs = secs + 60;
 			mins--;
 		}
 	}
-	
+
 	public int getMins() {
 		return mins;
 	}
-	
+
 	public int getSecs() {
 		return secs;
 	}
-	
+
 	public boolean isZero() {
 		return mins < 0;
 	}
-	
+
 	public String toString() {
 		if (secs >= 10) {
-			return mins + ":" + secs + "." + millis;
+			if (millis > 0) {
+				if (secs < 59) {
+					return mins + ":" + (secs + 1);
+				} else {
+					return (mins + 1) + ":00";
+				}
+			} else {
+				return mins + ":" + secs;
+			}
 		} else {
-			return mins + ":0" + secs + "." + millis;
+			if (millis > 0) {
+				if (secs < 59) {
+					return mins + ":" + (secs + 1);
+				} else {
+					return (mins + 1) + ":00";
+				}
+			} else {
+				return mins + ":0" + secs;
+			}
 		}
 	}
 }

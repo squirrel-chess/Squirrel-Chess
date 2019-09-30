@@ -17,8 +17,6 @@ public class Board extends JPanel {
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
-	int mins;
-	int secs;
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
@@ -34,11 +32,17 @@ public class Board extends JPanel {
 	}
 	
 	public void newGame() {
-		game.setText("White's turn.");
+		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
 			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
 		} while (!(mins >= 0 && secs >= 0 && secs < 60));
+		whiteTime = new Time(mins, secs);
+		blackTime = new Time(mins, secs);
+		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		whiteTurn = true;
+		whiteCastle = true;
+		blackCastle = true;
 		initPieces();
 	}
 
@@ -101,7 +105,6 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		whiteTurn = true;
 		whiteCastle = true;
 		blackCastle = true;
 	}
@@ -174,11 +177,6 @@ public class Board extends JPanel {
 
 	public Rook getBlackR2() {
 		return blackR2;
-	}
-
-	public void startTime() {
-		whiteTime = new Time(mins, secs);
-		blackTime = new Time(mins, secs);
 	}
 
 	public Piece getPieceAtPos(Position pos) {
@@ -279,23 +277,26 @@ public class Board extends JPanel {
 		if (whiteTurn) {
 			whiteTime.endTurn();
 			if (whiteTime.isZero()) {
+				game.setText("0:00" + "<br>White's Turn<br>" + whiteTime);
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				newGame();
 			} else {
+				whiteTurn = false;
 				blackTime.startTurn();
 				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			}
 		} else {
 			blackTime.endTurn();
 			if (blackTime.isZero()) {
+				game.setText(blackTime + "<br>Black's Turn<br>" + "0:00");
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				newGame();
 			} else {
+				whiteTurn = true;
 				whiteTime.startTurn();
 				game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			}
 		}
-		whiteTurn = !whiteTurn;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
