@@ -48,25 +48,25 @@ public class Time {
 	}
 
 	public String toString() {
-		if (secs >= 10) {
-			if (millis > 0) {
-				if (secs < 59) {
-					return mins + ":" + (secs + 1);
-				} else {
-					return (mins + 1) + ":00";
-				}
-			} else {
-				return mins + ":" + secs;
-			}
+		if (mins < 0) {
+			return "0:00";
 		} else {
-			if (millis > 0) {
-				if (secs < 59) {
-					return mins + ":" + (secs + 1);
+			if (secs >= 10) {
+				if (millis > 0) {
+					if (secs < 59) {
+						return mins + ":" + (secs + 1);
+					} else {
+						return (mins + 1) + ":00";
+					}
 				} else {
-					return (mins + 1) + ":00";
+					return mins + ":" + secs;
 				}
 			} else {
-				return mins + ":0" + secs;
+				if (millis > 0) {
+					return mins + ":0" + (secs + 1);
+				} else {
+					return mins + ":0" + secs;
+				}
 			}
 		}
 	}

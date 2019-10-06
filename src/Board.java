@@ -276,25 +276,23 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
+			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
-				game.setText("0:00" + "<br>White's Turn<br>" + whiteTime);
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				newGame();
 			} else {
 				whiteTurn = false;
 				blackTime.startTurn();
-				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			}
 		} else {
 			blackTime.endTurn();
+			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
-				game.setText(blackTime + "<br>Black's Turn<br>" + "0:00");
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				newGame();
 			} else {
 				whiteTurn = true;
 				whiteTime.startTurn();
-				game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			}
 		}
 		for (int i = 0; i < 8; i++) {
