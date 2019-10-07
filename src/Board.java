@@ -31,12 +31,22 @@ public class Board extends JPanel {
 		newGame();
 	}
 	
-	public void newGame() {
+	private void playAgainMenu() {
+		String[] options = {"No", "Yes"};
+		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options, null) == 1)
+			newGame();
+		else
+			System.exit(0);
+	}
+	
+	private void newGame() {
 		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
 			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
-		} while (!(mins >= 0 && secs >= 0 && secs < 60));
+			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
+				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
+		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
@@ -279,7 +289,7 @@ public class Board extends JPanel {
 			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-				newGame();
+				playAgainMenu();
 			} else {
 				whiteTurn = false;
 				blackTime.startTurn();
@@ -289,7 +299,7 @@ public class Board extends JPanel {
 			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-				newGame();
+				playAgainMenu();
 			} else {
 				whiteTurn = true;
 				whiteTime.startTurn();
