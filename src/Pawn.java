@@ -98,8 +98,10 @@ public class Pawn extends Piece {
 		}
 
 		if (ifWhiteMovedTwoInFrontLeft() == true) {
-			System.out.println(lastBRow);
-			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) !=null) {
+			this.pos = pos;
+			System.out.println(pos.getRow());
+			System.out.println(pos.getCol());
+			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
 				System.out.println("moved");
 			}
 		//	System.out.println("movedleft");
