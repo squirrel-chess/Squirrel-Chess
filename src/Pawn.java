@@ -15,6 +15,8 @@ public class Pawn extends Piece {
 	Piece lastPiece;
 	int lastBCol;
 	int lastWCol;
+	int lastWRow;
+	int lastBRow;
 
 	@Override
 
@@ -88,13 +90,19 @@ public class Pawn extends Piece {
 		lastPiece = b.getPieceAtPos(pos);
 		if (isWhite) {
 			lastWCol = pos.getCol();
+			lastWRow = pos.getRow();
 
 		} else {
 			lastBCol = pos.getCol();
+			lastBRow = pos.getRow();
 		}
 
 		if (ifWhiteMovedTwoInFrontLeft() == true) {
-			System.out.println("movedleft");
+			System.out.println(lastBRow);
+			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) !=null) {
+				System.out.println("moved");
+			}
+		//	System.out.println("movedleft");
 			boolean moved2WLeft = true;
 		}
 
@@ -114,6 +122,8 @@ public class Pawn extends Piece {
 //		System.out.println(pos.getCol());
 //		System.out.println(pos.getRow());
 
+		
+				
 		if (pos.getRow() == 4 && b.getPieceAtPos(new Position(4, pos.getCol() + 1)) instanceof Pawn) {
 			System.out.println("ufialsdhfn");
 			return true;
