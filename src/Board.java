@@ -17,8 +17,6 @@ public class Board extends JPanel {
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
-	int mins;
-	int secs;
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
@@ -26,13 +24,35 @@ public class Board extends JPanel {
 	public Position wKingPos;
 	public Position bKingPos;
 
-	public Board(Chess game, int mins, int secs) {
+	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
-		game.setText("White's turn.");
-		this.mins = mins;
-		this.secs = secs;
 		initBoard();
+		newGame();
+	}
+	
+	private void playAgainMenu() {
+		String[] options = {"No", "Yes"};
+		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options, null) == 1)
+			newGame();
+		else
+			System.exit(0);
+	}
+	
+	private void newGame() {
+		int mins, secs;
+		do {
+			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
+			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
+				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
+		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
+		whiteTime = new Time(mins, secs);
+		blackTime = new Time(mins, secs);
+		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		whiteTurn = true;
+		whiteCastle = true;
+		blackCastle = true;
 		initPieces();
 	}
 
@@ -95,7 +115,6 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		whiteTurn = true;
 		whiteCastle = true;
 		blackCastle = true;
 	}
@@ -168,11 +187,6 @@ public class Board extends JPanel {
 
 	public Rook getBlackR2() {
 		return blackR2;
-	}
-
-	public void startTime() {
-		whiteTime = new Time(mins, secs);
-		blackTime = new Time(mins, secs);
 	}
 
 	public Piece getPieceAtPos(Position pos) {
@@ -272,24 +286,25 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
+			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-				System.exit(0);
+				playAgainMenu();
 			} else {
+				whiteTurn = false;
 				blackTime.startTurn();
-				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			}
 		} else {
 			blackTime.endTurn();
+			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-				System.exit(0);
+				playAgainMenu();
 			} else {
+				whiteTurn = true;
 				whiteTime.startTurn();
-				game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			}
 		}
-		whiteTurn = !whiteTurn;
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
