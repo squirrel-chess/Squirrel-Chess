@@ -188,11 +188,12 @@ public class Board extends JPanel {
 	public Rook getBlackR2() {
 		return blackR2;
 	}
-
+  
 	public Piece getPieceAtPos(Position pos) {
 		for (Piece p : pieces) {
-			if (p.getPos().equals(pos))
+			if (p.getPos().equals(pos)) {
 				return p;
+			}
 		}
 		return null;
 	}
@@ -249,22 +250,37 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
-//	public boolean testCheckMate(boolean isWhite) {
-//		if(testCheck(true)) {
-//			if(king.getMoveSet() == null) {
-//				return false;
-//			} else {
-//				if() {
-//					
+
+//	public boolean testCheckmate(boolean isWhite) {
+//		for (Piece p : pieces) { 							// iterate through all pieces
+//			if (p.isWhite == isWhite) { 					// only check movesets of pieces of king in check
+//
+//				Position original = p.getPos(); 			// save original position of piece
+//
+//				for (Position pos : p.getMoveSet()) { 		// iterate through all available moves
+//
+//					Piece removed = p.simMove(pos); 		// save piece removed to put back later. Sim move the piece
+//
+//					if (isWhite) {
+//						if (testCheck(isWhite) == false) { 	// test if king of isWhite color is in check
+//							p.simMove(original); 			// move the piece to it's original position
+//							pieces.add(removed); 			// replace the removed piece
+//							return false; 					// if not in check anymore, the king is not in check
+//						}
+//					} else {
+//						if (testCheck(!isWhite) == false) { // test if king of isWhite color is in check
+//							p.simMove(original); 			// move the piece to it's original position
+//							pieces.add(removed); 			// replace the removed piece
+//							return false; 					// if not in check anymore, the king is not in check
+//						}
+//					}
+//
+//					pieces.add(removed); 					// even if not in check, replace removed piece
+//
 //				}
 //			}
 //		}
-//	}
-
-//	public void ifCheckmate() {
-//		if(testCheckMate(true)) {
-//			System.out.println("hi");
-//		}
+//		return true;
 //	}
 
 	public boolean whiteCanCastle() {
