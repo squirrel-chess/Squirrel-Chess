@@ -68,6 +68,10 @@ public abstract class Piece {
 		else
 			return ("B(" + pos.getRow() + "," + pos.getCol() + ")");
 	}
+	
+	public boolean isWhite() {
+		return isWhite;
+	}
 
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
 		ArrayList<Position> posList = b.getAllFriendlyPiecePos(isWhite);

@@ -1,6 +1,4 @@
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -30,15 +28,16 @@ public class Board extends JPanel {
 		initBoard();
 		newGame();
 	}
-	
+
 	private void playAgainMenu() {
-		String[] options = {"No", "Yes"};
-		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options, null) == 1)
+		String[] options = { "No", "Yes" };
+		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
+				null) == 1)
 			newGame();
 		else
 			System.exit(0);
 	}
-	
+
 	private void newGame() {
 		int mins, secs;
 		do {
@@ -188,7 +187,7 @@ public class Board extends JPanel {
 	public Rook getBlackR2() {
 		return blackR2;
 	}
-  
+
 	public Piece getPieceAtPos(Position pos) {
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos)) {
@@ -249,6 +248,27 @@ public class Board extends JPanel {
 			}
 		}
 		return false;
+	}
+
+	public boolean testStalemate(boolean isWhite) {
+		if (isWhite) {
+			for (Piece p : pieces) {
+				if (p.isWhite()) {
+					if (p.getMoveSet().size() != 0) {
+						return false;
+					}
+				}
+			}
+		} else {
+			for (Piece p : pieces) {
+				if (!p.isWhite()) {
+					if (p.getMoveSet().size() != 0) {
+						return false;
+					}
+				}
+			}
+		}
+		return true;
 	}
 
 //	public boolean testCheckmate(boolean isWhite) {
