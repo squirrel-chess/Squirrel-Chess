@@ -17,10 +17,12 @@ public abstract class Piece {
 		this.b = b;
 		this.isWhite = isWhite;
 		try {
-			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
+			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream(fileName));
+			image = new BufferedImage(b.getHeight()/8, b.getHeight()/8, img.getType());
 		} catch (IOException e) {
 			
 		}
+		
 	}
 
 	public abstract void draw();
