@@ -12,6 +12,7 @@ public class Pawn extends Piece {
 	}
 
 	boolean movedTwo = false;
+	boolean movedInFront = false;
 	Piece lastPiece;
 	int lastBCol;
 	int lastWCol;
@@ -97,16 +98,25 @@ public class Pawn extends Piece {
 			lastBRow = pos.getRow();
 		}
 
+		
 		if (ifWhiteMovedTwoInFrontLeft() == true) {
 			this.pos = pos;
+			movedInFront = true;
 			System.out.println(pos.getRow());
 			System.out.println(pos.getCol());
+			System.out.println(movedInFront);
 			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
 				System.out.println("moved");
 			}
-		//	System.out.println("movedleft");
-			boolean moved2WLeft = true;
-		}
+		} 
+		System.out.println(movedInFront + this.toString());
+		
+			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
+				System.out.println("moved");
+				Piece removePiece = b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol()));
+				b.removePiece(removePiece);
+				//remove pawn piece check coordinates
+			}
 
 	}
 
@@ -121,13 +131,10 @@ public class Pawn extends Piece {
 	}
 
 	boolean ifWhiteMovedTwoInFrontLeft() {
-//		System.out.println(pos.getCol());
-//		System.out.println(pos.getRow());
-
-		
 				
 		if (pos.getRow() == 4 && b.getPieceAtPos(new Position(4, pos.getCol() + 1)) instanceof Pawn) {
 			System.out.println("ufialsdhfn");
+			movedInFront = true;
 			return true;
 		} else {
 
