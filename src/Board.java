@@ -223,7 +223,10 @@ public class Board extends JPanel {
 
 	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		for (Piece p : pieces) {
+		for (int i = 0; i < pieces.size(); i++) {
+			
+			Piece p = pieces.get(i);
+			
 			if (p.isWhite && isWhite)
 				ret.add(p.getPos());
 			else if (!p.isWhite && !isWhite)
@@ -251,37 +254,103 @@ public class Board extends JPanel {
 		return false;
 	}
 
-//	public boolean testCheckmate(boolean isWhite) {
-//		for (Piece p : pieces) { 							// iterate through all pieces
-//			if (p.isWhite == isWhite) { 					// only check movesets of pieces of king in check
-//
-//				Position original = p.getPos(); 			// save original position of piece
-//
-//				for (Position pos : p.getMoveSet()) { 		// iterate through all available moves
-//
-//					Piece removed = p.simMove(pos); 		// save piece removed to put back later. Sim move the piece
-//
-//					if (isWhite) {
-//						if (testCheck(isWhite) == false) { 	// test if king of isWhite color is in check
-//							p.simMove(original); 			// move the piece to it's original position
-//							pieces.add(removed); 			// replace the removed piece
-//							return false; 					// if not in check anymore, the king is not in check
+	public boolean testCheckmate(boolean isWhite) {
+		
+		// just check for king movements
+//		if (isWhite) {
+//			for (int i = 0; i < pieces.size(); i++) {
+//				
+//				Piece p = pieces.get(i);
+//				
+//				if (p.isKing() && p.isWhite == isWhite) {
+//					
+//					Position original = p.getPos();
+//					
+//					for (Position pos : p.getMoveSet()) {
+//						Piece removed = p.simMove(pos);
+//						
+//						if (!testCheck(isWhite)) {
+//							replacePiece(removed);
+//							p.simMove(original);
+//							return false;
 //						}
-//					} else {
-//						if (testCheck(!isWhite) == false) { // test if king of isWhite color is in check
-//							p.simMove(original); 			// move the piece to it's original position
-//							pieces.add(removed); 			// replace the removed piece
-//							return false; 					// if not in check anymore, the king is not in check
-//						}
+//						
+//						p.simMove(original);
+//						replacePiece(removed);
 //					}
+//				}
+//			}
+//		} else {
+//			for (int i = 0; i < pieces.size(); i++) {
+//				
+//				Piece p = pieces.get(i);
+//				
+//				if (p.isKing() && p.isWhite != isWhite) {
+//					
+//					Position original = p.getPos();
 //
-//					pieces.add(removed); 					// even if not in check, replace removed piece
-//
+//					for (Position pos : p.getMoveSet()) {
+//						Piece removed = p.simMove(pos);
+//						
+//						if (!testCheck(!isWhite)) {
+//							p.simMove(original);
+//							replacePiece(removed);
+//							return false;
+//						}
+//						
+//						p.simMove(original);
+//						replacePiece(removed);
+//					}
 //				}
 //			}
 //		}
-//		return true;
-//	}
+
+		for (int i = 0; i < pieces.size(); i++) { 			// iterate through all pieces
+			
+			Piece p = pieces.get(i);
+			
+			if (p.isWhite == isWhite) { 					// only check move sets of color of king in check
+
+				Position original = p.getPos(); 			// save original position of piece
+
+				for (Position pos : p.getMoveSet()) { 		// iterate through all available moves
+
+					Piece removed = p.simMove(pos); 		// save piece removed to put back later. Sim move the piece
+
+					if (isWhite) {
+						if (!testCheck(isWhite)) { 			// test if king of isWhite color is in check
+							p.simMove(original); 			// move the piece to it's original position
+							replacePiece(removed);			// replace removed piece
+							
+							System.out.println("white not in checkmate");
+							
+							return false; 					// if not in check anymore, the king is not in check
+						}
+					} else {
+						if (!testCheck(!isWhite)) { 		// test if king of isWhite color is in check
+							p.simMove(original); 			// move the piece to it's original position
+							replacePiece(removed); 			// replace the removed piece
+							
+							System.out.println("black not in checkmate");
+							
+							return false; 					// if not in check anymore, the king is not in check
+						}
+					}
+
+					p.simMove(original); 					// even if not in check, move the piece to it's original position
+					replacePiece(removed); 					// even if not in check, replace removed piece
+
+				}
+			}
+		}
+		return true;
+	}
+	
+	public void replacePiece(Piece p) {
+		if (p != null) {
+			pieces.add(p);
+		}
+	}
 
 	public boolean whiteCanCastle() {
 		return whiteCastle;

@@ -194,6 +194,11 @@ public class King extends Piece {
 		}
 		b.nextTurn();
 	}
+	
+	@Override
+	public boolean isKing() {
+		return true;
+	}
 
 	public String toString() {
 		return "King" + super.toString();
