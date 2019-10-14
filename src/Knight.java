@@ -4,6 +4,12 @@ public class Knight extends Piece {
 
 	public Knight(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
+		if (isWhite) {
+			fileName  = "knightW.png";
+			}
+		else {
+			fileName = "knightB.png";
+		}
 	}
 
 	@Override

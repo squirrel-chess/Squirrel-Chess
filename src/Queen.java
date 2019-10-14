@@ -4,6 +4,12 @@ public class Queen extends Piece {
 
 	public Queen(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
+		if (isWhite) {
+			fileName  = "queenW.png";
+			}
+		else {
+			fileName = "queenB.png";
+		}
 	}
 
 	@Override

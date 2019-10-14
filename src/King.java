@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+
 public class King extends Piece {
 
 	private Rook rook1;
@@ -12,6 +14,13 @@ public class King extends Piece {
 		super(pos, b, isWhite);
 		this.rook1 = rook1;// white
 		this.rook2 = rook2;// black
+		if (isWhite) {
+			fileName  = "kingW.png";
+			}
+		else {
+			fileName = "kingB.png";
+		}
+		
 
 	}
 

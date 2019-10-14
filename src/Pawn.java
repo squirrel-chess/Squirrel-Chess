@@ -9,6 +9,12 @@ public class Pawn extends Piece {
 	public Pawn(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 		hasMoved = false;
+		if (isWhite) {
+			fileName  = "pawnW.png";
+			}
+		else {
+			fileName = "pawnB.png";
+		}
 	}
 	boolean movedTwo = false;
 	@Override

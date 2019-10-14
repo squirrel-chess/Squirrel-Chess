@@ -4,6 +4,12 @@ public class Rook extends Piece {
 
 	public Rook(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
+		if (isWhite) {
+			fileName  = "rookW.png";
+			}
+		else {
+			fileName = "rookB.png";
+		}
 	}
 
 	@Override
