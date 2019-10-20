@@ -53,6 +53,7 @@ public class Board extends JPanel {
 		whiteCastle = true;
 		blackCastle = true;
 		initPieces();
+		//stalemate();
 	}
 
 	public King getKing() {
@@ -169,6 +170,15 @@ public class Board extends JPanel {
 		whiteCastle = true;
 		blackCastle = true;
 
+		updateText();
+	}
+
+	public void stalemate() {
+		pieces.add(new King(new Position(1, 5), this, true, null, null));
+		pieces.add(new King(new Position(0, 7), this, false, null, null));
+		pieces.add(new Queen(new Position(2, 6), this, true));
+		whiteCastle = false;
+		blackCastle = false;
 		updateText();
 	}
 
