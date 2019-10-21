@@ -61,6 +61,10 @@ public class Rook extends Piece {
 		hasMoved = true;
 	}
 	
+	public boolean hasMoved() {
+		return hasMoved;
+	}
+	
 	public String toString() {
 		return super.toString() + "Rook";
 	}
