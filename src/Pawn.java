@@ -12,6 +12,8 @@ public class Pawn extends Piece {
 	}
 
 	boolean movedTwo = false;
+	boolean wPMoved = false;
+	boolean bPMoved = false;
 	boolean movedInFront = false;
 	Piece lastPiece;
 	int lastBCol;
@@ -80,15 +82,31 @@ public class Pawn extends Piece {
 		}
 		return removeInvalidMoves(ret);
 	}
-	Pawn pMoved;
+//	Pawn pWMoved;
+//	Pawn pBMoved;
 	@Override
 	public void move(Position pos) {
-		if (isWhite && pos.getRow() - 2 == 0) {
-			movedTwo = true; 
-			
-		}
+		
+//		if(isWhite) {
+//			 pWMoved = this;
+//			if (pos.getRow() - 2 == 0) {
+//				pWMoved.movedTwo = true; 
+//				
+//			}
+//			super.move(pos);
+//			pWMoved.movedTwo = true; 
+//		} else {
+//			Pawn pBMoved = this;
+//			if (pos.getRow() - 2 == 0) {
+//				pBMoved.movedTwo = true; 
+//				
+//			}
+//			super.move(pos);
+//			pBMoved.movedTwo = true;
+//		}
+		
 		super.move(pos);
-		movedTwo = false;
+		
 		hasMoved = true;
 		if (isWhite) {
 			if (pos.getRow() == 0)
