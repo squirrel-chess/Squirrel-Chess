@@ -98,7 +98,7 @@ public class King extends Piece {
 		
 		if (b.getPieceAtPos(pos) != null)
 			b.getPieceAtPos(pos).remove();
-		if (whiteLeftAbleToCastle() == true) {
+		if (whiteLeftAbleToCastle()) {
 			if (pos.equals(new Position(7, 2))) {
 				this.pos = pos;
 				
@@ -114,7 +114,7 @@ public class King extends Piece {
 				ifWKMoved = true;
 				b.nextTurn();
 			}
-		} else if (whiteRightAbleToCastle() == true) {
+		} else if (whiteRightAbleToCastle()) {
 			if (pos.equals(new Position(7, 6))) {
 				this.pos = pos;
 				
@@ -145,7 +145,7 @@ public class King extends Piece {
 			b.setSelectedPiece(null);
 			ifWKMoved = true;
 		}
-		if (blackLeftAbleToCastle() == true) {
+		if (blackLeftAbleToCastle()) {
 			if (pos.equals(new Position(0, 2))) {
 				this.pos = pos;
 				
@@ -161,7 +161,7 @@ public class King extends Piece {
 				ifBKMoved = true;
 				b.nextTurn();
 			}
-		} else if (blackRightAbleToCastle() == true) {
+		} else if (blackRightAbleToCastle()) {
 			if (pos.equals(new Position(0, 6))) {
 				this.pos = pos;
 				

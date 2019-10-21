@@ -1,9 +1,12 @@
 import java.util.ArrayList;
 
 public class Rook extends Piece {
+	
+	private boolean hasMoved;
 
 	public Rook(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
+		hasMoved = false;
 	}
 
 	@Override
@@ -50,6 +53,12 @@ public class Rook extends Piece {
 	@Override
 	public void draw() {
 		
+	}
+	
+	@Override
+	public void move(Position pos) {
+		super.move(pos);
+		hasMoved = true;
 	}
 	
 	public String toString() {
