@@ -5,16 +5,12 @@ import javax.swing.JOptionPane;
 public class Pawn extends Piece {
 
 	private boolean hasMoved;
+	String fileName;
 
-	public Pawn(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
+	public Pawn(Position pos, Board b, boolean isWhite, String fileName) {
+		super(pos, b, isWhite, fileName);
+		this.fileName = fileName;
 		hasMoved = false;
-		if (isWhite) {
-			fileName  = "pawnW.png";
-			}
-		else {
-			fileName = "pawnB.png";
-		}
 	}
 	boolean movedTwo = false;
 	@Override
@@ -97,19 +93,19 @@ public class Pawn extends Piece {
 		Piece p;
 		switch (option) {
 		case 0:
-			p = new Bishop(pos, b, isWhite);
+			p = new Bishop(pos, b, isWhite, fileName);
 			break;
 		case 1:
-			p = new Knight(pos, b, isWhite);
+			p = new Knight(pos, b, isWhite, fileName);
 			break;
 		case 2:
-			p = new Queen(pos, b, isWhite);
+			p = new Queen(pos, b, isWhite, fileName);
 			break;
 		default:
-			p = new Rook(pos, b, isWhite);
+			p = new Rook(pos, b, isWhite, fileName);
 			break;
 		}
 		b.addPiece(p);
-		b.updateText();
+		b.updatePic();
 	}
 }

@@ -2,14 +2,8 @@ import java.util.ArrayList;
 
 public class Queen extends Piece {
 
-	public Queen(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
-		if (isWhite) {
-			fileName  = "queenW.png";
-			}
-		else {
-			fileName = "queenB.png";
-		}
+	public Queen(Position pos, Board b, boolean isWhite, String fileName) {
+		super(pos, b, isWhite, fileName);
 	}
 
 	@Override

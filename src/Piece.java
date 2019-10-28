@@ -1,3 +1,4 @@
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,15 +11,15 @@ public abstract class Piece {
 	protected Board b;
 	protected boolean isWhite;
 	protected BufferedImage image;
-	String fileName;
 
-	public Piece(Position pos, Board b, boolean isWhite) {
+	public Piece(Position pos, Board b, boolean isWhite, String fileName) {
 		this.pos = pos;
 		this.b = b;
 		this.isWhite = isWhite;
 		try {
-			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream(fileName));
-			image = new BufferedImage(b.getHeight()/8, b.getHeight()/8, img.getType());
+//			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream(fileName));
+//			image = new BufferedImage((int) b.getGame().getFrameDimension().getHeight() / 8, (int) b.getGame().getFrameDimension().getHeight() / 8, BufferedImage.TYPE_INT_RGB);
+			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
 		} catch (IOException e) {
 			
 		}
@@ -43,7 +44,7 @@ public abstract class Piece {
 		if (b.getPieceAtPos(pos) != null) 
 			b.getPieceAtPos(pos).remove();
 		this.pos = pos;
-		b.updateText();
+		b.updatePic();
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		b.nextTurn(); 
@@ -73,5 +74,8 @@ public abstract class Piece {
 				}
 		}
 		return moveSet;
+	}
+	public Image getImage() {
+		return image;
 	}
 }

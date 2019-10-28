@@ -10,8 +10,8 @@ public class King extends Piece {
 	boolean ifCastledBlack = false;
 	boolean ifWKMoved = false;
 	boolean ifBKMoved = false;
-	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2) {
-		super(pos, b, isWhite);
+	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2, String fileName) {
+		super(pos, b, isWhite, fileName);
 		this.rook1 = rook1;// white
 		this.rook2 = rook2;// black
 		if (isWhite) {
@@ -23,6 +23,7 @@ public class King extends Piece {
 		
 
 	}
+
 
 	public boolean whiteLeftAbleToCastle() {
 		if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) == null
@@ -149,7 +150,7 @@ public class King extends Piece {
 				b.bKingPos = pos;
 			}
 			
-			b.updateText();
+			b.updatePic();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
 			ifWKMoved = true;
@@ -196,7 +197,7 @@ public class King extends Piece {
 				b.bKingPos = pos;
 			}
 			
-			b.updateText();
+			b.updatePic();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
 			ifBKMoved = true;
