@@ -4,10 +4,7 @@ public class King extends Piece {
 
 	private Rook rook1;
 	private Rook rook2;
-	boolean ifCastledWhite = false;
-	boolean ifCastledBlack = false;
-	boolean ifWKMoved = false;
-	boolean ifBKMoved = false;
+	boolean canCastle = true;
 
 	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2) {
 		super(pos, b, isWhite);
@@ -16,30 +13,26 @@ public class King extends Piece {
 
 	}
 
-	public boolean whiteLeftAbleToCastle() {
-		return (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 2)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 3)) == null 
-				&& pos.getRow() == 7 && !(ifWKMoved) && !rook1.hasMoved() && !rook2.hasMoved());
+	public boolean leftAbleToCastle() {
+		if (isWhite) {
+			return (b.getPieceAtPos(new Position(7, 1)) == null && b.getPieceAtPos(new Position(7, 2)) == null
+					&& b.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && canCastle
+					&& !rook1.hasMoved());
+		} else {
+			return (b.getPieceAtPos(new Position(0, 1)) == null && b.getPieceAtPos(new Position(0, 2)) == null
+					&& b.getPieceAtPos(new Position(0, 3)) == null && pos.getRow() == 0 && canCastle
+					&& !rook1.hasMoved());
+		}
 	}
 
-	public boolean whiteRightAbleToCastle() {
-		return (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 2)) == null
-				&& pos.getRow() == 7 && !(ifWKMoved) && !rook1.hasMoved() && !rook2.hasMoved());
-	}
-
-	public boolean blackLeftAbleToCastle() {
-		return (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 2)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 3)) == null 
-				&& pos.getRow() == 0 && !(ifBKMoved) && !rook1.hasMoved() && !rook2.hasMoved());
-	}
-
-	public boolean blackRightAbleToCastle() {
-		return (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)) == null
-				&& b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 2)) == null
-				&& pos.getRow() == 0 && !(ifBKMoved) && !rook1.hasMoved() && !rook2.hasMoved());
+	public boolean rightAbleToCastle() {
+		if (isWhite) {
+			return (b.getPieceAtPos(new Position(7, 5)) == null && b.getPieceAtPos(new Position(7, 6)) == null
+					&& pos.getRow() == 7 && canCastle && !rook2.hasMoved());
+		} else {
+			return (b.getPieceAtPos(new Position(0, 5)) == null && b.getPieceAtPos(new Position(0, 6)) == null
+					&& pos.getRow() == 0 && canCastle && !rook2.hasMoved());
+		}
 	}
 
 	@Override
@@ -61,16 +54,16 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 1));
 		if (pos.getCol() - 1 >= 0)
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
-		if (isWhite && whiteLeftAbleToCastle()) {
+		if (isWhite && leftAbleToCastle()) {
 			ret.add(new Position(pos.getRow(), pos.getCol() - 2));
 		}
-		if (isWhite && whiteRightAbleToCastle()) {
+		if (isWhite && rightAbleToCastle()) {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 2));
 		}
-		if (isWhite == false && blackLeftAbleToCastle()) {
+		if (!isWhite && leftAbleToCastle()) {
 			ret.add(new Position(pos.getRow(), pos.getCol() - 2));
 		}
-		if (isWhite == false && blackRightAbleToCastle()) {
+		if (!isWhite && rightAbleToCastle()) {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 2));
 		}
 		return removeInvalidMoves(ret);
@@ -83,40 +76,40 @@ public class King extends Piece {
 
 	@Override
 	public void move(Position pos) {
-//		System.out.println("ran");
-
 		if (b.getPieceAtPos(pos) != null)
 			b.getPieceAtPos(pos).remove();
-		if (whiteLeftAbleToCastle()) {
-			if (pos.equals(new Position(7, 2))) {
-				this.pos = pos;
-
-				// for check
-				if (isWhite) {
+		if (leftAbleToCastle()) {
+			if (isWhite) {
+				if (pos.equals(new Position(7, 2))) {
+					this.pos = pos;
 					b.wKingPos = pos;
-				} else {
-					b.bKingPos = pos;
+					b.getWhiteR1().move(new Position(7, 3));
+					canCastle = false;
 				}
-
-				ifCastledWhite = true;
-				b.getWhiteR1().move(new Position(7, 3));
-				ifWKMoved = true;
+			} else {
+				if (pos.equals(new Position(0, 2))) {
+					this.pos = pos;
+					b.bKingPos = pos;
+					b.getBlackR1().move(new Position(0, 3));
+					canCastle = false;
+				}
 				b.nextTurn();
 			}
-		} else if (whiteRightAbleToCastle()) {
-			if (pos.equals(new Position(7, 6))) {
-				this.pos = pos;
-
-				// for check
-				if (isWhite) {
+		} else if (rightAbleToCastle()) {
+			if (isWhite) {
+				if (pos.equals(new Position(7, 6))) {
+					this.pos = pos;
 					b.wKingPos = pos;
-				} else {
-					b.bKingPos = pos;
+					b.getWhiteR1().move(new Position(7, 5));
+					canCastle = false;
 				}
-
-				ifCastledWhite = true;
-				b.getWhiteR2().move(new Position(7, 5));
-				ifWKMoved = true;
+			} else {
+				if (pos.equals(new Position(0, 6))) {
+					this.pos = pos;
+					b.bKingPos = pos;
+					b.getBlackR1().move(new Position(0, 5));
+					canCastle = false;
+				}
 				b.nextTurn();
 			}
 		} else {
@@ -132,56 +125,8 @@ public class King extends Piece {
 			b.updateText();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
-			ifWKMoved = true;
+			canCastle = false;
 		}
-		if (blackLeftAbleToCastle()) {
-			if (pos.equals(new Position(0, 2))) {
-				this.pos = pos;
-
-				// for check
-				if (isWhite) {
-					b.wKingPos = pos;
-				} else {
-					b.bKingPos = pos;
-				}
-
-				ifCastledBlack = true;
-				b.getBlackR1().move(new Position(0, 3));
-				ifBKMoved = true;
-				b.nextTurn();
-			}
-		} else if (blackRightAbleToCastle()) {
-			if (pos.equals(new Position(0, 6))) {
-				this.pos = pos;
-
-				// for check
-				if (isWhite) {
-					b.wKingPos = pos;
-				} else {
-					b.bKingPos = pos;
-				}
-
-				// ifCastledBlack = true;
-				b.getBlackR2().move(new Position(0, 5));
-				ifBKMoved = true;
-				b.nextTurn();
-			}
-		} else {
-			this.pos = pos;
-
-			// for check
-			if (isWhite) {
-				b.wKingPos = pos;
-			} else {
-				b.bKingPos = pos;
-			}
-
-			b.updateText();
-			b.unhighlightMoves();
-			b.setSelectedPiece(null);
-			ifBKMoved = true;
-		}
-		b.nextTurn();
 	}
 
 	public String toString() {
