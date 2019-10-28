@@ -91,4 +91,8 @@ public abstract class Piece {
 	public Image getImage() {
 		return image;
 	}
+	
+	public boolean isKing() {
+		return false;
+	}
 }
