@@ -49,6 +49,19 @@ public abstract class Piece {
 		b.setSelectedPiece(null);
 		b.nextTurn(); 
 	}
+	
+	public Piece simMove(Position pos) {
+		if (b.getPieceAtPos(pos) != null) {
+			Piece removed = b.getPieceAtPos(pos);
+			b.getPieceAtPos(pos).remove();
+			
+			this.pos = pos;
+			
+			return removed;
+		}
+		this.pos = pos;
+		return null;
+	}
 
 	public void remove() {
 		b.removePiece(this);
