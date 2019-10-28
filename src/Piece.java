@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 public abstract class Piece {
+	
 	protected Position pos;
 	protected Board b;
 	protected boolean isWhite;

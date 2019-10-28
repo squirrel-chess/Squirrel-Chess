@@ -11,10 +11,13 @@ public class Pawn extends Piece {
 		hasMoved = false;
 	}
 
+	boolean movedOne = false;
 	boolean movedTwo = false;
 	boolean wPMoved = false;
 	boolean bPMoved = false;
 	boolean movedInFront = false;
+	boolean ifWMovedAcross = false;
+	boolean ifBMovedAcross = false;
 	Piece lastPiece;
 	int lastBCol;
 	int lastWCol;
@@ -39,11 +42,13 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 				}
-				if(ifBlackMovedTwoInFrontRight()) {
+				if(ifBlackMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false) {
+					ifWMovedAcross = true;
 					ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
 					
 				}
-				if(ifBlackMovedTwoInFrontLeft()) {
+				if(ifBlackMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false) {
+					ifWMovedAcross = true;
 					ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
 				}
 			}
@@ -66,11 +71,13 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
-				if(ifWhiteMovedTwoInFrontRight()) {
+				if(ifWhiteMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false) {
+					ifBMovedAcross = true;
 					ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
 				} 
 //				
-				if(ifWhiteMovedTwoInFrontLeft()) {
+				if(ifWhiteMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false) {
+					ifBMovedAcross = true;
 					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
 				} 
 			}
@@ -82,28 +89,36 @@ public class Pawn extends Piece {
 		}
 		return removeInvalidMoves(ret);
 	}
-//	Pawn pWMoved;
-//	Pawn pBMoved;
+	
+	
+//	boolean movedOne() {
+//		if(isWhite) {	
+//			if(pos.getRow()==5) {
+//				return true;
+//			} else {
+//				return false;
+//			}
+//		} else {
+//			if(pos.getRow()==2) {
+//				return true;
+//			} else {
+//				return false;
+//			}
+//		}
+//	}
 	@Override
 	public void move(Position pos) {
 		
-//		if(isWhite) {
-//			 pWMoved = this;
-//			if (pos.getRow() - 2 == 0) {
-//				pWMoved.movedTwo = true; 
-//				
-//			}
-//			super.move(pos);
-//			pWMoved.movedTwo = true; 
-//		} else {
-//			Pawn pBMoved = this;
-//			if (pos.getRow() - 2 == 0) {
-//				pBMoved.movedTwo = true; 
-//				
-//			}
-//			super.move(pos);
-//			pBMoved.movedTwo = true;
-//		}
+
+		if(isWhite) {	
+			if(pos.getRow()==5) {
+				movedOne = true;
+			}
+		} else {
+			if(pos.getRow()==2) {
+				movedOne = true;
+			}
+		}
 		
 		super.move(pos);
 		
@@ -126,7 +141,7 @@ public class Pawn extends Piece {
 		}
 
 		//System.out.println(movedInFront + this.toString());
-		
+		if(ifBMovedAcross) {
 			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
 				System.out.println("moved");
 				Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol()));
@@ -137,6 +152,8 @@ public class Pawn extends Piece {
 				b.setSelectedPiece(null);
 			//	b.nextTurn();
 			}
+	}
+		if(ifWMovedAcross) {
 			if(b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol())) != null) {
 				System.out.println("moved");
 				Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol()));
@@ -147,7 +164,7 @@ public class Pawn extends Piece {
 				b.setSelectedPiece(null);
 				//b.nextTurn();
 			}
-
+		}
 
 	}
 
