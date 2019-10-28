@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
@@ -40,4 +41,5 @@ public class Square extends JButton {
 	public void setInMoveSet(boolean inMoveSet) {
 		this.inMoveSet = inMoveSet;
 	}
+
 }

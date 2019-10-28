@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -126,44 +127,46 @@ public class Board extends JPanel {
 	Rook blackR2;
 
 	private void initPieces() {
-		blackR1 = new Rook(new Position(0, 0), this, false);
-		blackR2 = new Rook(new Position(0, 7), this, false);
-		whiteR1 = new Rook(new Position(7, 0), this, true);
-		whiteR2 = new Rook(new Position(7, 7), this, true);
+		blackR1 = new Rook(new Position(0, 0), this, false, "rookB.png");
+		blackR2 = new Rook(new Position(0, 7), this, false, "rookB.png");
+		whiteR1 = new Rook(new Position(7, 0), this, true, "rookW.png");
+		whiteR2 = new Rook(new Position(7, 7), this, true, "rookW.png");
 
 		pieces = new ArrayList<Piece>();
 		pieces.add(whiteR1);
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
-		pieces.add(new Knight(new Position(0, 1), this, false));
-		pieces.add(new Bishop(new Position(0, 2), this, false));
-		pieces.add(new Queen(new Position(0, 3), this, false));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
-		pieces.add(new Bishop(new Position(0, 5), this, false));
-		pieces.add(new Knight(new Position(0, 6), this, false));
-		pieces.add(new Pawn(new Position(1, 0), this, false));
-		pieces.add(new Pawn(new Position(1, 1), this, false));
-		pieces.add(new Pawn(new Position(1, 2), this, false));
-		pieces.add(new Pawn(new Position(1, 3), this, false));
-		pieces.add(new Pawn(new Position(1, 4), this, false));
-		pieces.add(new Pawn(new Position(1, 5), this, false));
-		pieces.add(new Pawn(new Position(1, 6), this, false));
-		pieces.add(new Pawn(new Position(1, 7), this, false));
-		pieces.add(new Pawn(new Position(6, 0), this, true));
-		pieces.add(new Pawn(new Position(6, 1), this, true));
-		pieces.add(new Pawn(new Position(6, 2), this, true));
-		pieces.add(new Pawn(new Position(6, 3), this, true));
-		pieces.add(new Pawn(new Position(6, 4), this, true));
-		pieces.add(new Pawn(new Position(6, 5), this, true));
-		pieces.add(new Pawn(new Position(6, 6), this, true));
-		pieces.add(new Pawn(new Position(6, 7), this, true));
-		pieces.add(new Knight(new Position(7, 1), this, true));
-		pieces.add(new Bishop(new Position(7, 2), this, true));
-		pieces.add(new Queen(new Position(7, 3), this, true));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
-		pieces.add(new Bishop(new Position(7, 5), this, true));
-		pieces.add(new Knight(new Position(7, 6), this, true));
+		//black pieces
+		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
+		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
+		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
+		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2, "kingB.png"));
+		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
+		pieces.add(new Knight(new Position(0, 6), this, false,"knightB.png"));
+		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 1), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 2), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 3), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 4), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 5), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 6), this, false, "pawnB.png"));
+		pieces.add(new Pawn(new Position(1, 7), this, false, "pawnB.png"));
+		//white pieces
+		pieces.add(new Pawn(new Position(6, 0), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 1), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 2), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 3), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 4), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 5), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 6), this, true, "pawnW.png"));
+		pieces.add(new Pawn(new Position(6, 7), this, true, "pawnW.png"));
+		pieces.add(new Knight(new Position(7, 1), this, true, "knightW.png"));
+		pieces.add(new Bishop(new Position(7, 2), this, true, "bishopW.png"));
+		pieces.add(new Queen(new Position(7, 3), this, true, "queenW.png"));
+		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2, "kingW.png"));
+		pieces.add(new Bishop(new Position(7, 5), this, true, "bishopW.png"));
+		pieces.add(new Knight(new Position(7, 6), this, true, "knightW.png"));
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
@@ -171,7 +174,7 @@ public class Board extends JPanel {
 		whiteCastle = true;
 		blackCastle = true;
 
-		updateText();
+		updatePic();
 	}
 
 	public Rook getWhiteR1() {
@@ -207,15 +210,16 @@ public class Board extends JPanel {
 		selectedPiece = p;
 	}
 
-	public void updateText() {
+	public void updatePic() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
-				squares[i][j].setText("");
+				squares[i][j].setIcon(null);
 			}
 		}
 		for (Piece p : pieces) {
-			squares[p.getPos().getRow()][p.getPos().getCol()].setText(p.toString());
+			squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(p.getImage()));
 		}
+		
 	}
 
 	public void addPiece(Piece p) {
@@ -383,5 +387,9 @@ public class Board extends JPanel {
 
 	public boolean getWhiteTurn() {
 		return whiteTurn;
+	}
+	
+	public Chess getGame() {
+		return game;
 	}
 }
