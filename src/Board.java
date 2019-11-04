@@ -239,6 +239,21 @@ public class Board extends JPanel {
 		}
 		return ret;
 	}
+	
+	public boolean moveIntoCheck(Piece p, Position pos) {
+		
+		Position original = p.getPos();
+		Piece taken = p.simMove(pos);
+		
+		if (testCheck(p.isWhite)) {
+			p.simMove(original);
+			replacePiece(taken);
+			return true;
+		}
+		p.simMove(original);
+		replacePiece(taken);
+		return false;
+	}
 
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {

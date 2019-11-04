@@ -94,6 +94,13 @@ public class King extends Piece {
 		if (isWhite == false && blackRightAbleToCastle()) {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 2));
 		}
+		
+		for (int i = 0; i < ret.size(); i++) {
+			if (b.moveIntoCheck(this, ret.get(i))) {
+				ret.remove(i);
+			}
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 
