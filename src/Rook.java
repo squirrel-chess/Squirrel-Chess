@@ -59,6 +59,7 @@ public class Rook extends Piece {
 	public void move(Position pos) {
 		super.move(pos);
 		hasMoved = true;
+		System.out.println("hasMoved: " + hasMoved);
 	}
 	
 	public boolean hasMoved() {
