@@ -17,7 +17,7 @@ public abstract class Piece {
 		this.b = b;
 		this.isWhite = isWhite;
 		try {
-//			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream(fileName));
+//	    	BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream(fileName));
 //			image = new BufferedImage((int) b.getGame().getFrameDimension().getHeight() / 8, (int) b.getGame().getFrameDimension().getHeight() / 8, BufferedImage.TYPE_INT_RGB);
 			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
 		} catch (IOException e) {
