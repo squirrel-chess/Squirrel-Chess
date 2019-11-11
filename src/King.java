@@ -114,7 +114,6 @@ public class King extends Piece {
 		b.setSelectedPiece(null);
 		hasMoved = true;
 		b.nextTurn();
-		b.updateText();
 	}
 	
 	@Override
