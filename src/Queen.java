@@ -7,7 +7,7 @@ public class Queen extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 				
 		boolean A = true;
@@ -91,6 +91,10 @@ public class Queen extends Piece {
 					ret.add(new Position(pos.getRow(), pos.getCol() - i));
 				}
 			}
+		
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
 		
 		return removeInvalidMoves(ret);
 	}

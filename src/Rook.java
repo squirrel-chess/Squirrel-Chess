@@ -13,7 +13,7 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		int foundCol1 = 0;
 		int foundCol2 = 7;
@@ -50,6 +50,10 @@ public class Rook extends Piece {
 				ret.add(new Position(pos.getRow(), i));
 		}
 			
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 

@@ -28,7 +28,7 @@ public abstract class Piece {
 
 	public abstract void draw();
 
-	public abstract ArrayList<Position> getMoveSet();
+	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
 		if (b.getWhiteTurn() == isWhite) {

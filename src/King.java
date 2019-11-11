@@ -64,7 +64,7 @@ public class King extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (pos.getRow() + 1 < 8 && pos.getCol() + 1 < 8)
 			ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
@@ -95,10 +95,8 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 2));
 		}
 		
-		for (int i = 0; i < ret.size(); i++) {
-			if (b.moveIntoCheck(this, ret.get(i))) {
-				ret.remove(i);
-			}
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);

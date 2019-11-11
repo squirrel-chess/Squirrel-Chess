@@ -7,7 +7,7 @@ public class Bishop extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 
 		boolean A = true;
@@ -52,6 +52,10 @@ public class Bishop extends Piece {
 				}
 			}
 
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 
