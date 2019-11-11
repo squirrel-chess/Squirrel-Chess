@@ -32,7 +32,7 @@ public class Board extends JPanel {
 		newGame();
 	}
 
-	private void playAgainMenu() {
+	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
 				null) == 1)
@@ -41,7 +41,7 @@ public class Board extends JPanel {
 			System.exit(0);
 	}
 
-	private void newGame() {
+	public void newGame() {
 		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
@@ -311,6 +311,7 @@ public class Board extends JPanel {
 		} else {													// if neither of the kings are in check, don't check for checkmate
 			return false;
 		}
+
 		return true;
 	}
 
