@@ -9,6 +9,7 @@ public class Square extends JButton {
 	private Board b;
 	private Position pos;
 
+
 	public Square(Board b, Position pos) {
 		this.inMoveSet = false;
 		this.b = b;
@@ -19,6 +20,7 @@ public class Square extends JButton {
 		if (b.getSelectedPiece() == null && b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).select();
 		} else if (inMoveSet && b.getSelectedPiece() != null) {
+			Piece.recentPiece = b.getSelectedPiece();
 			b.getSelectedPiece().move(pos);
 			
 			if (b.testCheck(true)) {

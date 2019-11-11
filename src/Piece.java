@@ -7,6 +7,8 @@ public abstract class Piece {
 	protected Position pos;
 	protected Board b;
 	protected boolean isWhite;
+	boolean immediatelyAfterwards = true;
+	protected static Piece recentPiece;
 
 	public Piece(Position pos, Board b, boolean isWhite) {
 		this.pos = pos;
@@ -67,4 +69,7 @@ public abstract class Piece {
 		}
 		return moveSet;
 	}
+//	public Piece getLastPiece() {
+//		return piece;
+//	}
 }

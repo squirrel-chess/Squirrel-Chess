@@ -18,7 +18,7 @@ public class Pawn extends Piece {
 	boolean movedInFront = false;
 	boolean ifWMovedAcross = false;
 	boolean ifBMovedAcross = false;
-	boolean immediatelyAfterwards = true;
+	
 	Piece lastPiece;
 	int lastBCol;
 	int lastWCol;
@@ -72,8 +72,9 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
-				System.out.println(((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()))).immediatelyAfterwards);
-				if(ifWhiteMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()))).immediatelyAfterwards==true) {
+				//System.out.println(((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()))).immediatelyAfterwards);
+				if(ifWhiteMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && (Piece.recentPiece.immediatelyAfterwards==true)) {
+				//	System.out.println(recentPiece);
 					ifBMovedAcross = true;
 					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
 				} 
@@ -108,6 +109,7 @@ public class Pawn extends Piece {
 //			}
 //		}
 //	}
+	Piece pc;
 	@Override
 	public void move(Position pos) {
 		
@@ -123,15 +125,20 @@ public class Pawn extends Piece {
 		}
 		Position p = new Position(pos.getRow(),pos.getCol());
 		
-		super.move(pos);
 		
-		if(ifWhiteMovedTwoInFrontRight()) {
+		super.move(pos);
+		//if(ifWhiteMovedTwoInFrontRight()) {
+			
 			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
-				System.out.println("");
-			} else {
-				((Pawn)b.getPieceAtPos(p)).immediatelyAfterwards=false;
+			//	int x = 0;
+			} else{
+				Piece.recentPiece.immediatelyAfterwards=false;
+				System.out.println(recentPiece.immediatelyAfterwards);
+				System.out.println(recentPiece);
+//				pc = getLastPiece();
 			}
-		}
+			//}
+		
 		
 		hasMoved = true;
 		if (isWhite) {
@@ -141,7 +148,7 @@ public class Pawn extends Piece {
 			if (pos.getRow() == 7)
 				promoMenu();
 		}
-		lastPiece = b.getPieceAtPos(pos);
+	//	lastPiece = b.getPieceAtPos(pos);
 		if (isWhite) {
 			lastWCol = pos.getCol();
 			lastWRow = pos.getRow();
@@ -151,7 +158,6 @@ public class Pawn extends Piece {
 			lastBRow = pos.getRow();
 		}
 
-		//System.out.println(movedInFront + this.toString());
 		if(ifBMovedAcross) {
 //			Position p = new Position(pos.getRow(),pos.getCol());
 			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
@@ -173,7 +179,7 @@ public class Pawn extends Piece {
 			if(b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol())) != null) {
 				System.out.println("moved");
 				Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol()));
-				System.out.println(pieceRemoved);
+				//System.out.println(pieceRemoved);
 				b.removePiece(pieceRemoved);
 				b.updateText();
 				b.unhighlightMoves();
