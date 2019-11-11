@@ -254,7 +254,6 @@ public class Board extends JPanel {
 		// if king is not already in check
 		if (!testCheck(pWhite)) {
 			for (int i = 0; i < ret.size(); i++) {
-
 				Position pos = ret.get(i);
 
 				// simmove the piece and save the take piece and original position
@@ -287,7 +286,10 @@ public class Board extends JPanel {
 
 			}
 		} else {
-			
+			for (int i = 0; i < ret.size(); i++) {
+				Position pos = ret.get(i);
+
+			}
 		}
 		return ret;
 
