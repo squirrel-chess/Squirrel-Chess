@@ -113,6 +113,7 @@ public class King extends Piece {
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		hasMoved = true;
+		b.updatePic();
 		b.nextTurn();
 	}
 	
