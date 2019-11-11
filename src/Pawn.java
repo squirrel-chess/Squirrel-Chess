@@ -123,21 +123,21 @@ public class Pawn extends Piece {
 				movedOne = true;
 			}
 		}
-		Position p = new Position(pos.getRow(),pos.getCol());
+//		Position p = new Position(pos.getRow(),pos.getCol());
 		
 		
 		super.move(pos);
-		//if(ifWhiteMovedTwoInFrontRight()) {
-			
+		if(Board.wEP == true) {
 			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
-			//	int x = 0;
+				int x = 0;
 			} else{
 				Piece.recentPiece.immediatelyAfterwards=false;
 				System.out.println(recentPiece.immediatelyAfterwards);
 				System.out.println(recentPiece);
 //				pc = getLastPiece();
 			}
-			//}
+			}
+	
 		
 		
 		hasMoved = true;
@@ -194,6 +194,7 @@ public class Pawn extends Piece {
 
 	boolean ifWhiteMovedTwoInFrontRight() {
 		if (pos.getRow() == 4 && b.getPieceAtPos(new Position(4, pos.getCol() + 1)) instanceof Pawn) {
+			Board.wEP = true;
 			return true;
 		} else {
 

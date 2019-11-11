@@ -21,6 +21,7 @@ public class Board extends JPanel {
 	private Rook rook1;
 	private Rook rook2;
 	private King king;
+	static boolean wEP;
 
 	public Position wKingPos;
 	public Position bKingPos;

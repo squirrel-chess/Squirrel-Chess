@@ -8,6 +8,7 @@ public abstract class Piece {
 	protected Board b;
 	protected boolean isWhite;
 	boolean immediatelyAfterwards = true;
+	
 	protected static Piece recentPiece;
 
 	public Piece(Position pos, Board b, boolean isWhite) {
