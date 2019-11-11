@@ -59,7 +59,11 @@ public class Rook extends Piece {
 	public void move(Position pos) {
 		super.move(pos);
 		hasMoved = true;
-		System.out.println("hasMoved: " + hasMoved);
+	}
+	
+	public void castleMove(Position pos) {
+		this.pos = pos;
+		hasMoved = true;
 	}
 	
 	public boolean hasMoved() {

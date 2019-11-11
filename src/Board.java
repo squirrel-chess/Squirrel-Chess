@@ -14,11 +14,7 @@ public class Board extends JPanel {
 	private Piece selectedPiece;
 	private Time whiteTime;
 	private Time blackTime;
-	private boolean whiteCastle;
-	private boolean blackCastle;
 	private boolean whiteTurn;
-	private Rook rook1;
-	private Rook rook2;
 	private King king;
 
 	public Position wKingPos;
@@ -51,8 +47,6 @@ public class Board extends JPanel {
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
-		whiteCastle = true;
-		blackCastle = true;
 		initPieces();
 	}
 
@@ -115,8 +109,6 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		whiteCastle = true;
-		blackCastle = true;
 	}
 
 	Rook whiteR1;
@@ -138,7 +130,7 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(0, 1), this, false));
 		pieces.add(new Bishop(new Position(0, 2), this, false));
 		pieces.add(new Queen(new Position(0, 3), this, false));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
+		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2));
 		pieces.add(new Bishop(new Position(0, 5), this, false));
 		pieces.add(new Knight(new Position(0, 6), this, false));
 		pieces.add(new Pawn(new Position(1, 0), this, false));
@@ -160,15 +152,12 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(7, 1), this, true));
 		pieces.add(new Bishop(new Position(7, 2), this, true));
 		pieces.add(new Queen(new Position(7, 3), this, true));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
+		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-
-		whiteCastle = true;
-		blackCastle = true;
 
 		updateText();
 	}
@@ -282,22 +271,6 @@ public class Board extends JPanel {
 //		}
 //		return true;
 //	}
-
-	public boolean whiteCanCastle() {
-		return whiteCastle;
-	}
-
-	public boolean blackCanCastle() {
-		return blackCastle;
-	}
-
-	public void setWhiteCastle(boolean whiteCastle) {
-		this.whiteCastle = whiteCastle;
-	}
-
-	public void setBlackCastle(boolean blackCastle) {
-		this.blackCastle = blackCastle;
-	}
 
 	public void nextTurn() {
 		if (whiteTurn) {

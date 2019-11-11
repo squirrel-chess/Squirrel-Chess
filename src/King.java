@@ -8,13 +8,12 @@ public class King extends Piece {
 
 	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2) {
 		super(pos, b, isWhite);
-		this.rook1 = rook1;// white
-		this.rook2 = rook2;// black
+		this.rook1 = rook1;
+		this.rook2 = rook2;
 
 	}
 
 	public boolean leftAbleToCastle() {
-		System.out.println("King moved: " + hasMoved);
 		if (isWhite) {
 			return (b.getPieceAtPos(new Position(7, 1)) == null && b.getPieceAtPos(new Position(7, 2)) == null
 					&& b.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && !hasMoved && !rook1.hasMoved());
@@ -25,7 +24,6 @@ public class King extends Piece {
 	}
 
 	public boolean rightAbleToCastle() {
-		System.out.println("King moved: " + hasMoved);
 		if (isWhite) {
 			return (b.getPieceAtPos(new Position(7, 5)) == null && b.getPieceAtPos(new Position(7, 6)) == null
 					&& pos.getRow() == 7 && !hasMoved && !rook2.hasMoved());
@@ -78,34 +76,22 @@ public class King extends Piece {
 	public void move(Position pos) {
 		if (b.getPieceAtPos(pos) != null)
 			b.getPieceAtPos(pos).remove();
-		if (leftAbleToCastle()) {
-			if (isWhite) {
-				if (pos.equals(new Position(7, 2))) {
-					this.pos = pos;
-					b.wKingPos = pos;
-					b.getWhiteR1().move(new Position(7, 3));
-				}
-			} else {
-				if (pos.equals(new Position(0, 2))) {
-					this.pos = pos;
-					b.bKingPos = pos;
-					b.getBlackR1().move(new Position(0, 3));
-				}
-			}
-		} else if (rightAbleToCastle()) {
-			if (isWhite) {
-				if (pos.equals(new Position(7, 6))) {
-					this.pos = pos;
-					b.wKingPos = pos;
-					b.getWhiteR1().move(new Position(7, 5));
-				}
-			} else {
-				if (pos.equals(new Position(0, 6))) {
-					this.pos = pos;
-					b.bKingPos = pos;
-					b.getBlackR1().move(new Position(0, 5));
-				}
-			}
+		if (pos.equals(new Position(7, 2))) {
+			this.pos = pos;
+			b.wKingPos = pos;
+			b.getWhiteR1().castleMove(new Position(7, 3));
+		} else if (pos.equals(new Position(0, 2))) {
+			this.pos = pos;
+			b.bKingPos = pos;
+			b.getBlackR1().castleMove(new Position(0, 3));
+		} else if (pos.equals(new Position(7, 6))) {
+			this.pos = pos;
+			b.wKingPos = pos;
+			b.getWhiteR2().castleMove(new Position(7, 5));
+		} else if (pos.equals(new Position(0, 6))) {
+			this.pos = pos;
+			b.bKingPos = pos;
+			b.getBlackR2().castleMove(new Position(0, 5));
 		} else {
 			this.pos = pos;
 
@@ -115,11 +101,9 @@ public class King extends Piece {
 			} else {
 				b.bKingPos = pos;
 			}
-
-			b.updateText();
-			b.unhighlightMoves();
-			b.setSelectedPiece(null);
 		}
+		b.unhighlightMoves();
+		b.setSelectedPiece(null);
 		hasMoved = true;
 		b.nextTurn();
 		b.updateText();
