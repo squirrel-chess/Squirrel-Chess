@@ -1,16 +1,24 @@
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+
 public class King extends Piece {
 
 	private Rook rook1;
 	private Rook rook2;
+
 	boolean hasMoved = false;
 
-	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2) {
+	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2, String fileName) {
 		super(pos, b, isWhite);
 		this.rook1 = rook1;
 		this.rook2 = rook2;
-
+		if (isWhite) {
+			fileName  = "kingW.png";
+			}
+		else {
+			fileName = "kingB.png";
+		}
 	}
 
 	public boolean leftAbleToCastle() {
@@ -107,6 +115,11 @@ public class King extends Piece {
 		hasMoved = true;
 		b.nextTurn();
 		b.updateText();
+	}
+	
+	@Override
+	public boolean isKing() {
+		return true;
 	}
 
 	public String toString() {

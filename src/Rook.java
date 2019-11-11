@@ -4,8 +4,14 @@ public class Rook extends Piece {
 	
 	private boolean hasMoved;
 
-	public Rook(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
+	public Rook(Position pos, Board b, boolean isWhite, String fileName) {
+		super(pos, b, isWhite, fileName);
+		if (isWhite) {
+			fileName  = "rookW.png";
+			}
+		else {
+			fileName = "rookB.png";
+		}
 		hasMoved = false;
 	}
 
