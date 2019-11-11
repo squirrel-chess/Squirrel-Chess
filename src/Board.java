@@ -164,9 +164,6 @@ public class Board extends JPanel {
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
 
-		whiteCastle = true;
-		blackCastle = true;
-
 		updatePic();
 	}
 

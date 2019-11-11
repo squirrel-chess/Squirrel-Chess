@@ -10,7 +10,7 @@ public class King extends Piece {
 	boolean hasMoved = false;
 
 	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2, String fileName) {
-		super(pos, b, isWhite);
+		super(pos, b, isWhite, fileName);
 		this.rook1 = rook1;
 		this.rook2 = rook2;
 		if (isWhite) {
