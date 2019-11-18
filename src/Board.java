@@ -393,4 +393,8 @@ public class Board extends JPanel {
 	public Chess getGame() {
 		return game;
 	}
+	
+	public ArrayList<Piece> getAllPieces() {
+		return pieces;
+	}
 }
