@@ -311,7 +311,8 @@ public class Board extends JPanel {
 
 					Position original = p.getPos(); // save original position of piece
 
-					for (Position pos : p.getMoveSet(false)) { // iterate through all available moves
+					// AOWIEGJAOIWEGJIO
+					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
 
 						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
 
@@ -333,8 +334,7 @@ public class Board extends JPanel {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
-																	// updated
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
 
 								replacePiece(removed); // replace the removed piece
 
