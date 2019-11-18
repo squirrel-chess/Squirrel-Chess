@@ -248,12 +248,13 @@ public class Board extends JPanel {
 		System.out.println("testing: " + piece.toString());
 
 		// if king is not already in check
-		if (!testCheck(pWhite)) {
+		//if (!testCheck(pWhite)) {
 			
+			ArrayList<Position> list = ret;
 			int size = ret.size();
 			
-			for (int i = 0; i < size; i++) {	// iterate through possible move positions
-				Position pos = ret.get(i);
+			for (int i = size - 1; i >= 0; i--) {	// iterate through possible move positions
+				Position pos = list.get(i);
 
 				// simmove the piece and save the take piece and original position
 				Position original = piece.getPos();
@@ -275,7 +276,7 @@ public class Board extends JPanel {
 				replacePiece(taken);
 
 			}
-		}
+		//}
 		return ret;
 
 	}
