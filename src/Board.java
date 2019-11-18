@@ -15,11 +15,7 @@ public class Board extends JPanel {
 	private Piece selectedPiece;
 	private Time whiteTime;
 	private Time blackTime;
-	private boolean whiteCastle;
-	private boolean blackCastle;
 	private boolean whiteTurn;
-	private Rook rook1;
-	private Rook rook2;
 	private King king;
 
 	public Position wKingPos;
@@ -53,8 +49,6 @@ public class Board extends JPanel {
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
-		whiteCastle = true;
-		blackCastle = true;
 		initPieces();
 	}
 
@@ -117,8 +111,6 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		whiteCastle = true;
-		blackCastle = true;
 	}
 
 	Rook whiteR1;
@@ -137,11 +129,12 @@ public class Board extends JPanel {
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
+
 		//black pieces
 		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
 		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
 		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2, "kingB.png"));
+		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2, "kingB.png"));
 		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
 		pieces.add(new Knight(new Position(0, 6), this, false,"knightB.png"));
 		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
@@ -164,15 +157,12 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(7, 1), this, true, "knightW.png"));
 		pieces.add(new Bishop(new Position(7, 2), this, true, "bishopW.png"));
 		pieces.add(new Queen(new Position(7, 3), this, true, "queenW.png"));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2, "kingW.png"));
+		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2, "kingW.png"));
 		pieces.add(new Bishop(new Position(7, 5), this, true, "bishopW.png"));
 		pieces.add(new Knight(new Position(7, 6), this, true, "knightW.png"));
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-
-		whiteCastle = true;
-		blackCastle = true;
 
 		updatePic();
 	}
@@ -329,22 +319,6 @@ public class Board extends JPanel {
 				bKingPos = pos;
 			}
 		}
-	}
-
-	public boolean whiteCanCastle() {
-		return whiteCastle;
-	}
-
-	public boolean blackCanCastle() {
-		return blackCastle;
-	}
-
-	public void setWhiteCastle(boolean whiteCastle) {
-		this.whiteCastle = whiteCastle;
-	}
-
-	public void setBlackCastle(boolean blackCastle) {
-		this.blackCastle = blackCastle;
 	}
 
 	public void nextTurn() {
