@@ -1,5 +1,7 @@
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
@@ -98,16 +100,24 @@ public class Pawn extends Piece {
 		Piece p;
 		switch (option) {
 		case 0:
-			p = new Bishop(pos, b, isWhite, fileName);
+			if (isWhite) p = new Bishop(pos, b, true, "bishopW.png");
+			else p = new Bishop(pos, b, false, "bishopB.png");
+			b.updatePic();
 			break;
 		case 1:
-			p = new Knight(pos, b, isWhite, fileName);
+			if (isWhite) p = new Knight(pos, b, true, "knightW.png");
+			else p = new Knight(pos, b, false, "knightB.png");
+			b.updatePic();
 			break;
 		case 2:
-			p = new Queen(pos, b, isWhite, fileName);
+			if (isWhite) p = new Queen(pos, b, true, "queenW.png");
+			else p = new Queen(pos, b, false, "queenB.png");
+			b.updatePic();
 			break;
 		default:
-			p = new Rook(pos, b, isWhite, fileName);
+			if (isWhite) p = new Rook(pos, b, true, "rookW.png");
+			else p = new Rook(pos, b, false, "rookB.png");
+			b.updatePic();
 			break;
 		}
 		b.addPiece(p);
