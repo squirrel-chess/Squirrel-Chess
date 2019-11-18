@@ -42,7 +42,7 @@ public class King extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (pos.getRow() + 1 < 8 && pos.getCol() + 1 < 8)
 			ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
@@ -72,6 +72,11 @@ public class King extends Piece {
 		if (!isWhite && rightAbleToCastle()) {
 			ret.add(new Position(0, 6));
 		}
+		
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 
