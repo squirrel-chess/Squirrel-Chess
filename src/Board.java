@@ -1,4 +1,4 @@
-import java.awt.Color;
+ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -137,13 +137,13 @@ public class Board extends JPanel {
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
-		//black pieces
+		// black pieces
 		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
 		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
 		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
 		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2, "kingB.png"));
 		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
-		pieces.add(new Knight(new Position(0, 6), this, false,"knightB.png"));
+		pieces.add(new Knight(new Position(0, 6), this, false, "knightB.png"));
 		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
 		pieces.add(new Pawn(new Position(1, 1), this, false, "pawnB.png"));
 		pieces.add(new Pawn(new Position(1, 2), this, false, "pawnB.png"));
@@ -152,7 +152,7 @@ public class Board extends JPanel {
 		pieces.add(new Pawn(new Position(1, 5), this, false, "pawnB.png"));
 		pieces.add(new Pawn(new Position(1, 6), this, false, "pawnB.png"));
 		pieces.add(new Pawn(new Position(1, 7), this, false, "pawnB.png"));
-		//white pieces
+		// white pieces
 		pieces.add(new Pawn(new Position(6, 0), this, true, "pawnW.png"));
 		pieces.add(new Pawn(new Position(6, 1), this, true, "pawnW.png"));
 		pieces.add(new Pawn(new Position(6, 2), this, true, "pawnW.png"));
@@ -219,7 +219,7 @@ public class Board extends JPanel {
 		for (Piece p : pieces) {
 			squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(p.getImage()));
 		}
-		
+
 	}
 
 	public void addPiece(Piece p) {
@@ -261,67 +261,69 @@ public class Board extends JPanel {
 
 	public boolean testCheckmate(boolean isWhite) {
 
-		if (testCheck(true) || testCheck(false)) {					// if neither of the kings are in check, don't check for checkmate
-			for (int i = 0; i < pieces.size(); i++) { 				// iterate through all pieces
+		if (testCheck(true) || testCheck(false)) { // if neither of the kings are in check, don't check for checkmate
+			for (int i = 0; i < pieces.size(); i++) { // iterate through all pieces
 
 				Piece p = pieces.get(i);
 
-				if (p.isWhite == isWhite) { 						// only check move sets of color of king in check
+				if (p.isWhite == isWhite) { // only check move sets of color of king in check
 
-					Position original = p.getPos(); 				// save original position of piece
+					Position original = p.getPos(); // save original position of piece
 
-					for (Position pos : p.getMoveSet()) { 			// iterate through all available moves
+					for (Position pos : p.getMoveSet()) { // iterate through all available moves
 
-						Piece removed = p.simMove(pos); 			// save piece removed to put back later. Sim move the piece
-						
-						moveKingPos(isWhite, p, p.pos);				// if the piece is a king, the kingPos needs to be updated
+						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
+
+						moveKingPos(isWhite, p, p.pos); // if the piece is a king, the kingPos needs to be updated
 
 						if (isWhite) {
-							if (!testCheck(true)) { 				// test if king of isWhite color is in check
-								p.simMove(original); 				// move the piece to it's original position
-								
-								moveKingPos(isWhite, p, original);	// if the piece is a king, the kingPos needs to be updated
-								
-								replacePiece(removed); 				// replace removed piece
-								
-								return false; 						// if not in check anymore, the king is not in check
+							if (!testCheck(true)) { // test if king of isWhite color is in check
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace removed piece
+
+								return false; // if not in check anymore, the king is not in check
 							}
 						} else {
-							if (!testCheck(false)) { 				// test if king of isWhite color is in check
-								
-								p.simMove(original); 				// move the piece to it's original position
-								
-								moveKingPos(isWhite, p, original);	// if the piece is a king, the kingPos needs to be updated
-								
-								replacePiece(removed);				// replace the removed piece
+							if (!testCheck(false)) { // test if king of isWhite color is in check
 
-								return false; 						// if not in check anymore, the king is not in check
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace the removed piece
+
+								return false; // if not in check anymore, the king is not in check
 							}
 						}
 
-						p.simMove(original); 						// even if not in check, move the piece to it's original position
-						
-						moveKingPos(isWhite, p, original);			// if the piece is a king, the kingPos needs to be updated
-						
-						replacePiece(removed); 						// even if not in check, replace removed piece
+						p.simMove(original); // even if not in check, move the piece to it's original position
+
+						moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+
+						replacePiece(removed); // even if not in check, replace removed piece
 
 					}
 				}
 			}
-		} else {													// if neither of the kings are in check, don't check for checkmate
+		} else { // if neither of the kings are in check, don't check for checkmate
 			return false;
 		}
 
 		return true;
 	}
 
-	public void replacePiece(Piece p) {	// for checkmate
+	public void replacePiece(Piece p) { // for checkmate
 		if (p != null) {
 			pieces.add(p);
 		}
 	}
-	
-	public void moveKingPos(boolean isWhite, Piece p, Position pos) {	// for checkmate
+
+	public void moveKingPos(boolean isWhite, Piece p, Position pos) { // for checkmate
 		if (p.isKing()) {
 			if (isWhite) {
 				wKingPos = pos;
@@ -389,7 +391,7 @@ public class Board extends JPanel {
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
-	
+
 	public Chess getGame() {
 		return game;
 	}
