@@ -244,50 +244,35 @@ public class Board extends JPanel {
 	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
 
 		boolean pWhite = piece.isWhite;
-		boolean npWhite;
-		if (pWhite) {
-			npWhite = false;
-		} else {
-			npWhite = true;
-		}
+		
+		System.out.println("testing: " + piece.toString());
 
 		// if king is not already in check
 		if (!testCheck(pWhite)) {
-			for (int i = 0; i < ret.size(); i++) {
+			
+			int size = ret.size();
+			
+			for (int i = 0; i < size; i++) {	// iterate through possible move positions
 				Position pos = ret.get(i);
 
 				// simmove the piece and save the take piece and original position
 				Position original = piece.getPos();
 				Piece taken = piece.simMove(pos);
 				// if the piece is a king, the kingPos needs to be updated
-				if (piece.isKing()) {
-					if (pWhite) {
-						wKingPos = pos;
-					} else {
-						bKingPos = pos;
-					}
-				}
-
+				moveKingPos(pWhite, piece, pos);
+				
+				System.out.println("\tmoving to: " + piece.toString());
+				
 				// test if it would move into check
 				if (testCheck(pWhite)) {
 					ret.remove(i);
+					System.out.println("\t\tREMOVED!");
 				}
 
 				// replace kingpos and simmoved piece
-				if (piece.isKing()) {
-					if (pWhite) {
-						wKingPos = original;
-					} else {
-						bKingPos = original;
-					}
-				}
+				moveKingPos(pWhite, piece, original);
 				piece.simMove(original);
 				replacePiece(taken);
-
-			}
-		} else {
-			for (int i = 0; i < ret.size(); i++) {
-				Position pos = ret.get(i);
 
 			}
 		}
