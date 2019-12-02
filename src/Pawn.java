@@ -18,7 +18,7 @@ public class Pawn extends Piece {
 	boolean movedInFront = false;
 	boolean ifWMovedAcross = false;
 	boolean ifBMovedAcross = false;
-	boolean WASAbleToEP = false;
+	
 	
 	Piece lastPiece;
 	int lastBCol;
@@ -44,12 +44,12 @@ public class Pawn extends Piece {
 				if (b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 				}
-				if(ifBlackMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && (Piece.recentPiece.immediatelyAfterwards==true)) {
+				if(ifBlackMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && (Piece.recentPieceB.immediatelyAfterwards==true)) {
 					ifWMovedAcross = true;
 					ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
 					
 				}
-				if(ifBlackMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false && (Piece.recentPiece.immediatelyAfterwards==true)) {
+				if(ifBlackMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false && (Piece.recentPieceB.immediatelyAfterwards==true)) {
 					ifWMovedAcross = true;
 					ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
 				}
@@ -74,13 +74,12 @@ public class Pawn extends Piece {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
 				//System.out.println(((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()))).immediatelyAfterwards);
-				if(ifWhiteMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && (Piece.recentPiece.immediatelyAfterwards==true)) {
-				//	System.out.println(recentPiece);
+				if(ifWhiteMovedTwoInFrontRight() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))).movedOne==false && (Piece.recentPieceW.immediatelyAfterwards==true)) {
 					ifBMovedAcross = true;
 					ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
 				} 
 //				
-				if(ifWhiteMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false && (Piece.recentPiece.immediatelyAfterwards==true)) {
+				if(ifWhiteMovedTwoInFrontLeft() && ((Pawn)b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))).movedOne==false && (Piece.recentPieceW.immediatelyAfterwards==true)) {
 					ifBMovedAcross = true;
 					ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
 				} 
@@ -128,34 +127,17 @@ public class Pawn extends Piece {
 		
 		
 		super.move(pos);
-		Piece.recentPiece.immediatelyAfterwards=true;
-		if(Board.wEP == true) {
-			
-			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
-				int x = 0;
-			} else{
-				Piece.recentPiece.immediatelyAfterwards=false;
-				System.out.println(recentPiece.immediatelyAfterwards);
-				System.out.println(recentPiece);
-//				pc = getLastPiece();
-			}
-			if(b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol())) != null) {
-				int x = 0;
-			} else{
-				Piece.recentPiece.immediatelyAfterwards=false;
-				System.out.println(recentPiece.immediatelyAfterwards);
-				System.out.println(recentPiece);
-//				pc = getLastPiece();
-			}
-			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1))!= null && WASAbleToEP == true) {
-				Piece.recentPiece.immediatelyAfterwards=true;
-			}
-			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1))!= null && WASAbleToEP == true) {
-				Piece.recentPiece.immediatelyAfterwards=true;
-			}
-			}
-			
+		if(isWhite) {
+		Piece.recentPieceW.immediatelyAfterwards=true;
 		
+		} else {
+		Piece.recentPieceB.immediatelyAfterwards=true;
+		
+		}
+		System.out.println("recent piece w = " + recentPieceW);
+		System.out.println("recent piece b = " + recentPieceB);
+		
+		recentPieceAfterwards();
 		
 		hasMoved = true;
 		if (isWhite) {
@@ -209,10 +191,49 @@ public class Pawn extends Piece {
 		
 	}
 
+	void recentPieceAfterwards() {
+	if(Board.wEP == true) {
+			if(b.WASAbleToEPW) {
+			if(b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol())) != null) {
+				int x = 0;
+			} else{
+				recentPieceW.immediatelyAfterwards=false;
+				System.out.println(recentPieceW.immediatelyAfterwards);
+				System.out.println(recentPieceW);
+//				pc = getLastPiece();
+			}
+			}
+			if(b.WASAbleToEPB) {
+			if(b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol())) != null) {
+				int x = 0;
+			} else{
+				recentPieceB.immediatelyAfterwards=false;
+				System.out.println(recentPieceB.immediatelyAfterwards);
+				System.out.println(recentPieceB);
+//				pc = getLastPiece();
+			}
+			}
+//			if(isWhite) {
+//			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn && b.WASAbleToEPW == true) {
+//				recentPieceW.immediatelyAfterwards=true;
+//			}
+//			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)) instanceof Pawn && b.WASAbleToEPW == true) {
+//				recentPieceW.immediatelyAfterwards=true;
+//			}
+//			} else {
+//				if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn && b.WASAbleToEPB == true) {
+//					recentPieceB.immediatelyAfterwards=true;
+//				}
+//				if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)) instanceof Pawn  && b.WASAbleToEPB == true) {
+//					recentPieceB.immediatelyAfterwards=true;
+//				}
+//			}
+	}}
+	
 	boolean ifWhiteMovedTwoInFrontRight() {
 		if (pos.getRow() == 4 && b.getPieceAtPos(new Position(4, pos.getCol() + 1)) instanceof Pawn) {
 			Board.wEP = true;
-			WASAbleToEP = true;
+			b.WASAbleToEPW = true;
 			return true;
 		} else {
 
@@ -224,7 +245,7 @@ public class Pawn extends Piece {
 				
 		if (pos.getRow() == 4 && b.getPieceAtPos(new Position(4, pos.getCol() - 1)) instanceof Pawn) {
 			Board.wEP = true;
-			WASAbleToEP = true;
+			b.WASAbleToEPW = true;
 			return true;
 		} else {
 
@@ -234,7 +255,7 @@ public class Pawn extends Piece {
 	boolean ifBlackMovedTwoInFrontRight() {
 		if(pos.getRow() ==3 && b.getPieceAtPos(new Position(3, pos.getCol() + 1)) instanceof Pawn) {
 			Board.wEP = true;
-			WASAbleToEP = true;
+			b.WASAbleToEPB = true;
 			return true;
 		} else {
 			return false;
@@ -243,7 +264,7 @@ public class Pawn extends Piece {
 	boolean ifBlackMovedTwoInFrontLeft() {
 		if(pos.getRow() == 3 && b.getPieceAtPos(new Position(3, pos.getCol() - 1)) instanceof Pawn) {
 			Board.wEP = true;
-			WASAbleToEP = true;
+			b.WASAbleToEPB = true;
 			return true;
 		} else {
 			return false;

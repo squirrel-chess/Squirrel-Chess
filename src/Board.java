@@ -22,6 +22,9 @@ public class Board extends JPanel {
 	private Rook rook2;
 	private King king;
 	static boolean wEP;
+	static boolean testHasMoved;
+	static boolean WASAbleToEPW = false;
+	static boolean WASAbleToEPB = false;
 
 	public Position wKingPos;
 	public Position bKingPos;

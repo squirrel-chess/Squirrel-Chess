@@ -20,7 +20,12 @@ public class Square extends JButton {
 		if (b.getSelectedPiece() == null && b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).select();
 		} else if (inMoveSet && b.getSelectedPiece() != null) {
-			Piece.recentPiece = b.getSelectedPiece();
+			if(b.getSelectedPiece().isWhite) {
+				Piece.recentPieceW = b.getSelectedPiece();
+			} else {
+				Piece.recentPieceB = b.getSelectedPiece();
+			}
+			
 			b.getSelectedPiece().move(pos);
 			
 			if (b.testCheck(true)) {
