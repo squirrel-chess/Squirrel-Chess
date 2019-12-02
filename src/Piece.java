@@ -1,26 +1,23 @@
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
+
+	private static final long serialVersionUID = -8963802459683023645L;
 	protected Position pos;
 	protected Board b;
 	protected boolean isWhite;
-	protected BufferedImage image;
 
-	public Piece(Position pos, Board b, boolean isWhite, String fileName) {
+	public Piece(Position pos, Board b, boolean isWhite) {
 		this.pos = pos;
 		this.b = b;
 		this.isWhite = isWhite;
-		try {
-			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
-		} catch (IOException e) {
-			
-		}
 		
 	}
 
@@ -86,14 +83,12 @@ public abstract class Piece {
 		}
 		return moveSet;
 	}
-	public Image getImage() {
-		return image;
-	}
-	public void setImage(Image image) {
-		this.image = (BufferedImage) image;
-	}
 	
 	public boolean isKing() {
 		return false;
+	}
+	
+	public boolean isWhite() {
+		return isWhite;
 	}
 }

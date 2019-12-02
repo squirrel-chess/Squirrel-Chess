@@ -9,9 +9,8 @@ public class Pawn extends Piece {
 	private boolean hasMoved;
 	String fileName;
 
-	public Pawn(Position pos, Board b, boolean isWhite, String fileName) {
-		super(pos, b, isWhite, fileName);
-		this.fileName = fileName;
+	public Pawn(Position pos, Board b, boolean isWhite) {
+		super(pos, b, isWhite);
 		hasMoved = false;
 	}
 	boolean movedTwo = false;
@@ -95,23 +94,23 @@ public class Pawn extends Piece {
 		Piece p;
 		switch (option) {
 		case 0:
-			if (isWhite) p = new Bishop(pos, b, true, "bishopW.png");
-			else p = new Bishop(pos, b, false, "bishopB.png");
+			if (isWhite) p = new Bishop(pos, b, true);
+			else p = new Bishop(pos, b, false);
 			b.updatePic();
 			break;
 		case 1:
-			if (isWhite) p = new Knight(pos, b, true, "knightW.png");
-			else p = new Knight(pos, b, false, "knightB.png");
+			if (isWhite) p = new Knight(pos, b, true);
+			else p = new Knight(pos, b, false);
 			b.updatePic();
 			break;
 		case 2:
-			if (isWhite) p = new Queen(pos, b, true, "queenW.png");
-			else p = new Queen(pos, b, false, "queenB.png");
+			if (isWhite) p = new Queen(pos, b, true);
+			else p = new Queen(pos, b, false);
 			b.updatePic();
 			break;
 		default:
-			if (isWhite) p = new Rook(pos, b, true, "rookW.png");
-			else p = new Rook(pos, b, false, "rookB.png");
+			if (isWhite) p = new Rook(pos, b, true);
+			else p = new Rook(pos, b, false);
 			b.updatePic();
 			break;
 		}

@@ -1,14 +1,18 @@
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
+public class Board extends JPanel implements Serializable {
+
+	private static final long serialVersionUID = 2499641607903690667L;
 	private Chess game;
 	private Square[][] squares;
 	private ArrayList<Piece> pieces;
@@ -18,12 +22,23 @@ public class Board extends JPanel {
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
-	private Rook rook1;
-	private Rook rook2;
 	private King king;
 
 	public Position wKingPos;
 	public Position bKingPos;
+
+	private BufferedImage bishopB;
+	private BufferedImage bishopW;
+	private BufferedImage kingB;
+	private BufferedImage kingW;
+	private BufferedImage knightB;
+	private BufferedImage knightW;
+	private BufferedImage pawnB;
+	private BufferedImage pawnW;
+	private BufferedImage queenB;
+	private BufferedImage queenW;
+	private BufferedImage rookB;
+	private BufferedImage rookW;
 
 	public Board(Chess game) {
 		this.game = game;
@@ -95,6 +110,26 @@ public class Board extends JPanel {
 		pieces.remove(p);
 	}
 
+	private void initImages() {
+		try {
+			bishopB = ImageIO.read(this.getClass().getResourceAsStream("bishopB.png"));
+			bishopW = ImageIO.read(this.getClass().getResourceAsStream("bishopW.png"));
+			kingB = ImageIO.read(this.getClass().getResourceAsStream("kingB.png"));
+			kingW = ImageIO.read(this.getClass().getResourceAsStream("kingW.png"));
+			knightB = ImageIO.read(this.getClass().getResourceAsStream("knightB.png"));
+			knightW = ImageIO.read(this.getClass().getResourceAsStream("knightW.png"));
+			pawnB = ImageIO.read(this.getClass().getResourceAsStream("pawnB.png"));
+			pawnW = ImageIO.read(this.getClass().getResourceAsStream("pawnW.png"));
+			queenB = ImageIO.read(this.getClass().getResourceAsStream("queenB.png"));
+			queenW = ImageIO.read(this.getClass().getResourceAsStream("queenW.png"));
+			rookB = ImageIO.read(this.getClass().getResourceAsStream("rookB.png"));
+			rookW = ImageIO.read(this.getClass().getResourceAsStream("rookW.png"));
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(null, "Resources not located, stopping game");
+			System.exit(0);
+		}
+	}
+
 	private void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
@@ -127,46 +162,46 @@ public class Board extends JPanel {
 	Rook blackR2;
 
 	private void initPieces() {
-		blackR1 = new Rook(new Position(0, 0), this, false, "rookB.png");
-		blackR2 = new Rook(new Position(0, 7), this, false, "rookB.png");
-		whiteR1 = new Rook(new Position(7, 0), this, true, "rookW.png");
-		whiteR2 = new Rook(new Position(7, 7), this, true, "rookW.png");
+		blackR1 = new Rook(new Position(0, 0), this, false);
+		blackR2 = new Rook(new Position(0, 7), this, false);
+		whiteR1 = new Rook(new Position(7, 0), this, true);
+		whiteR2 = new Rook(new Position(7, 7), this, true);
 
 		pieces = new ArrayList<Piece>();
 		pieces.add(whiteR1);
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
-		//black pieces
-		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
-		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
-		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2, "kingB.png"));
-		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
-		pieces.add(new Knight(new Position(0, 6), this, false,"knightB.png"));
-		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 1), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 2), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 3), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 4), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 5), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 6), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 7), this, false, "pawnB.png"));
-		//white pieces
-		pieces.add(new Pawn(new Position(6, 0), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 1), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 2), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 3), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 4), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 5), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 6), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 7), this, true, "pawnW.png"));
-		pieces.add(new Knight(new Position(7, 1), this, true, "knightW.png"));
-		pieces.add(new Bishop(new Position(7, 2), this, true, "bishopW.png"));
-		pieces.add(new Queen(new Position(7, 3), this, true, "queenW.png"));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2, "kingW.png"));
-		pieces.add(new Bishop(new Position(7, 5), this, true, "bishopW.png"));
-		pieces.add(new Knight(new Position(7, 6), this, true, "knightW.png"));
+		// black pieces
+		pieces.add(new Knight(new Position(0, 1), this, false));
+		pieces.add(new Bishop(new Position(0, 2), this, false));
+		pieces.add(new Queen(new Position(0, 3), this, false));
+		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
+		pieces.add(new Bishop(new Position(0, 5), this, false));
+		pieces.add(new Knight(new Position(0, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 0), this, false));
+		pieces.add(new Pawn(new Position(1, 1), this, false));
+		pieces.add(new Pawn(new Position(1, 2), this, false));
+		pieces.add(new Pawn(new Position(1, 3), this, false));
+		pieces.add(new Pawn(new Position(1, 4), this, false));
+		pieces.add(new Pawn(new Position(1, 5), this, false));
+		pieces.add(new Pawn(new Position(1, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 7), this, false));
+		// white pieces
+		pieces.add(new Pawn(new Position(6, 0), this, true));
+		pieces.add(new Pawn(new Position(6, 1), this, true));
+		pieces.add(new Pawn(new Position(6, 2), this, true));
+		pieces.add(new Pawn(new Position(6, 3), this, true));
+		pieces.add(new Pawn(new Position(6, 4), this, true));
+		pieces.add(new Pawn(new Position(6, 5), this, true));
+		pieces.add(new Pawn(new Position(6, 6), this, true));
+		pieces.add(new Pawn(new Position(6, 7), this, true));
+		pieces.add(new Knight(new Position(7, 1), this, true));
+		pieces.add(new Bishop(new Position(7, 2), this, true));
+		pieces.add(new Queen(new Position(7, 3), this, true));
+		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
+		pieces.add(new Bishop(new Position(7, 5), this, true));
+		pieces.add(new Knight(new Position(7, 6), this, true));
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
@@ -217,9 +252,18 @@ public class Board extends JPanel {
 			}
 		}
 		for (Piece p : pieces) {
-			squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(p.getImage()));
+			try {
+				BufferedImage img;
+				if (p.isWhite())
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "W.png"));
+				else
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "B.png"));
+				squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(img));
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Resources not located, stopping game");
+				System.exit(0);
+			}
 		}
-		
 	}
 
 	public void addPiece(Piece p) {
@@ -261,67 +305,69 @@ public class Board extends JPanel {
 
 	public boolean testCheckmate(boolean isWhite) {
 
-		if (testCheck(true) || testCheck(false)) {					// if neither of the kings are in check, don't check for checkmate
-			for (int i = 0; i < pieces.size(); i++) { 				// iterate through all pieces
+		if (testCheck(true) || testCheck(false)) { // if neither of the kings are in check, don't check for checkmate
+			for (int i = 0; i < pieces.size(); i++) { // iterate through all pieces
 
 				Piece p = pieces.get(i);
 
-				if (p.isWhite == isWhite) { 						// only check move sets of color of king in check
+				if (p.isWhite == isWhite) { // only check move sets of color of king in check
 
-					Position original = p.getPos(); 				// save original position of piece
+					Position original = p.getPos(); // save original position of piece
 
-					for (Position pos : p.getMoveSet()) { 			// iterate through all available moves
+					for (Position pos : p.getMoveSet()) { // iterate through all available moves
 
-						Piece removed = p.simMove(pos); 			// save piece removed to put back later. Sim move the piece
-						
-						moveKingPos(isWhite, p, p.pos);				// if the piece is a king, the kingPos needs to be updated
+						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
+
+						moveKingPos(isWhite, p, p.pos); // if the piece is a king, the kingPos needs to be updated
 
 						if (isWhite) {
-							if (!testCheck(true)) { 				// test if king of isWhite color is in check
-								p.simMove(original); 				// move the piece to it's original position
-								
-								moveKingPos(isWhite, p, original);	// if the piece is a king, the kingPos needs to be updated
-								
-								replacePiece(removed); 				// replace removed piece
-								
-								return false; 						// if not in check anymore, the king is not in check
+							if (!testCheck(true)) { // test if king of isWhite color is in check
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace removed piece
+
+								return false; // if not in check anymore, the king is not in check
 							}
 						} else {
-							if (!testCheck(false)) { 				// test if king of isWhite color is in check
-								
-								p.simMove(original); 				// move the piece to it's original position
-								
-								moveKingPos(isWhite, p, original);	// if the piece is a king, the kingPos needs to be updated
-								
-								replacePiece(removed);				// replace the removed piece
+							if (!testCheck(false)) { // test if king of isWhite color is in check
 
-								return false; 						// if not in check anymore, the king is not in check
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace the removed piece
+
+								return false; // if not in check anymore, the king is not in check
 							}
 						}
 
-						p.simMove(original); 						// even if not in check, move the piece to it's original position
-						
-						moveKingPos(isWhite, p, original);			// if the piece is a king, the kingPos needs to be updated
-						
-						replacePiece(removed); 						// even if not in check, replace removed piece
+						p.simMove(original); // even if not in check, move the piece to it's original position
+
+						moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+
+						replacePiece(removed); // even if not in check, replace removed piece
 
 					}
 				}
 			}
-		} else {													// if neither of the kings are in check, don't check for checkmate
+		} else { // if neither of the kings are in check, don't check for checkmate
 			return false;
 		}
 
 		return true;
 	}
 
-	public void replacePiece(Piece p) {	// for checkmate
+	public void replacePiece(Piece p) { // for checkmate
 		if (p != null) {
 			pieces.add(p);
 		}
 	}
-	
-	public void moveKingPos(boolean isWhite, Piece p, Position pos) {	// for checkmate
+
+	public void moveKingPos(boolean isWhite, Piece p, Position pos) { // for checkmate
 		if (p.isKing()) {
 			if (isWhite) {
 				wKingPos = pos;
@@ -389,12 +435,8 @@ public class Board extends JPanel {
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
-	
+
 	public Chess getGame() {
 		return game;
-	}
-	
-	public ArrayList<Piece> getAllPieces() {
-		return pieces;
 	}
 }

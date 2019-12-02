@@ -2,14 +2,8 @@ import java.util.ArrayList;
 
 public class Knight extends Piece {
 
-	public Knight(Position pos, Board b, boolean isWhite, String fileName) {
-		super(pos, b, isWhite, fileName);
-		if (isWhite) {
-			fileName  = "knightW.png";
-			}
-		else {
-			fileName = "knightB.png";
-		}
+	public Knight(Position pos, Board b, boolean isWhite) {
+		super(pos, b, isWhite);
 	}
 
 	@Override

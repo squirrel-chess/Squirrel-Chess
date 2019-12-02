@@ -10,18 +10,10 @@ public class King extends Piece {
 	boolean ifCastledBlack = false;
 	boolean ifWKMoved = false;
 	boolean ifBKMoved = false;
-	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2, String fileName) {
-		super(pos, b, isWhite, fileName);
+	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2) {
+		super(pos, b, isWhite);
 		this.rook1 = rook1;// white
 		this.rook2 = rook2;// black
-		if (isWhite) {
-			fileName  = "kingW.png";
-			}
-		else {
-			fileName = "kingB.png";
-		}
-		
-
 	}
 
 
