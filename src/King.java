@@ -23,11 +23,11 @@ public class King extends Piece {
 
 	public boolean leftAbleToCastle() {
 		if (isWhite) {
-			return (b.getPieceAtPos(new Position(7, 1)) == null && b.getPieceAtPos(new Position(7, 2)) == null
-					&& b.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && !hasMoved && !rook1.hasMoved());
+				return (b.getPieceAtPos(new Position(7, 1)) == null && b.getPieceAtPos(new Position(7, 2)) == null
+						&& b.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && !hasMoved && !rook1.hasMoved());
 		} else {
-			return (b.getPieceAtPos(new Position(0, 1)) == null && b.getPieceAtPos(new Position(0, 2)) == null
-					&& b.getPieceAtPos(new Position(0, 3)) == null && pos.getRow() == 0 && !hasMoved && !rook1.hasMoved());
+				return (b.getPieceAtPos(new Position(0, 1)) == null && b.getPieceAtPos(new Position(0, 2)) == null
+						&& b.getPieceAtPos(new Position(0, 3)) == null && pos.getRow() == 0 && !hasMoved && !rook1.hasMoved());
 		}
 	}
 
@@ -60,6 +60,7 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() + 1));
 		if (pos.getCol() - 1 >= 0)
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
+		
 		if (isWhite && leftAbleToCastle()) {
 			ret.add(new Position(7, 2));
 		}
