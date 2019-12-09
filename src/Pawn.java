@@ -8,7 +8,10 @@ public class Pawn extends Piece {
 
 	private boolean hasMoved;
 	String fileName;
-
+	Position initialPos;
+	//boolean movedTwo = false;
+	boolean canEnPassant = false;
+	
 	public Pawn(Position pos, Board b, boolean isWhite, String fileName) {
 		super(pos, b, isWhite, fileName);
 		this.fileName = fileName;
@@ -69,6 +72,7 @@ public class Pawn extends Piece {
 	
 	@Override
 	public void move(Position pos) {
+		initialPos = b.getSelectedPiece().getPos();
 		if(isWhite && pos.getRow()-2==0) {
 			movedTwo = true;
 		}
@@ -81,8 +85,19 @@ public class Pawn extends Piece {
 			if (pos.getRow() == 7)
 				promoMenu();
 		}
+		if(Math.abs(pos.getRow()-initialPos.getRow()) == 2 && b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn) { 
+			System.out.println("2");
+			movedTwo = true;
+			canEnPassant = true;
+		}
 	}
 
+//	boolean canDoEnPassant() {
+//		if(movedTwo) {
+//			
+//		}
+//	}
+	
 	@Override
 	public void draw() {
 
