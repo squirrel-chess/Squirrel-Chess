@@ -10,7 +10,10 @@ public abstract class Piece {
 	boolean immediatelyAfterwards = true;
 	
 	protected static Piece recentPieceW;
+	protected static Piece recentPieceWLeft;
 	protected static Piece recentPieceB;
+	protected static Piece recentPieceBLeft;
+	
 
 	public Piece(Position pos, Board b, boolean isWhite) {
 		this.pos = pos;
