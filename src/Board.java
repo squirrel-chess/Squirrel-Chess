@@ -3,6 +3,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -15,11 +16,7 @@ public class Board extends JPanel {
 	private Piece selectedPiece;
 	private Time whiteTime;
 	private Time blackTime;
-	private boolean whiteCastle;
-	private boolean blackCastle;
 	private boolean whiteTurn;
-	private Rook rook1;
-	private Rook rook2;
 	private King king;
 
 	public Position wKingPos;
@@ -53,8 +50,6 @@ public class Board extends JPanel {
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
-		whiteCastle = true;
-		blackCastle = true;
 		initPieces();
 	}
 
@@ -64,7 +59,7 @@ public class Board extends JPanel {
 
 	public void highlightMoves(Piece p) {
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
-		for (Position pos : p.getMoveSet()) {
+		for (Position pos : p.getMoveSet(true)) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
@@ -117,8 +112,6 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		whiteCastle = true;
-		blackCastle = true;
 	}
 
 	Rook whiteR1;
@@ -137,11 +130,12 @@ public class Board extends JPanel {
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
-		// black pieces
+
+		//black pieces
 		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
 		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
 		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2, "kingB.png"));
+		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2, "kingB.png"));
 		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
 		pieces.add(new Knight(new Position(0, 6), this, false, "knightB.png"));
 		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
@@ -164,15 +158,12 @@ public class Board extends JPanel {
 		pieces.add(new Knight(new Position(7, 1), this, true, "knightW.png"));
 		pieces.add(new Bishop(new Position(7, 2), this, true, "bishopW.png"));
 		pieces.add(new Queen(new Position(7, 3), this, true, "queenW.png"));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2, "kingW.png"));
+		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2, "kingW.png"));
 		pieces.add(new Bishop(new Position(7, 5), this, true, "bishopW.png"));
 		pieces.add(new Knight(new Position(7, 6), this, true, "knightW.png"));
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-
-		whiteCastle = true;
-		blackCastle = true;
 
 		updatePic();
 	}
@@ -240,10 +231,50 @@ public class Board extends JPanel {
 		return ret;
 	}
 
+	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
+
+		boolean pWhite = piece.isWhite;
+		
+		System.out.println("testing: " + piece.toString());
+
+		// if king is not already in check
+		//if (!testCheck(pWhite)) {
+			
+			ArrayList<Position> list = ret;
+			int size = ret.size();
+			
+			for (int i = size - 1; i >= 0; i--) {	// iterate through possible move positions
+				Position pos = list.get(i);
+
+				// simmove the piece and save the take piece and original position
+				Position original = piece.getPos();
+				Piece taken = piece.simMove(pos);
+				// if the piece is a king, the kingPos needs to be updated
+				moveKingPos(pWhite, piece, pos);
+				
+				System.out.println("\tmoving to: " + piece.toString());
+				
+				// test if it would move into check
+				if (testCheck(pWhite)) {
+					ret.remove(i);
+					System.out.println("\t\tREMOVED!");
+				}
+
+				// replace kingpos and simmoved piece
+				moveKingPos(pWhite, piece, original);
+				piece.simMove(original);
+				replacePiece(taken);
+
+			}
+		//}
+		return ret;
+
+	}
+
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {
 			if (p.isWhite != isWhite) {
-				for (Position pos : p.getMoveSet()) {
+				for (Position pos : p.getMoveSet(false)) {
 					if (isWhite) {
 						if (pos.equals(wKingPos)) {
 							return true;
@@ -292,9 +323,8 @@ public class Board extends JPanel {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
-																	// updated
-
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+                
 								replacePiece(removed); // replace the removed piece
 
 								return false; // if not in check anymore, the king is not in check
@@ -331,22 +361,6 @@ public class Board extends JPanel {
 				bKingPos = pos;
 			}
 		}
-	}
-
-	public boolean whiteCanCastle() {
-		return whiteCastle;
-	}
-
-	public boolean blackCanCastle() {
-		return blackCastle;
-	}
-
-	public void setWhiteCastle(boolean whiteCastle) {
-		this.whiteCastle = whiteCastle;
-	}
-
-	public void setBlackCastle(boolean blackCastle) {
-		this.blackCastle = blackCastle;
 	}
 
 	public void nextTurn() {

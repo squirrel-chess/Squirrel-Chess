@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class Rook extends Piece {
+	
+	private boolean hasMoved;
 
 	public Rook(Position pos, Board b, boolean isWhite, String fileName) {
 		super(pos, b, isWhite, fileName);
@@ -10,10 +12,11 @@ public class Rook extends Piece {
 		else {
 			fileName = "rookB.png";
 		}
+		hasMoved = false;
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		int foundCol1 = 0;
 		int foundCol2 = 7;
@@ -50,12 +53,31 @@ public class Rook extends Piece {
 				ret.add(new Position(pos.getRow(), i));
 		}
 			
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 
 	@Override
 	public void draw() {
 		
+	}
+	
+	@Override
+	public void move(Position pos) {
+		super.move(pos);
+		hasMoved = true;
+	}
+	
+	public void castleMove(Position pos) {
+		this.pos = pos;
+		hasMoved = true;
+	}
+	
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 	
 	public String toString() {
