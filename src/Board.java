@@ -131,7 +131,7 @@ public class Board extends JPanel {
 		pieces.add(blackR1);
 		pieces.add(blackR2);
 
-		//black pieces
+		// black pieces
 
 		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
 		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
@@ -235,39 +235,30 @@ public class Board extends JPanel {
 	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
 
 		boolean pWhite = piece.isWhite;
-		
-		System.out.println("testing: " + piece.toString());
 
-		// if king is not already in check
-		//if (!testCheck(pWhite)) {
-			
-			ArrayList<Position> list = ret;
-			int size = ret.size();
-			
-			for (int i = size - 1; i >= 0; i--) {	// iterate through possible move positions
-				Position pos = list.get(i);
+		ArrayList<Position> list = ret;
+		int size = ret.size();
 
-				// simmove the piece and save the take piece and original position
-				Position original = piece.getPos();
-				Piece taken = piece.simMove(pos);
-				// if the piece is a king, the kingPos needs to be updated
-				moveKingPos(pWhite, piece, pos);
-				
-				System.out.println("\tmoving to: " + piece.toString());
-				
-				// test if it would move into check
-				if (testCheck(pWhite)) {
-					ret.remove(i);
-					System.out.println("\t\tREMOVED!");
-				}
+		for (int i = size - 1; i >= 0; i--) { // iterate through possible move positions
+			Position pos = list.get(i);
 
-				// replace kingpos and simmoved piece
-				moveKingPos(pWhite, piece, original);
-				piece.simMove(original);
-				replacePiece(taken);
+			// simmove the piece and save the take piece and original position
+			Position original = piece.getPos();
+			Piece taken = piece.simMove(pos);
+			// if the piece is a king, the kingPos needs to be updated
+			moveKingPos(pWhite, piece, pos);
 
+			// test if it would move into check
+			if (testCheck(pWhite)) {
+				ret.remove(i);
 			}
-		//}
+
+			// replace kingpos and simmoved piece
+			moveKingPos(pWhite, piece, original);
+			piece.simMove(original);
+			replacePiece(taken);
+
+		}
 		return ret;
 
 	}
@@ -325,7 +316,8 @@ public class Board extends JPanel {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
 
 								replacePiece(removed); // replace the removed piece
 
