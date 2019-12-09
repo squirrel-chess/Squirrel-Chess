@@ -14,7 +14,7 @@ public class Pawn extends Piece {
 	}
 	boolean movedTwo = false;
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (isWhite) {//white
 			if (!hasMoved) { //hasn't moved
@@ -57,6 +57,11 @@ public class Pawn extends Piece {
 			if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() - 1));
 		}
+		
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 	

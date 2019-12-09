@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -19,8 +20,6 @@ public class Board extends JPanel implements Serializable {
 	private Piece selectedPiece;
 	private Time whiteTime;
 	private Time blackTime;
-	private boolean whiteCastle;
-	private boolean blackCastle;
 	private boolean whiteTurn;
 
 	public Position wKingPos;
@@ -68,14 +67,12 @@ public class Board extends JPanel implements Serializable {
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
-		whiteCastle = true;
-		blackCastle = true;
 		initPieces();
 	}
 
 	public void highlightMoves(Piece p) {
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
-		for (Position pos : p.getMoveSet()) {
+		for (Position pos : p.getMoveSet(true)) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
@@ -128,8 +125,6 @@ public class Board extends JPanel implements Serializable {
 				add(squares[i][j]);
 			}
 		}
-		whiteCastle = true;
-		blackCastle = true;
 	}
 
 	Rook whiteR1;
@@ -181,9 +176,6 @@ public class Board extends JPanel implements Serializable {
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-
-		whiteCastle = true;
-		blackCastle = true;
 
 		updatePic();
 	}
@@ -260,10 +252,50 @@ public class Board extends JPanel implements Serializable {
 		return ret;
 	}
 
+	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
+
+		boolean pWhite = piece.isWhite;
+		
+		System.out.println("testing: " + piece.toString());
+
+		// if king is not already in check
+		//if (!testCheck(pWhite)) {
+			
+			ArrayList<Position> list = ret;
+			int size = ret.size();
+			
+			for (int i = size - 1; i >= 0; i--) {	// iterate through possible move positions
+				Position pos = list.get(i);
+
+				// simmove the piece and save the take piece and original position
+				Position original = piece.getPos();
+				Piece taken = piece.simMove(pos);
+				// if the piece is a king, the kingPos needs to be updated
+				moveKingPos(pWhite, piece, pos);
+				
+				System.out.println("\tmoving to: " + piece.toString());
+				
+				// test if it would move into check
+				if (testCheck(pWhite)) {
+					ret.remove(i);
+					System.out.println("\t\tREMOVED!");
+				}
+
+				// replace kingpos and simmoved piece
+				moveKingPos(pWhite, piece, original);
+				piece.simMove(original);
+				replacePiece(taken);
+
+			}
+		//}
+		return ret;
+
+	}
+
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {
 			if (p.isWhite != isWhite) {
-				for (Position pos : p.getMoveSet()) {
+				for (Position pos : p.getMoveSet(false)) {
 					if (isWhite) {
 						if (pos.equals(wKingPos)) {
 							return true;
@@ -290,7 +322,8 @@ public class Board extends JPanel implements Serializable {
 
 					Position original = p.getPos(); // save original position of piece
 
-					for (Position pos : p.getMoveSet()) { // iterate through all available moves
+					// AOWIEGJAOIWEGJIO
+					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
 
 						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
 
@@ -312,8 +345,7 @@ public class Board extends JPanel implements Serializable {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
-																	// updated
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
 
 								replacePiece(removed); // replace the removed piece
 
@@ -351,22 +383,6 @@ public class Board extends JPanel implements Serializable {
 				bKingPos = pos;
 			}
 		}
-	}
-
-	public boolean whiteCanCastle() {
-		return whiteCastle;
-	}
-
-	public boolean blackCanCastle() {
-		return blackCastle;
-	}
-
-	public void setWhiteCastle(boolean whiteCastle) {
-		this.whiteCastle = whiteCastle;
-	}
-
-	public void setBlackCastle(boolean blackCastle) {
-		this.blackCastle = blackCastle;
 	}
 
 	public void nextTurn() {

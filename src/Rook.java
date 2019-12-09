@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 
 public class Rook extends Piece {
+	
+	private boolean hasMoved;
 
 	private static final long serialVersionUID = 5038678748630012418L;
 
@@ -9,7 +11,7 @@ public class Rook extends Piece {
 	}
 
 	@Override
-	public ArrayList<Position> getMoveSet() {
+	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		int foundCol1 = 0;
 		int foundCol2 = 7;
@@ -46,12 +48,31 @@ public class Rook extends Piece {
 				ret.add(new Position(pos.getRow(), i));
 		}
 			
+		if (check) {
+			ret = b.moveIntoCheck(this, ret);
+		}
+		
 		return removeInvalidMoves(ret);
 	}
 
 	@Override
 	public void draw() {
 		
+	}
+	
+	@Override
+	public void move(Position pos) {
+		super.move(pos);
+		hasMoved = true;
+	}
+	
+	public void castleMove(Position pos) {
+		this.pos = pos;
+		hasMoved = true;
+	}
+	
+	public boolean hasMoved() {
+		return hasMoved;
 	}
 	
 	public String toString() {
