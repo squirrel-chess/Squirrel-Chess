@@ -22,29 +22,29 @@ public class Board extends JPanel implements Serializable {
 	private boolean whiteCastle;
 	private boolean blackCastle;
 	private boolean whiteTurn;
-	private King king;
 
 	public Position wKingPos;
 	public Position bKingPos;
-
-	private BufferedImage bishopB;
-	private BufferedImage bishopW;
-	private BufferedImage kingB;
-	private BufferedImage kingW;
-	private BufferedImage knightB;
-	private BufferedImage knightW;
-	private BufferedImage pawnB;
-	private BufferedImage pawnW;
-	private BufferedImage queenB;
-	private BufferedImage queenW;
-	private BufferedImage rookB;
-	private BufferedImage rookW;
 
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
 		initBoard();
 		newGame();
+	}
+	
+	public Board(Board board) {
+		this.game = board.game;
+		this.squares = board.squares;
+		this.pieces = board.pieces;
+		this.selectedPiece = board.selectedPiece;
+		this.whiteTime = board.whiteTime;
+		this.blackTime = board.blackTime;
+		this.whiteCastle = board.whiteCastle;
+		this.blackCastle = board.blackCastle;
+		this.whiteTurn = board.whiteTurn;
+		this.wKingPos = board.wKingPos;
+		this.bKingPos = board.bKingPos;
 	}
 
 	public void playAgainMenu() {
@@ -71,10 +71,6 @@ public class Board extends JPanel implements Serializable {
 		whiteCastle = true;
 		blackCastle = true;
 		initPieces();
-	}
-
-	public King getKing() {
-		return king;
 	}
 
 	public void highlightMoves(Piece p) {
@@ -109,27 +105,7 @@ public class Board extends JPanel implements Serializable {
 	public void removePiece(Piece p) {
 		pieces.remove(p);
 	}
-
-	private void initImages() {
-		try {
-			bishopB = ImageIO.read(this.getClass().getResourceAsStream("bishopB.png"));
-			bishopW = ImageIO.read(this.getClass().getResourceAsStream("bishopW.png"));
-			kingB = ImageIO.read(this.getClass().getResourceAsStream("kingB.png"));
-			kingW = ImageIO.read(this.getClass().getResourceAsStream("kingW.png"));
-			knightB = ImageIO.read(this.getClass().getResourceAsStream("knightB.png"));
-			knightW = ImageIO.read(this.getClass().getResourceAsStream("knightW.png"));
-			pawnB = ImageIO.read(this.getClass().getResourceAsStream("pawnB.png"));
-			pawnW = ImageIO.read(this.getClass().getResourceAsStream("pawnW.png"));
-			queenB = ImageIO.read(this.getClass().getResourceAsStream("queenB.png"));
-			queenW = ImageIO.read(this.getClass().getResourceAsStream("queenW.png"));
-			rookB = ImageIO.read(this.getClass().getResourceAsStream("rookB.png"));
-			rookW = ImageIO.read(this.getClass().getResourceAsStream("rookW.png"));
-		} catch (IOException e) {
-			JOptionPane.showMessageDialog(null, "Resources not located, stopping game");
-			System.exit(0);
-		}
-	}
-
+	
 	private void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;

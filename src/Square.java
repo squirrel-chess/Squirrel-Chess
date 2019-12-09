@@ -1,11 +1,9 @@
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.image.BufferedImage;
-
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 
 public class Square extends JButton {
+
+	private static final long serialVersionUID = -3661941489557446453L;
 	private boolean inMoveSet;
 	private Board b;
 	private Position pos;

@@ -1,11 +1,10 @@
-import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
 
+	private static final long serialVersionUID = -2651334521992229263L;
 	private boolean hasMoved;
 	String fileName;
 

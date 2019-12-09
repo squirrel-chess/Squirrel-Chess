@@ -1,11 +1,5 @@
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 public abstract class Piece implements Serializable {
 

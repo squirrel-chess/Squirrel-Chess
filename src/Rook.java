@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Rook extends Piece {
 
+	private static final long serialVersionUID = 5038678748630012418L;
+
 	public Rook(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 	}

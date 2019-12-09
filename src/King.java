@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
-
 public class King extends Piece {
 
+	private static final long serialVersionUID = -633202941094591935L;
 	private Rook rook1;
 	private Rook rook2;
 	boolean ifCastledWhite = false;

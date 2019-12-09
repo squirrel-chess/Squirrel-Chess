@@ -42,10 +42,14 @@ public class Chess implements Serializable {
 
 		loadGame = new JButton("Load Game");
 		loadGame.addActionListener((al) -> {
+			System.out.println(board);
 			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
 					ObjectInputStream ois = new ObjectInputStream(fis)) {
 				 SavedGame sg = (SavedGame) ois.readObject();
+				 frame.remove(board);
+				 //board = new Board(sg.getBoard());
 				 board = sg.getBoard();
+				 //frame.add(board, BorderLayout.CENTER);
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {

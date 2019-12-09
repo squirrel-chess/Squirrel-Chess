@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Queen extends Piece {
 
+	private static final long serialVersionUID = -1782948667490553479L;
+
 	public Queen(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 	}

@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
+	private static final long serialVersionUID = 7642991190474293351L;
+
 	public Bishop(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 	}

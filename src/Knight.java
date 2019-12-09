@@ -2,6 +2,8 @@ import java.util.ArrayList;
 
 public class Knight extends Piece {
 
+	private static final long serialVersionUID = 3003340149398527709L;
+
 	public Knight(Position pos, Board b, boolean isWhite) {
 		super(pos, b, isWhite);
 	}
