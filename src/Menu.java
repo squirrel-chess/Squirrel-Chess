@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel implements ActionListener{
@@ -28,6 +29,9 @@ public class Menu extends JPanel implements ActionListener{
 		});
 		instruct = new JButton();
 		instruct.setText("Instuctions");
+		instruct.addActionListener((e) -> {
+			JOptionPane.showMessageDialog(null, "http://www.uschess.org/content/view/7324/");
+	});
 		add(play);
 		play.setBounds(500, 200, 100, 20);
 		add(instruct);

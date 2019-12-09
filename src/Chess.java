@@ -26,12 +26,10 @@ public class Chess {
 	}
 	
 	public void setText(String str) {
-		System.out.println(str);
 		text.setText("<html>" + str + "</html>");
 		frame.pack();
 	}
 	public void setupGame() {
-		System.out.println("setup game");
 		text = new JLabel();
 		board = new Board(this);
 		frame.setLayout(new BorderLayout());
