@@ -1,4 +1,6 @@
-import java.awt.Color;
+ import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -320,7 +322,6 @@ public class Board extends JPanel implements Serializable {
 
 					Position original = p.getPos(); // save original position of piece
 
-					// AOWIEGJAOIWEGJIO
 					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
 
 						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
@@ -344,7 +345,7 @@ public class Board extends JPanel implements Serializable {
 								p.simMove(original); // move the piece to it's original position
 
 								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
-
+                
 								replacePiece(removed); // replace the removed piece
 
 								return false; // if not in check anymore, the king is not in check

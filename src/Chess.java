@@ -12,20 +12,35 @@ import java.io.Serializable;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Chess implements Serializable {
 
 	private static final long serialVersionUID = -4112312333502533585L;
 	private JFrame frame;
+	private Menu menu;
 	private JLabel text;
 	private JButton saveGame;
 	private JButton loadGame;
 	private JPanel bottomPanel;
 	private Board board;
-
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
+		menu = new Menu(this);
+		frame.add(menu);
+		frame.setVisible(true);
+		frame.setSize(1000, 1000);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public void setText(String str) {
+		System.out.println(str);
+		text.setText("<html>" + str + "</html>");
+		frame.pack();
+	}
+	public void setupGame() {
+		System.out.println("setup game");
 		text = new JLabel();
 		board = new Board(this);
 		bottomPanel = new JPanel();
@@ -61,6 +76,7 @@ public class Chess implements Serializable {
 		bottomPanel.add(saveGame, BorderLayout.NORTH);
 		bottomPanel.add(loadGame, BorderLayout.SOUTH);
 		frame.setLayout(new BorderLayout());
+		frame.remove(menu);
 		frame.add(board, BorderLayout.CENTER);
 		frame.add(text, BorderLayout.EAST);
 		frame.add(bottomPanel, BorderLayout.SOUTH);
@@ -68,17 +84,10 @@ public class Chess implements Serializable {
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		
 	}
-
-	public void setText(String str) {
-		text.setText("<html>" + str + "</html>");
-		frame.pack();
-	}
-
 	public Dimension getFrameDimension() {
 		return frame.getSize();
 	}
