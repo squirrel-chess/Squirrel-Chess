@@ -39,6 +39,7 @@ public class Chess implements Serializable {
 		text.setText("<html>" + str + "</html>");
 		frame.pack();
 	}
+	
 	public void setupGame() {
 		System.out.println("setup game");
 		text = new JLabel();
@@ -51,23 +52,6 @@ public class Chess implements Serializable {
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 				oos.writeObject(new SavedGame(board));
 			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		loadGame = new JButton("Load Game");
-		loadGame.addActionListener((al) -> {
-			System.out.println(board);
-			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
-					ObjectInputStream ois = new ObjectInputStream(fis)) {
-				 SavedGame sg = (SavedGame) ois.readObject();
-				 frame.remove(board);
-				 //board = new Board(sg.getBoard());
-				 board = sg.getBoard();
-				 //frame.add(board, BorderLayout.CENTER);
-			} catch (IOException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		});
@@ -86,8 +70,24 @@ public class Chess implements Serializable {
 		frame.setResizable(false);
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		
 	}
+	
+	public void loadGame() {
+		System.out.println(board);
+		try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
+				ObjectInputStream ois = new ObjectInputStream(fis)) {
+			 SavedGame sg = (SavedGame) ois.readObject();
+			 frame.remove(board);
+			 board = new Board(sg.getBoard());
+			 board = sg.getBoard();
+			 frame.add(board, BorderLayout.CENTER);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Dimension getFrameDimension() {
 		return frame.getSize();
 	}

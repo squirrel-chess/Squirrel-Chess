@@ -11,7 +11,9 @@ public class Menu extends JPanel implements ActionListener{
 	JLabel title;
 	JButton play;
 	JButton instruct;
-	Font titleFont = new Font("Dyeline", Font.ITALIC, 50);
+	JButton loadGame;
+	//Font titleFont = new Font("Dyeline", Font.ITALIC, 50);
+	Font titleFont = new Font("Wingdings", Font.BOLD, 50);
 	public Menu(Chess game) {
 		this.game = game;
 		setLayout(null);
@@ -20,7 +22,7 @@ public class Menu extends JPanel implements ActionListener{
 		add(title);
 		title.setText("Squirrel Chess");
 		title.setFont(titleFont);
-		title.setBounds(500, 100, 500, 100);
+		title.setBounds(0, 100, 1000, 100);
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
@@ -32,6 +34,11 @@ public class Menu extends JPanel implements ActionListener{
 		play.setBounds(500, 200, 100, 20);
 		add(instruct);
 		instruct.setBounds(500, 300, 100, 20);
+		loadGame = new JButton();
+		loadGame.setText("Load Game");
+		loadGame.addActionListener((e) -> {
+			
+		});
 	}
 
 	@Override
