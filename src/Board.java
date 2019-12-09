@@ -39,8 +39,6 @@ public class Board extends JPanel implements Serializable {
 		this.selectedPiece = board.selectedPiece;
 		this.whiteTime = board.whiteTime;
 		this.blackTime = board.blackTime;
-		this.whiteCastle = board.whiteCastle;
-		this.blackCastle = board.blackCastle;
 		this.whiteTurn = board.whiteTurn;
 		this.wKingPos = board.wKingPos;
 		this.bKingPos = board.bKingPos;
