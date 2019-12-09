@@ -301,7 +301,7 @@ public class Board extends JPanel {
 
 					Position original = p.getPos(); // save original position of piece
 
-					for (Position pos : p.getMoveSet()) { // iterate through all available moves
+					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
 
 						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
 
