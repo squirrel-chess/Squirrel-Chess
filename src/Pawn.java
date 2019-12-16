@@ -10,8 +10,8 @@ public class Pawn extends Piece {
 	String fileName;
 	Position initialPos;
 	//boolean movedTwo = false;
-	static boolean canEnPassantRight = false;
-	static boolean canEnPassantLeft = false;
+//	static boolean canEnPassantRight = false;
+	 //static boolean canEnPassantLeft = false;
 	
 	public Pawn(Position pos, Board b, boolean isWhite, String fileName) {
 		super(pos, b, isWhite, fileName);
@@ -38,10 +38,10 @@ public class Pawn extends Piece {
 				}
 			}
 			
-			if(canEnPassantRight == true) {
+			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)) instanceof Pawn && b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)).canEnPassantRight == true) {
 				ret.add(new Position(pos.getRow()-1,pos.getCol()-1));
 			}
-			if(canEnPassantLeft == true) {
+			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn && b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)).canEnPassantLeft == true) {
 				ret.add(new Position(pos.getRow()-1,pos.getCol()+1));
 			}
 			if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
@@ -64,10 +64,10 @@ public class Pawn extends Piece {
 				}
 			}
 			
-			if(canEnPassantRight == true) {
+			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)) instanceof Pawn && b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)).canEnPassantRight == true) {
 				ret.add(new Position(pos.getRow()+1,pos.getCol()-1));
 			}
-			if(canEnPassantLeft == true) {
+			if(b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn && b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)).canEnPassantLeft== true) {
 				ret.add(new Position(pos.getRow()+1,pos.getCol()+1));
 			}
 			
@@ -91,8 +91,15 @@ public class Pawn extends Piece {
 			movedTwo = true;
 		}
 		super.move(pos);
-		canEnPassantRight = false;
-		canEnPassantLeft = false;
+		for (Piece p: b.getPieces()) {
+			if(p instanceof Pawn) {
+				Position position = p.getPos();
+				b.getPieceAtPos(position).canEnPassantRight = false;
+				b.getPieceAtPos(position).canEnPassantLeft = false;
+			}
+		}
+		b.getPieceAtPos(pos).canEnPassantRight = false;
+		b.getPieceAtPos(pos).canEnPassantLeft = false;
 		hasMoved = true;
 		if (isWhite) {
 			if (pos.getRow() == 0)
@@ -103,10 +110,10 @@ public class Pawn extends Piece {
 		}
 		if(Math.abs(pos.getRow()-initialPos.getRow()) == 2) { 
 			if (b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()+1)) instanceof Pawn) {
-				canEnPassantRight = true;
+				b.getPieceAtPos(pos).canEnPassantRight = true;
 			}
 			if (b.getPieceAtPos(new Position(pos.getRow(),pos.getCol()-1)) instanceof Pawn) {
-				canEnPassantLeft = true;
+				b.getPieceAtPos(pos).canEnPassantLeft = true;
 			}
 			System.out.println("2");
 			movedTwo = true;

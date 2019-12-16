@@ -7,6 +7,8 @@ import javax.imageio.ImageIO;
 import javax.swing.JOptionPane;
 
 public abstract class Piece {
+	boolean canEnPassantRight = false;
+	boolean canEnPassantLeft = false;
 	protected Position pos;
 	protected Board b;
 	protected boolean isWhite;
