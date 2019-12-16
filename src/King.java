@@ -62,16 +62,24 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
 		
 		if (isWhite && leftAbleToCastle()) {
-			ret.add(new Position(7, 2));
+			if (b.testCheck(isWhite) == false) {
+				ret.add(new Position(7, 2));
+			}
 		}
 		if (isWhite && rightAbleToCastle()) {
-			ret.add(new Position(7, 6));
+			if (b.testCheck(isWhite) == false) {
+				ret.add(new Position(7, 6));
+			}
 		}
 		if (!isWhite && leftAbleToCastle()) {
-			ret.add(new Position(0, 2));
+			if (b.testCheck(false) == false) {
+				ret.add(new Position(0, 2));
+			}
 		}
 		if (!isWhite && rightAbleToCastle()) {
-			ret.add(new Position(0, 6));
+			if (b.testCheck(false) == false) {
+				ret.add(new Position(0, 6));
+			}
 		}
 		
 		if (check) {
