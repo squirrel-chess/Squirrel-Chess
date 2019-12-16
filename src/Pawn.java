@@ -19,6 +19,7 @@ public class Pawn extends Piece {
 		hasMoved = false;
 	}
 	boolean movedTwo = false;
+	static boolean blankSpot = false;
 	@Override
 	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
@@ -86,9 +87,14 @@ public class Pawn extends Piece {
 	
 	@Override
 	public void move(Position pos) {
+		
 		initialPos = b.getSelectedPiece().getPos();
 		if(isWhite && pos.getRow()-2==0) {
 			movedTwo = true;
+		}
+		blankSpot = false;
+		if(b.getPieceAtPos(pos) == null) {
+			blankSpot = true;
 		}
 		super.move(pos);
 		for (Piece p: b.getPieces()) {
@@ -119,6 +125,21 @@ public class Pawn extends Piece {
 			movedTwo = true;
 			
 		}
+		System.out.println(blankSpot);
+		if(blankSpot = true && b.getPieceAtPos(new Position(pos.getRow() -1 ,pos.getCol())) != null && b.getPieceAtPos(new Position(pos.getRow() -1 ,pos.getCol())) instanceof Pawn) {
+			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow()-1,pos.getCol()));
+			b.removePiece(pieceRemoved);		
+			b.unhighlightMoves();
+			b.setSelectedPiece(null);
+		}
+		if(blankSpot = true && b.getPieceAtPos(new Position(pos.getRow() +1 ,pos.getCol())) != null && b.getPieceAtPos(new Position(pos.getRow() +1 ,pos.getCol())) instanceof Pawn) {
+			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow()+1,pos.getCol()));
+			System.out.println(pieceRemoved);
+			b.removePiece(pieceRemoved);
+			b.unhighlightMoves();
+			b.setSelectedPiece(null);
+		}
+	
 	}
 
 //	boolean canDoEnPassantRight() {
