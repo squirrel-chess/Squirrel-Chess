@@ -22,9 +22,8 @@ public class Chess implements Serializable {
 	private Menu menu;
 	private JLabel text;
 	private JButton saveGame;
-	private JButton loadGame;
-	private JPanel bottomPanel;
 	private Board board;
+
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		menu = new Menu(this);
@@ -33,19 +32,30 @@ public class Chess implements Serializable {
 		frame.setSize(1000, 1000);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
-	
+
 	public void setText(String str) {
 		System.out.println(str);
 		text.setText("<html>" + str + "</html>");
 		frame.pack();
 	}
-	
+
 	public void setupGame() {
-		System.out.println("setup game");
 		text = new JLabel();
 		board = new Board(this);
-		bottomPanel = new JPanel();
+		gameGUISetup();
+	}
 
+	public void setupGame(Board b) {
+		text = new JLabel();
+		if (b.getWhiteTurn())
+			setText(b.getBlackTime() + "<br>White's Turn<br>" + b.getWhiteTime());
+		else
+			setText(b.getBlackTime() + "<br>Black's Turn<br>" + b.getWhiteTime());
+		board = b;
+		gameGUISetup();
+	}
+
+	private void gameGUISetup() {
 		saveGame = new JButton("Save Game");
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
@@ -56,38 +66,21 @@ public class Chess implements Serializable {
 			}
 		});
 
-		bottomPanel.setLayout(new BorderLayout());
-		bottomPanel.add(saveGame, BorderLayout.NORTH);
-		bottomPanel.add(loadGame, BorderLayout.SOUTH);
 		frame.setLayout(new BorderLayout());
 		frame.remove(menu);
 		frame.add(board, BorderLayout.CENTER);
 		frame.add(text, BorderLayout.EAST);
-		frame.add(bottomPanel, BorderLayout.SOUTH);
+		frame.add(saveGame, BorderLayout.SOUTH);
 		frame.setVisible(true);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
-		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 	}
-	
-	public void loadGame() {
-		System.out.println(board);
-		try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
-				ObjectInputStream ois = new ObjectInputStream(fis)) {
-			 SavedGame sg = (SavedGame) ois.readObject();
-			 frame.remove(board);
-			 board = new Board(sg.getBoard());
-			 board = sg.getBoard();
-			 frame.add(board, BorderLayout.CENTER);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-	
+
 	public Dimension getFrameDimension() {
 		return frame.getSize();
 	}

@@ -34,16 +34,15 @@ public class Board extends JPanel implements Serializable {
 		newGame();
 	}
 	
-	public Board(Board board) {
-		this.game = board.game;
-		this.squares = board.squares;
-		this.pieces = board.pieces;
-		this.selectedPiece = board.selectedPiece;
-		this.whiteTime = board.whiteTime;
-		this.blackTime = board.blackTime;
-		this.whiteTurn = board.whiteTurn;
-		this.wKingPos = board.wKingPos;
-		this.bKingPos = board.bKingPos;
+	public Board(Chess game, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn, Position wKingPos, Position bKingPos) {
+		this.game = game;
+		this.pieces = pieces;
+		this.whiteTime = whiteTime;
+		this.blackTime = blackTime;
+		this.whiteTurn = whiteTurn;
+		this.wKingPos = wKingPos;
+		this.bKingPos = bKingPos;
+		initBoard();
 	}
 
 	public void playAgainMenu() {
@@ -103,7 +102,7 @@ public class Board extends JPanel implements Serializable {
 		pieces.remove(p);
 	}
 	
-	private void initBoard() {
+	public void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
@@ -429,5 +428,25 @@ public class Board extends JPanel implements Serializable {
 
 	public Chess getGame() {
 		return game;
+	}
+	
+	public Time getWhiteTime() {
+		return whiteTime;
+	}
+	
+	public Time getBlackTime() {
+		return blackTime;
+	}
+	
+	public ArrayList<Piece> getAllPieces() {
+		return pieces;
+	}
+	
+	public Position getWKingPos() {
+		return wKingPos;
+	}
+	
+	public Position getBKingPos() {
+		return bKingPos;
 	}
 }
