@@ -62,23 +62,62 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
 		
 		if (isWhite && leftAbleToCastle()) {
-			if (b.testCheck(isWhite) == false) {
-				ret.add(new Position(7, 2));
+			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+				
+				simMove(new Position(7, 3));			// can't castle through check
+				b.wKingPos = new Position(7, 3);
+				
+				if (b.testCheck(isWhite) == false) {
+					ret.add(new Position(7, 2));
+				}
+				
+				simMove(new Position(7, 4));
+				b.wKingPos = new Position(7, 4);
+				
 			}
 		}
 		if (isWhite && rightAbleToCastle()) {
-			if (b.testCheck(isWhite) == false) {
-				ret.add(new Position(7, 6));
+			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+				
+				simMove(new Position(7, 5));			// can't castle through check
+				b.wKingPos = new Position(7, 5);
+				
+				if (b.testCheck(isWhite) == false) {
+					ret.add(new Position(7, 6));
+				}
+				
+				simMove(new Position(7, 4));
+				b.wKingPos = new Position(7, 4);
 			}
 		}
 		if (!isWhite && leftAbleToCastle()) {
-			if (b.testCheck(false) == false) {
-				ret.add(new Position(0, 2));
+			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+				
+				simMove(new Position(0, 3));			// can't castle through check
+				b.bKingPos = new Position(0, 3);
+				
+				if (b.testCheck(isWhite) == false) {
+					ret.add(new Position(0, 2));
+				}
+				
+				simMove(new Position(0, 4));
+				b.bKingPos = new Position(0, 4);
+				
 			}
 		}
 		if (!isWhite && rightAbleToCastle()) {
-			if (b.testCheck(false) == false) {
-				ret.add(new Position(0, 6));
+			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+				
+				simMove(new Position(0, 5));			// can't castle through check
+				b.bKingPos = new Position(0, 5);
+				
+				if (b.testCheck(isWhite) == false) {
+					ret.add(new Position(0, 6));
+				}
+				
+				simMove(new Position(0, 4));
+				b.bKingPos = new Position(0, 4);
+				
 			}
 		}
 		
@@ -88,7 +127,7 @@ public class King extends Piece {
 		
 		return removeInvalidMoves(ret);
 	}
-
+	
 	@Override
 	public void draw() {
 

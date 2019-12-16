@@ -263,17 +263,6 @@ public class Board extends JPanel {
 		return ret;
 
 	}
-	
-	public boolean canCastleThroughCheck(Piece piece, boolean left) {	//returns whether the king can castle
-		
-		if (left) {
-			if (piece.isWhite) {
-				
-			}
-		}
-		
-		return false;
-	}
 
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
 		for (Piece p : pieces) {
