@@ -61,7 +61,7 @@ public class King extends Piece {
 		if (pos.getCol() - 1 >= 0)
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
 		
-		if (isWhite && leftAbleToCastle()) {
+		if (isWhite && leftAbleToCastle() && check) {		// CHECK???
 			if (b.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(7, 3));			// can't castle through check
@@ -76,7 +76,7 @@ public class King extends Piece {
 				
 			}
 		}
-		if (isWhite && rightAbleToCastle()) {
+		if (isWhite && rightAbleToCastle() && check) {		// CHECK??
 			if (b.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(7, 5));			// can't castle through check

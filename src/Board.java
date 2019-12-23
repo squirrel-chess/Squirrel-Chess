@@ -294,7 +294,6 @@ public class Board extends JPanel {
 
 					Position original = p.getPos(); // save original position of piece
 
-					// AOWIEGJAOIWEGJIO
 					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
 
 						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
@@ -364,7 +363,9 @@ public class Board extends JPanel {
 			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
+				
 				playAgainMenu();
+				
 			} else {
 				whiteTurn = false;
 				blackTime.startTurn();
@@ -374,7 +375,9 @@ public class Board extends JPanel {
 			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
+				
 				playAgainMenu();
+				
 			} else {
 				whiteTurn = true;
 				whiteTime.startTurn();
