@@ -376,6 +376,11 @@ public class Board extends JPanel {
 				whiteTurn = false;
 				blackTime.startTurn();
 			}
+//			while(whiteTurn == true) {
+//		
+//				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+//			}
+//	
 		} else {
 			blackTime.endTurn();
 			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
