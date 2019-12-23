@@ -364,7 +364,7 @@ public class Board extends JPanel {
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				
-				playAgainMenu();
+				//playAgainMenu();		// CHANGE
 				
 			} else {
 				whiteTurn = false;
@@ -376,7 +376,7 @@ public class Board extends JPanel {
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				
-				playAgainMenu();
+				//playAgainMenu();		// CHANGE
 				
 			} else {
 				whiteTurn = true;
