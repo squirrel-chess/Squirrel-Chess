@@ -28,7 +28,9 @@ public class Board extends JPanel {
 		initBoard();
 		newGame();
 	}
-
+	public ArrayList<Piece> getPieces() {
+		return pieces;
+	}
 	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
