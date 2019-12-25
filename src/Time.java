@@ -3,6 +3,7 @@ public class Time {
 	private int secs;
 	private int millis;
 	private long lastTime;
+	public boolean second = false;
 
 	public Time(int mins, int secs) {
 		this.mins = mins;
@@ -16,6 +17,11 @@ public class Time {
 
 	public void endTurn() {
 		long timeChange = System.currentTimeMillis() - lastTime;
+		if(timeChange> 1000) {
+			second = true;
+			//timeChange = 0;
+		}
+		System.out.println(lastTime);
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
 		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));
@@ -26,7 +32,6 @@ public class Time {
 		if (millis < 0) {
 			millis = millis + 1000;
 			secs--;
-
 		}
 
 		if (secs < 0) {
@@ -42,6 +47,11 @@ public class Time {
 	public int getSecs() {
 		return secs;
 	}
+	
+	public long getLastTime() {
+		return lastTime;
+	}
+	
 
 	public boolean isZero() {
 		return mins < 0;

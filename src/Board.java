@@ -53,6 +53,7 @@ public class Board extends JPanel {
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
 		initPieces();
+		
 	}
 
 	public King getKing() {
@@ -366,8 +367,18 @@ public class Board extends JPanel {
 	}
 
 	public void nextTurn() {
+			if(whiteTime.second==true) {
+				System.out.println("kkkkjkjyfg");
+				updateTime();
+			}
+		//WORKING ON: Live timer rather than sudden drop in time when turn is over
+		if(blackTime.second==true) {
+			System.out.println("sdafds");
+			updateTime();
+		}
 		if (whiteTurn) {
 			whiteTime.endTurn();
+
 			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
@@ -376,11 +387,13 @@ public class Board extends JPanel {
 				whiteTurn = false;
 				blackTime.startTurn();
 			}
+			
 //			while(whiteTurn == true) {
 //		
 //				game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 //			}
-//	
+//			if(blackTime.getLastTime())
+			
 		} else {
 			blackTime.endTurn();
 			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
@@ -408,6 +421,14 @@ public class Board extends JPanel {
 			}
 		}
 	}
+	public void updateTime() {
+		if(whiteTurn) {
+			game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		} else {
+			game.setText(whiteTime + "<br>Black's turn.<br>" + blackTime);
+		}
+	}
+	
 
 	public boolean getWhiteTurn() {
 		return whiteTurn;
