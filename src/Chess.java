@@ -51,7 +51,9 @@ public class Chess implements Serializable {
 			setText(b.getBlackTime() + "<br>White's Turn<br>" + b.getWhiteTime());
 		else
 			setText(b.getBlackTime() + "<br>Black's Turn<br>" + b.getWhiteTime());
+		b.importBoard();
 		board = b;
+		board.updatePic();
 		gameGUISetup();
 	}
 
@@ -60,7 +62,7 @@ public class Chess implements Serializable {
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(new SavedGame(board));
+				oos.writeObject(new SavedGame(board.getAllPieces(), board.getWhiteTime(), board.getBlackTime(), board.getWhiteTurn(), board.getWKingPos(), board.getBKingPos()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

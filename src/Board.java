@@ -1,4 +1,4 @@
- import java.awt.Color;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -26,6 +26,11 @@ public class Board extends JPanel implements Serializable {
 
 	public Position wKingPos;
 	public Position bKingPos;
+	
+	Rook whiteR1;
+	Rook whiteR2;
+	Rook blackR1;
+	Rook blackR2;
 
 	public Board(Chess game) {
 		this.game = game;
@@ -33,16 +38,15 @@ public class Board extends JPanel implements Serializable {
 		initBoard();
 		newGame();
 	}
-	
-	public Board(Chess game, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn, Position wKingPos, Position bKingPos) {
+
+	public Board(Chess game, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn,
+			Position wKingPos, Position bKingPos) {
 		this.game = game;
 		this.pieces = pieces;
-		this.whiteTime = whiteTime;
-		this.blackTime = blackTime;
-		this.whiteTurn = whiteTurn;
 		this.wKingPos = wKingPos;
 		this.bKingPos = bKingPos;
 		initBoard();
+		newGame(whiteTime, blackTime, whiteTurn);
 	}
 
 	public void playAgainMenu() {
@@ -66,6 +70,54 @@ public class Board extends JPanel implements Serializable {
 		blackTime = new Time(mins, secs);
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
+		
+		blackR1 = new Rook(new Position(0, 0), this, false);
+		blackR2 = new Rook(new Position(0, 7), this, false);
+		whiteR1 = new Rook(new Position(7, 0), this, true);
+		whiteR2 = new Rook(new Position(7, 7), this, true);
+		
+		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		pieces.add(whiteR1);
+		pieces.add(whiteR2);
+		pieces.add(blackR1);
+		pieces.add(blackR2);
+		pieces.add(new Knight(new Position(0, 1), this, false));
+		pieces.add(new Bishop(new Position(0, 2), this, false));
+		pieces.add(new Queen(new Position(0, 3), this, false));
+		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
+		pieces.add(new Bishop(new Position(0, 5), this, false));
+		pieces.add(new Knight(new Position(0, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 0), this, false));
+		pieces.add(new Pawn(new Position(1, 1), this, false));
+		pieces.add(new Pawn(new Position(1, 2), this, false));
+		pieces.add(new Pawn(new Position(1, 3), this, false));
+		pieces.add(new Pawn(new Position(1, 4), this, false));
+		pieces.add(new Pawn(new Position(1, 5), this, false));
+		pieces.add(new Pawn(new Position(1, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 7), this, false));
+		// white pieces
+		pieces.add(new Pawn(new Position(6, 0), this, true));
+		pieces.add(new Pawn(new Position(6, 1), this, true));
+		pieces.add(new Pawn(new Position(6, 2), this, true));
+		pieces.add(new Pawn(new Position(6, 3), this, true));
+		pieces.add(new Pawn(new Position(6, 4), this, true));
+		pieces.add(new Pawn(new Position(6, 5), this, true));
+		pieces.add(new Pawn(new Position(6, 6), this, true));
+		pieces.add(new Pawn(new Position(6, 7), this, true));
+		pieces.add(new Knight(new Position(7, 1), this, true));
+		pieces.add(new Bishop(new Position(7, 2), this, true));
+		pieces.add(new Queen(new Position(7, 3), this, true));
+		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
+		pieces.add(new Bishop(new Position(7, 5), this, true));
+		pieces.add(new Knight(new Position(7, 6), this, true));
+		initPieces(pieces);
+	}
+	
+	public void newGame(Time whiteTime, Time blackTime, boolean whiteTurn) {
+		this.whiteTime = whiteTime;
+		this.blackTime = blackTime;
+		
+		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		initPieces();
 	}
 
@@ -101,7 +153,7 @@ public class Board extends JPanel implements Serializable {
 	public void removePiece(Piece p) {
 		pieces.remove(p);
 	}
-	
+
 	public void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
@@ -126,52 +178,9 @@ public class Board extends JPanel implements Serializable {
 		}
 	}
 
-	Rook whiteR1;
-	Rook whiteR2;
-	Rook blackR1;
-	Rook blackR2;
+	private void initPieces(ArrayList<Piece> pieces) {
 
-	private void initPieces() {
-		blackR1 = new Rook(new Position(0, 0), this, false);
-		blackR2 = new Rook(new Position(0, 7), this, false);
-		whiteR1 = new Rook(new Position(7, 0), this, true);
-		whiteR2 = new Rook(new Position(7, 7), this, true);
-
-		pieces = new ArrayList<Piece>();
-		pieces.add(whiteR1);
-		pieces.add(whiteR2);
-		pieces.add(blackR1);
-		pieces.add(blackR2);
-		// black pieces
-		pieces.add(new Knight(new Position(0, 1), this, false));
-		pieces.add(new Bishop(new Position(0, 2), this, false));
-		pieces.add(new Queen(new Position(0, 3), this, false));
-		pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
-		pieces.add(new Bishop(new Position(0, 5), this, false));
-		pieces.add(new Knight(new Position(0, 6), this, false));
-		pieces.add(new Pawn(new Position(1, 0), this, false));
-		pieces.add(new Pawn(new Position(1, 1), this, false));
-		pieces.add(new Pawn(new Position(1, 2), this, false));
-		pieces.add(new Pawn(new Position(1, 3), this, false));
-		pieces.add(new Pawn(new Position(1, 4), this, false));
-		pieces.add(new Pawn(new Position(1, 5), this, false));
-		pieces.add(new Pawn(new Position(1, 6), this, false));
-		pieces.add(new Pawn(new Position(1, 7), this, false));
-		// white pieces
-		pieces.add(new Pawn(new Position(6, 0), this, true));
-		pieces.add(new Pawn(new Position(6, 1), this, true));
-		pieces.add(new Pawn(new Position(6, 2), this, true));
-		pieces.add(new Pawn(new Position(6, 3), this, true));
-		pieces.add(new Pawn(new Position(6, 4), this, true));
-		pieces.add(new Pawn(new Position(6, 5), this, true));
-		pieces.add(new Pawn(new Position(6, 6), this, true));
-		pieces.add(new Pawn(new Position(6, 7), this, true));
-		pieces.add(new Knight(new Position(7, 1), this, true));
-		pieces.add(new Bishop(new Position(7, 2), this, true));
-		pieces.add(new Queen(new Position(7, 3), this, true));
-		pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
-		pieces.add(new Bishop(new Position(7, 5), this, true));
-		pieces.add(new Knight(new Position(7, 6), this, true));
+		this.pieces = pieces;
 
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
@@ -254,39 +263,39 @@ public class Board extends JPanel implements Serializable {
 	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
 
 		boolean pWhite = piece.isWhite;
-		
+
 		System.out.println("testing: " + piece.toString());
 
 		// if king is not already in check
-		//if (!testCheck(pWhite)) {
-			
-			ArrayList<Position> list = ret;
-			int size = ret.size();
-			
-			for (int i = size - 1; i >= 0; i--) {	// iterate through possible move positions
-				Position pos = list.get(i);
+		// if (!testCheck(pWhite)) {
 
-				// simmove the piece and save the take piece and original position
-				Position original = piece.getPos();
-				Piece taken = piece.simMove(pos);
-				// if the piece is a king, the kingPos needs to be updated
-				moveKingPos(pWhite, piece, pos);
-				
-				System.out.println("\tmoving to: " + piece.toString());
-				
-				// test if it would move into check
-				if (testCheck(pWhite)) {
-					ret.remove(i);
-					System.out.println("\t\tREMOVED!");
-				}
+		ArrayList<Position> list = ret;
+		int size = ret.size();
 
-				// replace kingpos and simmoved piece
-				moveKingPos(pWhite, piece, original);
-				piece.simMove(original);
-				replacePiece(taken);
+		for (int i = size - 1; i >= 0; i--) { // iterate through possible move positions
+			Position pos = list.get(i);
 
+			// simmove the piece and save the take piece and original position
+			Position original = piece.getPos();
+			Piece taken = piece.simMove(pos);
+			// if the piece is a king, the kingPos needs to be updated
+			moveKingPos(pWhite, piece, pos);
+
+			System.out.println("\tmoving to: " + piece.toString());
+
+			// test if it would move into check
+			if (testCheck(pWhite)) {
+				ret.remove(i);
+				System.out.println("\t\tREMOVED!");
 			}
-		//}
+
+			// replace kingpos and simmoved piece
+			moveKingPos(pWhite, piece, original);
+			piece.simMove(original);
+			replacePiece(taken);
+
+		}
+		// }
 		return ret;
 
 	}
@@ -343,8 +352,9 @@ public class Board extends JPanel implements Serializable {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
-                
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
 								replacePiece(removed); // replace the removed piece
 
 								return false; // if not in check anymore, the king is not in check
@@ -429,24 +439,38 @@ public class Board extends JPanel implements Serializable {
 	public Chess getGame() {
 		return game;
 	}
-	
+
 	public Time getWhiteTime() {
 		return whiteTime;
 	}
-	
+
 	public Time getBlackTime() {
 		return blackTime;
 	}
-	
+
 	public ArrayList<Piece> getAllPieces() {
 		return pieces;
 	}
-	
+
 	public Position getWKingPos() {
 		return wKingPos;
 	}
-	
+
 	public Position getBKingPos() {
 		return bKingPos;
+	}
+
+	public void importBoard() {
+		initPieces();
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				int a = i;
+				int b = j;
+				squares[i][j].addActionListener((e) -> {
+					squares[a][b].click();
+				});
+			}
+		}
+		nextTurn();
 	}
 }

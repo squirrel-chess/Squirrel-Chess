@@ -43,8 +43,7 @@ public class Menu extends JPanel {
 			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
 					ObjectInputStream ois = new ObjectInputStream(fis)) {
 				 SavedGame sg = (SavedGame) ois.readObject();
-				 Board temp = sg.getBoard();
-				 this.game.setupGame(new Board(game, temp.getAllPieces(), temp.getWhiteTime(), temp.getBlackTime(), temp.getWhiteTurn(), temp.getWKingPos(), temp.getBKingPos()));
+				 this.game.setupGame(new Board(game, sg.getPieces(), sg.getWhiteTime(), sg.getBlackTime(), sg.getWhiteTurn(), sg.getWKingPos(), sg.getBKingPos()));
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e2) {
