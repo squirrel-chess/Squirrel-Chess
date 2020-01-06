@@ -2,6 +2,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,6 +14,8 @@ public class Chess {
 	private Menu menu;
 	private JLabel text;
 	private Board board;
+	private JButton pause;
+	private JButton save;
 	private int mins, secs;
 
 	
@@ -32,10 +35,13 @@ public class Chess {
 	public void setupGame() {
 		text = new JLabel();
 		board = new Board(this);
+		pause = new JButton();
 		frame.setLayout(new BorderLayout());
 		frame.remove(menu);
 		frame.add(board, BorderLayout.CENTER);
 		frame.add(text, BorderLayout.EAST);
+		frame.add(pause,BorderLayout.BEFORE_LINE_BEGINS);
+		frame.add(save, BorderLayout.BEFORE_FIRST_LINE);
 		frame.pack();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
