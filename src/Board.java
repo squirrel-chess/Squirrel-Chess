@@ -1,4 +1,4 @@
-import java.awt.Color;
+ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -28,7 +28,9 @@ public class Board extends JPanel {
 		initBoard();
 		newGame();
 	}
-
+	public ArrayList<Piece> getPieces() {
+		return pieces;
+	}
 	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
@@ -316,8 +318,7 @@ public class Board extends JPanel {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
-																	// updated
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
 
 								replacePiece(removed); // replace the removed piece
 
