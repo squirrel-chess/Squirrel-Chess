@@ -127,16 +127,13 @@ public class Pawn extends Piece {
 			if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) instanceof Pawn) {
 				b.getPieceAtPos(pos).canEnPassantLeft = true;
 			}
-			System.out.println("2");
 			movedTwo = true;
 
 		}
-		System.out.println("blank: " + blankSpot);
 		if (blankSpot == true && b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) != null
 				&& b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) instanceof Pawn
 				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
-			System.out.println("remove");
 			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol()));
 			pieceRemoved.remove();
 			b.updatePic();
@@ -147,8 +144,6 @@ public class Pawn extends Piece {
 				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
 			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol()));
-			System.out.println(pieceRemoved);
-			System.out.println("asdiofhaosdif");
 			pieceRemoved.remove();
 			b.updatePic();
 			b.unhighlightMoves();
