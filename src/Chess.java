@@ -51,7 +51,6 @@ public class Chess implements Serializable {
 			setText(b.getBlackTime() + "<br>White's Turn<br>" + b.getWhiteTime());
 		else
 			setText(b.getBlackTime() + "<br>Black's Turn<br>" + b.getWhiteTime());
-		b.importBoard();
 		board = b;
 		board.updatePic();
 		gameGUISetup();

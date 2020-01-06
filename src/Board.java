@@ -42,11 +42,10 @@ public class Board extends JPanel implements Serializable {
 	public Board(Chess game, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn,
 			Position wKingPos, Position bKingPos) {
 		this.game = game;
-		this.pieces = pieces;
 		this.wKingPos = wKingPos;
 		this.bKingPos = bKingPos;
 		initBoard();
-		newGame(whiteTime, blackTime, whiteTurn);
+		newGame(whiteTime, blackTime, whiteTurn, pieces);
 	}
 
 	public void playAgainMenu() {
@@ -113,12 +112,11 @@ public class Board extends JPanel implements Serializable {
 		initPieces(pieces);
 	}
 	
-	public void newGame(Time whiteTime, Time blackTime, boolean whiteTurn) {
+	public void newGame(Time whiteTime, Time blackTime, boolean whiteTurn, ArrayList<Piece> pieces) {
 		this.whiteTime = whiteTime;
 		this.blackTime = blackTime;
-		
 		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
-		initPieces();
+		initPieces(pieces);
 	}
 
 	public void highlightMoves(Piece p) {
@@ -458,19 +456,5 @@ public class Board extends JPanel implements Serializable {
 
 	public Position getBKingPos() {
 		return bKingPos;
-	}
-
-	public void importBoard() {
-		initPieces();
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				int a = i;
-				int b = j;
-				squares[i][j].addActionListener((e) -> {
-					squares[a][b].click();
-				});
-			}
-		}
-		nextTurn();
 	}
 }
