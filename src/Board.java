@@ -16,9 +16,9 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 2499641607903690667L;
-	private Chess game;
+	private Main main;
+	private Game game;
 	private Square[][] squares;
-	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
 	private Time whiteTime;
 	private Time blackTime;
@@ -32,16 +32,14 @@ public class Board extends JPanel implements Serializable {
 	Rook blackR1;
 	Rook blackR2;
 
-	public Board(Chess game) {
-		this.game = game;
-		pieces = new ArrayList<Piece>();
-		initBoard();
-		newGame();
+	public Board(Main main) {
+		this.main = main;
+		game = new Game
 	}
 
-	public Board(Chess game, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn,
+	public Board(Main main, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn,
 			Position wKingPos, Position bKingPos) {
-		this.game = game;
+		this.main = main;
 		this.wKingPos = wKingPos;
 		this.bKingPos = bKingPos;
 		initBoard();
@@ -67,7 +65,7 @@ public class Board extends JPanel implements Serializable {
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		main.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		whiteTurn = true;
 		
 		blackR1 = new Rook(new Position(0, 0), this, false);
@@ -115,7 +113,7 @@ public class Board extends JPanel implements Serializable {
 	public void newGame(Time whiteTime, Time blackTime, boolean whiteTurn, ArrayList<Piece> pieces) {
 		this.whiteTime = whiteTime;
 		this.blackTime = blackTime;
-		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		main.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
 		initPieces(pieces);
 	}
 
@@ -148,10 +146,6 @@ public class Board extends JPanel implements Serializable {
 		selectedPiece = null;
 	}
 
-	public void removePiece(Piece p) {
-		pieces.remove(p);
-	}
-
 	public void initBoard() {
 		squares = new Square[8][8];
 		selectedPiece = null;
@@ -176,41 +170,6 @@ public class Board extends JPanel implements Serializable {
 		}
 	}
 
-	private void initPieces(ArrayList<Piece> pieces) {
-
-		this.pieces = pieces;
-
-		wKingPos = new Position(7, 4);
-		bKingPos = new Position(0, 4);
-
-		updatePic();
-	}
-
-	public Rook getWhiteR1() {
-		return whiteR1;
-	}
-
-	public Rook getWhiteR2() {
-		return whiteR2;
-	}
-
-	public Rook getBlackR1() {
-		return blackR1;
-	}
-
-	public Rook getBlackR2() {
-		return blackR2;
-	}
-
-	public Piece getPieceAtPos(Position pos) {
-		for (Piece p : pieces) {
-			if (p.getPos().equals(pos)) {
-				return p;
-			}
-		}
-		return null;
-	}
-
 	public Piece getSelectedPiece() {
 		return selectedPiece;
 	}
@@ -225,7 +184,7 @@ public class Board extends JPanel implements Serializable {
 				squares[i][j].setIcon(null);
 			}
 		}
-		for (Piece p : pieces) {
+		for (Piece p : game.getPieces()) {
 			try {
 				BufferedImage img;
 				if (p.isWhite())
@@ -394,7 +353,7 @@ public class Board extends JPanel implements Serializable {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				playAgainMenu();
@@ -404,7 +363,7 @@ public class Board extends JPanel implements Serializable {
 			}
 		} else {
 			blackTime.endTurn();
-			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				playAgainMenu();
@@ -434,8 +393,8 @@ public class Board extends JPanel implements Serializable {
 		return whiteTurn;
 	}
 
-	public Chess getGame() {
-		return game;
+	public Main getGame() {
+		return main;
 	}
 
 	public Time getWhiteTime() {

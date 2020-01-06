@@ -14,14 +14,14 @@ import javax.swing.JPanel;
 public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 4253062957905769372L;
-	private Chess game;
+	private Main game;
 	JLabel title;
 	JButton play;
 	JButton instruct;
 	JButton loadGame;
 	Font titleFont = new Font("Dyeline", Font.ITALIC, 50);
 
-	public Menu(Chess game) {
+	public Menu(Main game) {
 		this.game = game;
 		setLayout(null);
 		setSize(1000, 1000);

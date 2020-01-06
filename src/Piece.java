@@ -5,12 +5,12 @@ public abstract class Piece implements Serializable {
 
 	private static final long serialVersionUID = -8963802459683023645L;
 	protected Position pos;
-	protected Board b;
+	protected Game game;
 	protected boolean isWhite;
 
-	public Piece(Position pos, Board b, boolean isWhite) {
+	public Piece(Position pos, Game game, boolean isWhite) {
 		this.pos = pos;
-		this.b = b;
+		this.game = game;
 		this.isWhite = isWhite;
 		
 	}
@@ -20,29 +20,29 @@ public abstract class Piece implements Serializable {
 	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
-		if (b.getWhiteTurn() == isWhite) {
-			if (b.getSelectedPiece() == null)
-				b.highlightMoves(this);
+		if (game.getWhiteTurn() == isWhite) {
+			if (game.getSelectedPiece() == null)
+				game.highlightMoves(this);
 			else {
-				b.unhighlightMoves();
+				game.unhighlightMoves();
 			}
 		}
 	}
 
 	public void move(Position pos) {
-		if (b.getPieceAtPos(pos) != null) 
-			b.getPieceAtPos(pos).remove();
+		if (game.getPieceAtPos(pos) != null) 
+			game.getPieceAtPos(pos).remove();
 		this.pos = pos;
-		b.updatePic();
-		b.unhighlightMoves();
-		b.setSelectedPiece(null);
-		b.nextTurn(); 
+		game.updatePic();
+		game.unhighlightMoves();
+		game.setSelectedPiece(null);
+		game.nextTurn(); 
 	}
 	
 	public Piece simMove(Position pos) {
-		if (b.getPieceAtPos(pos) != null) {
-			Piece removed = b.getPieceAtPos(pos);
-			b.getPieceAtPos(pos).remove();
+		if (game.getPieceAtPos(pos) != null) {
+			Piece removed = game.getPieceAtPos(pos);
+			game.getPieceAtPos(pos).remove();
 			
 			this.pos = pos;
 			
@@ -53,7 +53,7 @@ public abstract class Piece implements Serializable {
 	}
 
 	public void remove() {
-		b.removePiece(this);
+		game.removePiece(this);
 	}
 
 	public Position getPos() {
@@ -68,7 +68,7 @@ public abstract class Piece implements Serializable {
 	}
 
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
-		ArrayList<Position> posList = b.getAllFriendlyPiecePos(isWhite);
+		ArrayList<Position> posList = game.getAllFriendlyPiecePos(isWhite);
 		for (int i = 0; i < posList.size(); i++) {
 			for (int j = 0; j < moveSet.size(); j++)
 				if (posList.get(i).equals(moveSet.get(j))) {

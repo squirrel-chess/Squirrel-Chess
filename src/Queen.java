@@ -4,8 +4,8 @@ public class Queen extends Piece {
 
 	private static final long serialVersionUID = -1782948667490553479L;
 
-	public Queen(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
+	public Queen(Position pos, Game game, boolean isWhite) {
+		super(pos, game, isWhite);
 	}
 
 	@Override
@@ -22,80 +22,80 @@ public class Queen extends Piece {
 		boolean H = true;
 		
 		for (int i = 1; (((pos.getRow() + i) < 8) && ((pos.getCol() + i) < 8) && A); i++)
-			if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() + i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() + i)) == null) {
 				ret.add(new Position(pos.getRow() + i, pos.getCol() + i));
 			} else {
 				A = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() + i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() + i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() + i, pos.getCol() + i));
 				}
 			}
 		for (int i = 1; (((pos.getRow() + i) < 8) && ((pos.getCol() - i) >= 0)) && B; i++)	
-			if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() - i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() - i)) == null) {
 				ret.add(new Position(pos.getRow() + i, pos.getCol() - i));
 			} else {
 				B = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() - i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol() - i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() + i, pos.getCol() - i));
 				}
 			}
 		for (int i = 1; (((pos.getRow() - i) >= 0) && ((pos.getCol() + i) < 8)) && C; i++)
-			if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() + i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() + i)) == null) {
 				ret.add(new Position(pos.getRow() - i, pos.getCol() + i));
 			} else {
 				C = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() + i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() + i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() - i, pos.getCol() + i));
 				}
 			}		
 		for (int i = 1; (((pos.getRow() - i) >= 0) && ((pos.getCol() - i) >= 0)) && D; i++)
-			if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() - i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() - i)) == null) {
 				ret.add(new Position(pos.getRow() - i, pos.getCol() - i));
 			} else {
 				D = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() - i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol() - i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() - i, pos.getCol() - i));
 				}
 			}
 		for (int i = 1; ((pos.getRow() + i < 8) && E); i++)
-			if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol())) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol())) == null) {
 				ret.add(new Position(pos.getRow() + i, pos.getCol()));
 			} else {
 				E = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol())).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() + i, pos.getCol())).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() + i, pos.getCol()));
 				}
 			}
 		for (int i = 1; ((pos.getRow() - i >= 0) && F); i++) 
-			if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol())) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol())) == null) {
 				ret.add(new Position(pos.getRow() - i, pos.getCol()));
 			} else {
 				F = false;
-				if (b.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol())).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow() - i, pos.getCol())).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow() - i, pos.getCol()));
 				}
 			}
 		for (int i = 1; ((pos.getCol() + i < 8) && G); i++)
-			if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + i)) == null) {
 				ret.add(new Position(pos.getRow(), pos.getCol() + i));
 			} else {
 				G = false;
-				if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow(), pos.getCol() + i));
 				}
 			}
 		for (int i = 1; ((pos.getCol() - i >= 0) && H); i++)
-			if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - i)) == null) {
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - i)) == null) {
 				ret.add(new Position(pos.getRow(), pos.getCol() - i));
 			} else {
 				H = false;
-				if (b.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - i)).isWhite != super.isWhite) {
+				if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - i)).isWhite != super.isWhite) {
 					ret.add(new Position(pos.getRow(), pos.getCol() - i));
 				}
 			}
 		
 		if (check) {
-			ret = b.moveIntoCheck(this, ret);
+			ret = game.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);

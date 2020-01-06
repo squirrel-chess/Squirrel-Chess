@@ -15,7 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Chess implements Serializable {
+public class Main implements Serializable {
 
 	private static final long serialVersionUID = -4112312333502533585L;
 	private JFrame frame;
@@ -24,7 +24,7 @@ public class Chess implements Serializable {
 	private JButton saveGame;
 	private Board board;
 
-	public Chess() {
+	public Main() {
 		frame = new JFrame("Squirrel Chess");
 		menu = new Menu(this);
 		frame.add(menu);
@@ -87,6 +87,6 @@ public class Chess implements Serializable {
 	}
 
 	public static void main(String[] args) {
-		new Chess();
+		new Main();
 	}
 }
