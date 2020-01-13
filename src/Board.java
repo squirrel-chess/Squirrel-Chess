@@ -397,6 +397,7 @@ public class Board extends JPanel {
 				} else {
 					squares[i][j].setBackground(Color.LIGHT_GRAY);
 				}
+			
 			}
 		}
 	}
@@ -405,6 +406,13 @@ public class Board extends JPanel {
 		return whiteTurn;
 	}
 
+	public Time getWhiteTime() {
+		return whiteTime;
+	}
+	public Time getBlackTime() {
+		return blackTime;
+	}
+	
 	public Chess getGame() {
 		return game;
 	}
