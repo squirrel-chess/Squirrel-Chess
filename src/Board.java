@@ -2,6 +2,7 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -93,6 +94,7 @@ public class Board extends JPanel {
 	}
 
 	private void initBoard() {
+		setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		squares = new Square[8][8];
 		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
