@@ -4,8 +4,8 @@ public class Knight extends Piece {
 
 	private static final long serialVersionUID = 3003340149398527709L;
 
-	public Knight(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
+	public Knight(Position pos, Game game, Board board, boolean isWhite) {
+		super(pos, game, board, isWhite);
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class Knight extends Piece {
 			ret.add(new Position(pos.getRow() - 1, pos.getCol() - 2));
 		
 		if (check) {
-			ret = b.moveIntoCheck(this, ret);
+			ret = game.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);

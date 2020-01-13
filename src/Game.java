@@ -1,7 +1,10 @@
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 public class Game {
 	private ArrayList<Piece> pieces;
+	private Board board;
 	private Time whiteTime;
 	private Time blackTime;
 	private boolean whiteTurn;
@@ -14,45 +17,62 @@ public class Game {
 	Rook blackR1;
 	Rook blackR2;
 
-	public Game(ArrayList<Piece> pieces, Time whiteTime, Time blackTime) {
+	public Game(ArrayList<Piece> pieces, Board board) {
+		int mins, secs;
+		do {
+			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
+			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
+				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
+		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
+		
+		whiteTime = new Time(mins, secs);
+		blackTime = new Time(mins, secs);
 		this.pieces = pieces;
-		this.whiteTime = whiteTime;
-		this.blackTime = blackTime;
+		this.board = board;
 
 		if (pieces == null) {
+			System.out.println("Got here");
+			pieces = new ArrayList<Piece>();
+			whiteR1 = new Rook(new Position (0, 0), this, board, false);
+			whiteR2 = new Rook(new Position(0, 7), this, board, false);
+			blackR1 = new Rook(new Position(7, 0), this, board, true);
+			blackR2 = new Rook(new Position(7, 7), this, board, true);
+			
 			pieces.add(whiteR1);
 			pieces.add(whiteR2);
 			pieces.add(blackR1);
 			pieces.add(blackR2);
-			pieces.add(new Knight(new Position(0, 1), this, false));
-			pieces.add(new Bishop(new Position(0, 2), this, false));
-			pieces.add(new Queen(new Position(0, 3), this, false));
-			pieces.add(new King(new Position(0, 4), this, false, whiteR1, whiteR2));
-			pieces.add(new Bishop(new Position(0, 5), this, false));
-			pieces.add(new Knight(new Position(0, 6), this, false));
-			pieces.add(new Pawn(new Position(1, 0), this, false));
-			pieces.add(new Pawn(new Position(1, 1), this, false));
-			pieces.add(new Pawn(new Position(1, 2), this, false));
-			pieces.add(new Pawn(new Position(1, 3), this, false));
-			pieces.add(new Pawn(new Position(1, 4), this, false));
-			pieces.add(new Pawn(new Position(1, 5), this, false));
-			pieces.add(new Pawn(new Position(1, 6), this, false));
-			pieces.add(new Pawn(new Position(1, 7), this, false));
+			
+			pieces.add(new Knight(new Position(0, 1), this, board, false));
+			pieces.add(new Bishop(new Position(0, 2), this, board, false));
+			pieces.add(new Queen(new Position(0, 3), this, board, false));
+			pieces.add(new King(new Position(0, 4), this, board, false, blackR1, blackR2));
+			pieces.add(new Bishop(new Position(0, 5), this, board, false));
+			pieces.add(new Knight(new Position(0, 6), this, board, false));
+			pieces.add(new Pawn(new Position(1, 0), this, board, false));
+			pieces.add(new Pawn(new Position(1, 1), this, board, false));
+			pieces.add(new Pawn(new Position(1, 2), this, board, false));
+			pieces.add(new Pawn(new Position(1, 3), this, board, false));
+			pieces.add(new Pawn(new Position(1, 4), this, board, false));
+			pieces.add(new Pawn(new Position(1, 5), this, board, false));
+			pieces.add(new Pawn(new Position(1, 6), this, board, false));
+			pieces.add(new Pawn(new Position(1, 7), this, board, false));
 			// white pieces
-			pieces.add(new Pawn(new Position(6, 0), this, true));
-			pieces.add(new Pawn(new Position(6, 1), this, true));
-			pieces.add(new Pawn(new Position(6, 2), this, true));
-			pieces.add(new Pawn(new Position(6, 3), this, true));
-			pieces.add(new Pawn(new Position(6, 4), this, true));
-			pieces.add(new Pawn(new Position(6, 5), this, true));
-			pieces.add(new Pawn(new Position(6, 6), this, true));
-			pieces.add(new Pawn(new Position(6, 7), this, true));
-			pieces.add(new Knight(new Position(7, 1), this, true));
-			pieces.add(new Bishop(new Position(7, 2), this, true));
-			pieces.add(new Queen(new Position(7, 3), this, true));
-			pieces.add(new King(new Position(7, 4), this, true, blackR1, blackR2));
-			pieces.add(new Bishop(new Position(7, 5), this, true));
-			pieces.add(new Knight(new Position(7, 6), this, true));
+			pieces.add(new Pawn(new Position(6, 0), this, board, true));
+			pieces.add(new Pawn(new Position(6, 1), this, board, true));
+			pieces.add(new Pawn(new Position(6, 2), this, board, true));
+			pieces.add(new Pawn(new Position(6, 3), this, board, true));
+			pieces.add(new Pawn(new Position(6, 4), this, board, true));
+			pieces.add(new Pawn(new Position(6, 5), this, board, true));
+			pieces.add(new Pawn(new Position(6, 6), this, board, true));
+			pieces.add(new Pawn(new Position(6, 7), this, board, true));
+			pieces.add(new Knight(new Position(7, 1), this, board, true));
+			pieces.add(new Bishop(new Position(7, 2), this, board, true));
+			pieces.add(new Queen(new Position(7, 3), this, board, true));
+			pieces.add(new King(new Position(7, 4), this, board, true, whiteR1, whiteR2));
+			pieces.add(new Bishop(new Position(7, 5), this, board, true));
+			pieces.add(new Knight(new Position(7, 6), this, board, true));
 		}
 	}
 
@@ -79,6 +99,7 @@ public class Game {
 	}
 
 	public Piece getPieceAtPos(Position pos) {
+		System.out.println(pieces);
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos))
 				return p;
@@ -158,5 +179,63 @@ public class Game {
 			}
 		}
 		return false;
+	}
+	
+	public void replacePiece(Piece p) { // for checkmate
+		if (p != null) {
+			pieces.add(p);
+		}
+	}
+
+	public void moveKingPos(boolean isWhite, Piece p, Position pos) { // for checkmate
+		if (p.isKing()) {
+			if (isWhite) {
+				wKingPos = pos;
+			} else {
+				bKingPos = pos;
+			}
+		}
+	}
+
+	public boolean getWhiteTurn() {
+		return whiteTurn;
+	}
+
+	public void nextTurn() {
+		if (whiteTurn) {
+			whiteTime.endTurn();
+			board.nextTurn(whiteTime, blackTime);
+			blackTime.startTurn();
+		} else {
+			blackTime.endTurn();
+			board.nextTurn(whiteTime, blackTime);
+			whiteTime.startTurn();
+		}
+	}
+
+	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
+		ArrayList<Position> ret = new ArrayList<Position>();
+		for (int i = 0; i < pieces.size(); i++) {
+
+			Piece p = pieces.get(i);
+
+			if (p.isWhite && isWhite)
+				ret.add(p.getPos());
+			else if (!p.isWhite && !isWhite)
+				ret.add(p.getPos());
+		}
+		return ret;
+	}
+
+	public void addPiece(Piece p) {
+		pieces.add(p);
+	}
+	
+	public Time getWhiteTime() {
+		return whiteTime;
+	}
+	
+	public Time getBlackTime() {
+		return blackTime;
 	}
 }

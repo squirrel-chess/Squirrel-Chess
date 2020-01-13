@@ -1,7 +1,4 @@
-import java.awt.BorderLayout;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -14,15 +11,15 @@ import javax.swing.JPanel;
 public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 4253062957905769372L;
-	private Main game;
+	private Main main;
 	JLabel title;
 	JButton play;
 	JButton instruct;
 	JButton loadGame;
 	Font titleFont = new Font("Dyeline", Font.ITALIC, 50);
 
-	public Menu(Main game) {
-		this.game = game;
+	public Menu(Main main) {
+		this.main = main;
 		setLayout(null);
 		setSize(1000, 1000);
 		title = new JLabel();
@@ -33,7 +30,7 @@ public class Menu extends JPanel {
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
-			this.game.setupGame();
+			main.setupGame(null);
 		});
 		instruct = new JButton();
 		instruct.setText("Instuctions");
@@ -43,7 +40,7 @@ public class Menu extends JPanel {
 			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
 					ObjectInputStream ois = new ObjectInputStream(fis)) {
 				 SavedGame sg = (SavedGame) ois.readObject();
-				 this.game.setupGame(new Board(game, sg.getPieces(), sg.getWhiteTime(), sg.getBlackTime(), sg.getWhiteTurn(), sg.getWKingPos(), sg.getBKingPos()));
+				 main.setupGame(sg.getGame());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e2) {

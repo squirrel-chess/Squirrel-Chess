@@ -5,36 +5,40 @@ public class Square extends JButton {
 
 	private static final long serialVersionUID = -3661941489557446453L;
 	private boolean inMoveSet;
-	private Board b;
+	private Game game;
+	private Board board;
 	private Position pos;
 
-	public Square(Board b, Position pos) {
+	public Square(Game game, Board board, Position pos) {
 		this.inMoveSet = false;
-		this.b = b;
+		this.game = game;
+		this.board = board;
 		this.pos = pos;
 	}
 
 	public void click() {
-		if (b.getSelectedPiece() == null && b.getPieceAtPos(pos) != null) {
-			b.getPieceAtPos(pos).select();
-		} else if (inMoveSet && b.getSelectedPiece() != null) {
-			b.getSelectedPiece().move(pos);
-			
-			if (b.testCheckmate(true)) {
+		System.out.println(board);
+		System.out.println(pos);
+		System.out.println(game);
+		if (board.getSelectedPiece() == null && game.getPieceAtPos(pos) != null) {
+			game.getPieceAtPos(pos).select();
+		} else if (inMoveSet && board.getSelectedPiece() != null) {
+			board.getSelectedPiece().move(pos);
+			if (game.testCheck(true)) {
 				JOptionPane.showMessageDialog(null, "Black wins!");
-				b.playAgainMenu();
-			} else if (b.testCheckmate(false)) {
+				board.playAgainMenu();
+			} else if (game.testCheck(false)) {
 				JOptionPane.showMessageDialog(null, "White wins!");
-				b.playAgainMenu();
-			} else if (b.testCheck(true)) {
+				board.playAgainMenu();
+			} else if (game.testCheck(true)) {
 				JOptionPane.showMessageDialog(null, "White King is in check!");
-			} else if (b.testCheck(false)) {
+			} else if (game.testCheck(false)) {
 				JOptionPane.showMessageDialog(null, "Black King is in check!");
 			}
 			
 		} else {
-			b.setSelectedPiece(null);
-			b.unhighlightMoves();
+			board.setSelectedPiece(null);
+			board.unhighlightMoves();
 		}
 	}
 

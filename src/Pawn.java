@@ -8,8 +8,8 @@ public class Pawn extends Piece {
 	private boolean hasMoved;
 	String fileName;
 
-	public Pawn(Position pos, Board b, boolean isWhite) {
-		super(pos, b, isWhite);
+	public Pawn(Position pos, Game game, Board board, boolean isWhite) {
+		super(pos, game, board, isWhite);
 		hasMoved = false;
 	}
 	boolean movedTwo = false;
@@ -18,48 +18,48 @@ public class Pawn extends Piece {
 		ArrayList<Position> ret = new ArrayList<Position>();
 		if (isWhite) {//white
 			if (!hasMoved) { //hasn't moved
-				if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
-						&& (b.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) == null)) {
+				if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
+						&& (game.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) == null)) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 					ret.add(new Position(pos.getRow() - 2, pos.getCol()));
 				}
-				if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
-						&& (b.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) != null))
+				if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
+						&& (game.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) != null))
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 			} else { //has moved
-				if (b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null) {
+				if (game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 				}
 			}
 			
-			if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
+			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
-			if ((b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
+			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
 				ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
 		} else {//black
 			if (!hasMoved) { //hasn't moved
-				if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
-						&& (b.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) == null)) {
+				if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
+						&& (game.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) == null)) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 					ret.add(new Position(pos.getRow() + 2, pos.getCol()));
 				}
-				if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
-						&& (b.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) != null))
+				if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
+						&& (game.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) != null))
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 			} else { //has moved
-				if (b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
+				if (game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
 			}
 			
-			if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
+			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
-			if ((b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
+			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() - 1));
 		}
 		
 		if (check) {
-			ret = b.moveIntoCheck(this, ret);
+			ret = game.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);
@@ -91,34 +91,34 @@ public class Pawn extends Piece {
 	}
 
 	private void promoMenu() {
-		b.removePiece(this);
+		game.removePiece(this);
 		String[] options = { "Bishop", "Knight", "Queen", "Rook" };
 		int option = JOptionPane.showOptionDialog(null, "Choose the piece to promote to", "Pawn Promotion", 0, 0, null,
 				options, null);
 		Piece p;
 		switch (option) {
 		case 0:
-			if (isWhite) p = new Bishop(pos, b, true);
-			else p = new Bishop(pos, b, false);
-			b.updatePic();
+			if (isWhite) p = new Bishop(pos, game, board, true);
+			else p = new Bishop(pos, game, board, false);
+			board.updatePic();
 			break;
 		case 1:
-			if (isWhite) p = new Knight(pos, b, true);
-			else p = new Knight(pos, b, false);
-			b.updatePic();
+			if (isWhite) p = new Knight(pos, game, board, true);
+			else p = new Knight(pos, game, board, false);
+			board.updatePic();
 			break;
 		case 2:
-			if (isWhite) p = new Queen(pos, b, true);
-			else p = new Queen(pos, b, false);
-			b.updatePic();
+			if (isWhite) p = new Queen(pos, game, board, true);
+			else p = new Queen(pos, game, board, false);
+			board.updatePic();
 			break;
 		default:
-			if (isWhite) p = new Rook(pos, b, true);
-			else p = new Rook(pos, b, false);
-			b.updatePic();
+			if (isWhite) p = new Rook(pos, game, board, true);
+			else p = new Rook(pos, game, board, false);
+			board.updatePic();
 			break;
 		}
-		b.addPiece(p);
-		b.updatePic();
+		game.addPiece(p);
+		board.updatePic();
 	}
 }

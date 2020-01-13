@@ -2,18 +2,14 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 public class Main implements Serializable {
 
@@ -39,19 +35,18 @@ public class Main implements Serializable {
 		frame.pack();
 	}
 
-	public void setupGame() {
+	public void setupGame(Game game) {
 		text = new JLabel();
 		board = new Board(this);
 		gameGUISetup();
 	}
 
-	public void setupGame(Board b) {
+	public void setupBoard() {
 		text = new JLabel();
-		if (b.getWhiteTurn())
-			setText(b.getBlackTime() + "<br>White's Turn<br>" + b.getWhiteTime());
+		if (board.getGame().getWhiteTurn())
+			setText(board.getGame().getBlackTime() + "<br>White's Turn<br>" + board.getGame().getWhiteTime());
 		else
-			setText(b.getBlackTime() + "<br>Black's Turn<br>" + b.getWhiteTime());
-		board = b;
+			setText(board.getGame().getBlackTime() + "<br>Black's Turn<br>" + board.getGame().getWhiteTime());
 		board.updatePic();
 		gameGUISetup();
 	}
@@ -61,7 +56,7 @@ public class Main implements Serializable {
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(new SavedGame(board.getAllPieces(), board.getWhiteTime(), board.getBlackTime(), board.getWhiteTurn(), board.getWKingPos(), board.getBKingPos()));
+				oos.writeObject(new SavedGame(board.getGame()));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
