@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSlider;
 
 public class Board extends JPanel {
 	private Chess game;
@@ -45,6 +46,7 @@ public class Board extends JPanel {
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
 			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+			JSlider slider = new JSlider(1,180);
 			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
 				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
