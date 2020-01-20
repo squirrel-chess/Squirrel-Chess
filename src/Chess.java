@@ -15,8 +15,10 @@ public class Chess {
 	private Board board;
 	private int mins, secs;
 	
-	private int frameHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 130;
-	private int frameWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
+	private GamePanel gamePanel;
+	
+	public int frameHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 130;
+	public int frameWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
@@ -34,16 +36,18 @@ public class Chess {
 	public void setupGame() {
 		text = new JLabel();
 		board = new Board(this);
+		gamePanel = new GamePanel(frameWidth - frameHeight, frameHeight);
+		
 		frame.setLayout(null);
 		frame.remove(menu);
 		frame.add(board/*, BorderLayout.CENTER*/);
-		frame.add(text/*, BorderLayout.EAST*/);
+		//frame.add(text/*, BorderLayout.EAST*/);
+		frame.add(gamePanel);
 		
 		board.setBounds(0, 0, frameHeight, frameHeight);
-		text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
-		System.out.println("frameHeight: " + frameHeight);
-		System.out.println("frameWidth: " + frameWidth);
-		System.out.println("frameWidth-frameHeight: " + (frameWidth-frameHeight));
+		gamePanel.setBounds(frameHeight, 0, frameWidth - frameHeight, frameHeight);
+		
+		//text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
 		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);

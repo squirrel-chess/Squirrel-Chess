@@ -94,7 +94,7 @@ public class Board extends JPanel {
 	}
 
 	private void initBoard() {
-		setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		//setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		squares = new Square[8][8];
 		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
