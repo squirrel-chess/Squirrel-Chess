@@ -17,9 +17,6 @@ public class Square extends JButton {
 	}
 
 	public void click() {
-		System.out.println(board);
-		System.out.println(pos);
-		System.out.println(game);
 		if (board.getSelectedPiece() == null && game.getPieceAtPos(pos) != null) {
 			game.getPieceAtPos(pos).select();
 		} else if (inMoveSet && board.getSelectedPiece() != null) {

@@ -16,11 +16,10 @@ public class Board extends JPanel implements Serializable {
 	private Game game;
 	private Square[][] squares;
 	private Piece selectedPiece;
-	private boolean isWhiteTurn;
 
 	public Board(Main main) {
 		this.main = main;
-		game = new Game(null, this);
+		game = new Game(this);
 		initBoard();
 	}
 
@@ -28,7 +27,7 @@ public class Board extends JPanel implements Serializable {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
 				null) == 1)
-			game = new Game(null, this);
+			game = new Game(this);
 		else
 			System.exit(0);
 	}
@@ -43,15 +42,16 @@ public class Board extends JPanel implements Serializable {
 	}
 
 	public void unhighlightMoves() {
+		System.out.println(game.getWhiteTurn());
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
-					if (isWhiteTurn) {
+					if (game.getWhiteTurn()) {
 						squares[i][j].setBackground(Color.LIGHT_GRAY);
 					} else {
 						squares[i][j].setBackground(Color.GRAY);
 					}
-				} else if (isWhiteTurn) {
+				} else if (game.getWhiteTurn()) {
 					squares[i][j].setBackground(Color.WHITE);
 				} else {
 					squares[i][j].setBackground(Color.LIGHT_GRAY);
@@ -84,6 +84,7 @@ public class Board extends JPanel implements Serializable {
 				add(squares[i][j]);
 			}
 		}
+		updatePic();
 	}
 
 	public Piece getSelectedPiece() {
@@ -116,7 +117,7 @@ public class Board extends JPanel implements Serializable {
 	}
 	
 	public void nextTurn(Time whiteTime, Time blackTime) {
-		if (isWhiteTurn) {
+		if (game.getWhiteTurn()) {
 			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
@@ -129,15 +130,16 @@ public class Board extends JPanel implements Serializable {
 				playAgainMenu();
 			}
 		}
+		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
-					if (isWhiteTurn) {
+					if (game.getWhiteTurn()) {
 						squares[i][j].setBackground(Color.LIGHT_GRAY);
 					} else {
 						squares[i][j].setBackground(Color.GRAY);
 					}
-				} else if (isWhiteTurn) {
+				} else if (game.getWhiteTurn()) {
 					squares[i][j].setBackground(Color.WHITE);
 				} else {
 					squares[i][j].setBackground(Color.LIGHT_GRAY);

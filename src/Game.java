@@ -17,7 +17,7 @@ public class Game {
 	Rook blackR1;
 	Rook blackR2;
 
-	public Game(ArrayList<Piece> pieces, Board board) {
+	public Game(Board board) {
 		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
@@ -25,55 +25,69 @@ public class Game {
 			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
 				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
-		
+
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		this.pieces = pieces;
+		whiteTurn = true;
+		wKingPos = new Position(7, 4);
+		bKingPos = new Position(0, 4);
 		this.board = board;
 
-		if (pieces == null) {
-			System.out.println("Got here");
-			pieces = new ArrayList<Piece>();
-			whiteR1 = new Rook(new Position (0, 0), this, board, false);
-			whiteR2 = new Rook(new Position(0, 7), this, board, false);
-			blackR1 = new Rook(new Position(7, 0), this, board, true);
-			blackR2 = new Rook(new Position(7, 7), this, board, true);
-			
-			pieces.add(whiteR1);
-			pieces.add(whiteR2);
-			pieces.add(blackR1);
-			pieces.add(blackR2);
-			
-			pieces.add(new Knight(new Position(0, 1), this, board, false));
-			pieces.add(new Bishop(new Position(0, 2), this, board, false));
-			pieces.add(new Queen(new Position(0, 3), this, board, false));
-			pieces.add(new King(new Position(0, 4), this, board, false, blackR1, blackR2));
-			pieces.add(new Bishop(new Position(0, 5), this, board, false));
-			pieces.add(new Knight(new Position(0, 6), this, board, false));
-			pieces.add(new Pawn(new Position(1, 0), this, board, false));
-			pieces.add(new Pawn(new Position(1, 1), this, board, false));
-			pieces.add(new Pawn(new Position(1, 2), this, board, false));
-			pieces.add(new Pawn(new Position(1, 3), this, board, false));
-			pieces.add(new Pawn(new Position(1, 4), this, board, false));
-			pieces.add(new Pawn(new Position(1, 5), this, board, false));
-			pieces.add(new Pawn(new Position(1, 6), this, board, false));
-			pieces.add(new Pawn(new Position(1, 7), this, board, false));
-			// white pieces
-			pieces.add(new Pawn(new Position(6, 0), this, board, true));
-			pieces.add(new Pawn(new Position(6, 1), this, board, true));
-			pieces.add(new Pawn(new Position(6, 2), this, board, true));
-			pieces.add(new Pawn(new Position(6, 3), this, board, true));
-			pieces.add(new Pawn(new Position(6, 4), this, board, true));
-			pieces.add(new Pawn(new Position(6, 5), this, board, true));
-			pieces.add(new Pawn(new Position(6, 6), this, board, true));
-			pieces.add(new Pawn(new Position(6, 7), this, board, true));
-			pieces.add(new Knight(new Position(7, 1), this, board, true));
-			pieces.add(new Bishop(new Position(7, 2), this, board, true));
-			pieces.add(new Queen(new Position(7, 3), this, board, true));
-			pieces.add(new King(new Position(7, 4), this, board, true, whiteR1, whiteR2));
-			pieces.add(new Bishop(new Position(7, 5), this, board, true));
-			pieces.add(new Knight(new Position(7, 6), this, board, true));
-		}
+		pieces = new ArrayList<Piece>();
+		whiteR1 = new Rook(new Position(0, 0), this, board, false);
+		whiteR2 = new Rook(new Position(0, 7), this, board, false);
+		blackR1 = new Rook(new Position(7, 0), this, board, true);
+		blackR2 = new Rook(new Position(7, 7), this, board, true);
+
+		pieces.add(whiteR1);
+		pieces.add(whiteR2);
+		pieces.add(blackR1);
+		pieces.add(blackR2);
+
+		pieces.add(new Knight(new Position(0, 1), this, board, false));
+		pieces.add(new Bishop(new Position(0, 2), this, board, false));
+		pieces.add(new Queen(new Position(0, 3), this, board, false));
+		pieces.add(new King(new Position(0, 4), this, board, false, blackR1, blackR2));
+		pieces.add(new Bishop(new Position(0, 5), this, board, false));
+		pieces.add(new Knight(new Position(0, 6), this, board, false));
+		pieces.add(new Pawn(new Position(1, 0), this, board, false));
+		pieces.add(new Pawn(new Position(1, 1), this, board, false));
+		pieces.add(new Pawn(new Position(1, 2), this, board, false));
+		pieces.add(new Pawn(new Position(1, 3), this, board, false));
+		pieces.add(new Pawn(new Position(1, 4), this, board, false));
+		pieces.add(new Pawn(new Position(1, 5), this, board, false));
+		pieces.add(new Pawn(new Position(1, 6), this, board, false));
+		pieces.add(new Pawn(new Position(1, 7), this, board, false));
+		// white pieces
+		pieces.add(new Pawn(new Position(6, 0), this, board, true));
+		pieces.add(new Pawn(new Position(6, 1), this, board, true));
+		pieces.add(new Pawn(new Position(6, 2), this, board, true));
+		pieces.add(new Pawn(new Position(6, 3), this, board, true));
+		pieces.add(new Pawn(new Position(6, 4), this, board, true));
+		pieces.add(new Pawn(new Position(6, 5), this, board, true));
+		pieces.add(new Pawn(new Position(6, 6), this, board, true));
+		pieces.add(new Pawn(new Position(6, 7), this, board, true));
+		pieces.add(new Knight(new Position(7, 1), this, board, true));
+		pieces.add(new Bishop(new Position(7, 2), this, board, true));
+		pieces.add(new Queen(new Position(7, 3), this, board, true));
+		pieces.add(new King(new Position(7, 4), this, board, true, whiteR1, whiteR2));
+		pieces.add(new Bishop(new Position(7, 5), this, board, true));
+		pieces.add(new Knight(new Position(7, 6), this, board, true));
+	}
+
+	public Game(Board board, ArrayList<Piece> pieces, boolean whiteTurn) {
+		int mins, secs;
+		do {
+			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
+			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
+			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
+				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
+		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
+
+		whiteTime = new Time(mins, secs);
+		blackTime = new Time(mins, secs);
+		this.board = board;
+		this.pieces = pieces;
 	}
 
 	public ArrayList<Piece> getPieces() {
@@ -99,7 +113,6 @@ public class Game {
 	}
 
 	public Piece getPieceAtPos(Position pos) {
-		System.out.println(pieces);
 		for (Piece p : pieces) {
 			if (p.getPos().equals(pos))
 				return p;
@@ -127,8 +140,6 @@ public class Game {
 
 		boolean pWhite = piece.isWhite;
 
-		System.out.println("testing: " + piece.toString());
-
 		// if king is not already in check
 		// if (!testCheck(pWhite)) {
 
@@ -144,12 +155,9 @@ public class Game {
 			// if the piece is a king, the kingPos needs to be updated
 			moveKingPos(pWhite, piece, pos);
 
-			System.out.println("\tmoving to: " + piece.toString());
-
 			// test if it would move into check
 			if (testCheck(pWhite)) {
 				ret.remove(i);
-				System.out.println("\t\tREMOVED!");
 			}
 
 			// replace kingpos and simmoved piece
@@ -180,7 +188,7 @@ public class Game {
 		}
 		return false;
 	}
-	
+
 	public void replacePiece(Piece p) { // for checkmate
 		if (p != null) {
 			pieces.add(p);
@@ -211,6 +219,7 @@ public class Game {
 			board.nextTurn(whiteTime, blackTime);
 			whiteTime.startTurn();
 		}
+		whiteTurn = !whiteTurn;
 	}
 
 	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
@@ -230,12 +239,13 @@ public class Game {
 	public void addPiece(Piece p) {
 		pieces.add(p);
 	}
-	
+
 	public Time getWhiteTime() {
 		return whiteTime;
 	}
-	
+
 	public Time getBlackTime() {
 		return blackTime;
 	}
+	
 }
