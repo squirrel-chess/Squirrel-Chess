@@ -18,6 +18,7 @@ public class Chess {
 	private JLabel text;
 	private Board board;
 	JButton pause;
+	long pausedTime=0;
 
 	private int mins, secs;
 
@@ -51,24 +52,27 @@ public class Chess {
 		panelButtons.add(pause, BorderLayout.NORTH);
 		pause.setText("Pause");
 		pause.setPreferredSize(new Dimension(100, 500));
-
+	
 		pause.addActionListener((e) -> {
-			long pausedTime = System.currentTimeMillis();
+			 
 			if (pause.getText().equals("Pause")) {
 				pause.setText("Play");
+				pausedTime = System.currentTimeMillis();
 				JOptionPane.showMessageDialog(null, "Game Paused.");
 				System.out.println(pausedTime);
-
+			} else 
 				if (pause.getText().equals("Play")) {
-					pause.setText("Play");
+					pause.setText("Pause");
 					if (board.getWhiteTurn() == true) {
 						setText(board.getBlackTime() + "<br>White's Turn<br>" + pausedTime);
 					} else {
-						setText(pausedTime + "<br>White's Turn<br>" + board.getBlackTime());
+						setText(pausedTime + "<br>White's Turn<br>" + board.getWhiteTime());
+						
 					}
+					System.out.println(pausedTime);
 				}
 
-			}
+			
 		});
 
 		frame.pack();
