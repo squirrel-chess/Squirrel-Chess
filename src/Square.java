@@ -17,9 +17,12 @@ public class Square extends JButton {
 	}
 
 	public void click() {
+		System.out.println("Click " + pos);
 		if (board.getSelectedPiece() == null && game.getPieceAtPos(pos) != null) {
+			System.out.println(1);
 			game.getPieceAtPos(pos).select();
 		} else if (inMoveSet && board.getSelectedPiece() != null) {
+			System.out.println("2");
 			board.getSelectedPiece().move(pos);
 			if (game.testCheck(true)) {
 				JOptionPane.showMessageDialog(null, "Black wins!");
@@ -32,8 +35,8 @@ public class Square extends JButton {
 			} else if (game.testCheck(false)) {
 				JOptionPane.showMessageDialog(null, "Black King is in check!");
 			}
-			
 		} else {
+			System.out.println("3");
 			board.setSelectedPiece(null);
 			board.unhighlightMoves();
 		}
@@ -42,5 +45,4 @@ public class Square extends JButton {
 	public void setInMoveSet(boolean inMoveSet) {
 		this.inMoveSet = inMoveSet;
 	}
-
 }

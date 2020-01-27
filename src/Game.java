@@ -1,8 +1,11 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
-public class Game {
+public class Game implements Serializable {
+
+	private static final long serialVersionUID = 8353142734621333312L;
 	private ArrayList<Piece> pieces;
 	private Board board;
 	private Time whiteTime;
@@ -210,6 +213,7 @@ public class Game {
 	}
 
 	public void nextTurn() {
+		whiteTurn = !whiteTurn;
 		if (whiteTurn) {
 			whiteTime.endTurn();
 			board.nextTurn(whiteTime, blackTime);
@@ -219,7 +223,6 @@ public class Game {
 			board.nextTurn(whiteTime, blackTime);
 			whiteTime.startTurn();
 		}
-		whiteTurn = !whiteTurn;
 	}
 
 	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {

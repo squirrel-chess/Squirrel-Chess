@@ -11,14 +11,14 @@ import javax.swing.JPanel;
 public class Menu extends JPanel {
 
 	private static final long serialVersionUID = 4253062957905769372L;
-	private Main main;
+	private SquirrelChess main;
 	JLabel title;
 	JButton play;
 	JButton instruct;
 	JButton loadGame;
 	Font titleFont = new Font("Dyeline", Font.ITALIC, 50);
 
-	public Menu(Main main) {
+	public Menu(SquirrelChess main) {
 		this.main = main;
 		setLayout(null);
 		setSize(1000, 1000);

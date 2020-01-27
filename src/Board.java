@@ -12,14 +12,22 @@ import javax.swing.JPanel;
 public class Board extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 2499641607903690667L;
-	private Main main;
+	private SquirrelChess main;
 	private Game game;
 	private Square[][] squares;
 	private Piece selectedPiece;
 
-	public Board(Main main) {
+	public Board(SquirrelChess main) {
 		this.main = main;
 		game = new Game(this);
+		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
+		initBoard();
+	}
+	
+	public Board(SquirrelChess main, Game game) {
+		this.main = main;
+		this.game = game;
+		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		initBoard();
 	}
 
@@ -33,6 +41,7 @@ public class Board extends JPanel implements Serializable {
 	}
 
 	public void highlightMoves(Piece p) {
+		System.out.println("Got here 2");
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet(true)) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
@@ -130,7 +139,6 @@ public class Board extends JPanel implements Serializable {
 				playAgainMenu();
 			}
 		}
-		
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
@@ -149,11 +157,15 @@ public class Board extends JPanel implements Serializable {
 		updatePic();
 	}
 
-	public Main getMain() {
+	public SquirrelChess getMain() {
 		return main;
 	}
 	
 	public Game getGame() {
 		return game;
+	}
+	
+	public void setGame(Game game) {
+		this.game = game;
 	}
 }
