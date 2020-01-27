@@ -41,6 +41,7 @@ public class Board extends JPanel implements Serializable {
 	}
 
 	public void highlightMoves(Piece p) {
+		//FIX THIS METHOD
 		System.out.println("Got here 2");
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet(true)) {
