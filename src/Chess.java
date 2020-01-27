@@ -19,7 +19,9 @@ public class Chess {
 	private Board board;
 	JButton pause;
 	long pausedTime=0;
-
+	long minChange=0;
+	Time timePausedWhite;
+	Time timePausedBlack;
 	private int mins, secs;
 
 	public Chess() {
@@ -52,24 +54,31 @@ public class Chess {
 		panelButtons.add(pause, BorderLayout.NORTH);
 		pause.setText("Pause");
 		pause.setPreferredSize(new Dimension(100, 500));
-	
+		  
 		pause.addActionListener((e) -> {
-			 
+			
 			if (pause.getText().equals("Pause")) {
 				pause.setText("Play");
 				pausedTime = System.currentTimeMillis();
+				int minsWhite = board.getWhiteTime().getMins();
+				int secsWhite = board.getWhiteTime().getSecs();
+				int minsBlack = board.getBlackTime().getMins();
+				int secsBlack = board.getWhiteTime().getSecs();
 				JOptionPane.showMessageDialog(null, "Game Paused.");
+				timePausedWhite = new Time(minsWhite,secsWhite);
+				timePausedBlack = new Time(minsBlack,secsBlack);
+			
 				System.out.println(pausedTime);
 			} else 
 				if (pause.getText().equals("Play")) {
 					pause.setText("Pause");
 					if (board.getWhiteTurn() == true) {
-						setText(board.getBlackTime() + "<br>White's Turn<br>" + pausedTime);
+						setText(timePausedWhite + "<br>White's Turn<br>" + timePausedBlack);
 					} else {
-						setText(pausedTime + "<br>White's Turn<br>" + board.getWhiteTime());
-						
+						setText(timePausedWhite + "<br>Black's Turn<br>" + timePausedBlack);
 					}
 					System.out.println(pausedTime);
+					
 				}
 
 			
