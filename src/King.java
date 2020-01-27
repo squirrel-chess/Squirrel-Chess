@@ -136,7 +136,7 @@ public class King extends Piece {
 	@Override
 	public void move(Position pos) {
 		if (b.getPieceAtPos(pos) != null)
-			b.getPieceAtPos(pos).remove();
+			b.getPieceAtPos(pos).remove(true);
 		if (pos.equals(new Position(7, 2))) {
 			this.pos = pos;
 			b.wKingPos = pos;

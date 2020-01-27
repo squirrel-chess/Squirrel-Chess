@@ -90,7 +90,9 @@ public class Board extends JPanel {
 	}
 
 	public void removePiece(Piece p) {
+		
 		pieces.remove(p);
+		
 	}
 
 	private void initBoard() {

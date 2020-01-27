@@ -36,7 +36,7 @@ public class Chess {
 	public void setupGame() {
 		text = new JLabel();
 		board = new Board(this);
-		gamePanel = new GamePanel(frameWidth - frameHeight, frameHeight);
+		gamePanel = new GamePanel(frameWidth - frameHeight, frameHeight, frameHeight);
 		
 		frame.setLayout(null);
 		frame.remove(menu);
@@ -56,6 +56,7 @@ public class Chess {
 		
 		frame.pack();
 	}
+	
 	public Dimension getFrameDimension() {
 		return frame.getSize();
 	}
