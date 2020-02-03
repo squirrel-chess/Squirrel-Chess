@@ -100,25 +100,25 @@ public class Pawn extends Piece {
 		case 0:
 			if (isWhite) p = new Bishop(pos, game, board, true);
 			else p = new Bishop(pos, game, board, false);
-			board.updatePic();
+			board.updateGraphics();
 			break;
 		case 1:
 			if (isWhite) p = new Knight(pos, game, board, true);
 			else p = new Knight(pos, game, board, false);
-			board.updatePic();
+			board.updateGraphics();
 			break;
 		case 2:
 			if (isWhite) p = new Queen(pos, game, board, true);
 			else p = new Queen(pos, game, board, false);
-			board.updatePic();
+			board.updateGraphics();
 			break;
 		default:
 			if (isWhite) p = new Rook(pos, game, board, true);
 			else p = new Rook(pos, game, board, false);
-			board.updatePic();
+			board.updateGraphics();
 			break;
 		}
 		game.addPiece(p);
-		board.updatePic();
+		board.updateGraphics();
 	}
 }

@@ -21,11 +21,11 @@ public abstract class Piece implements Serializable {
 	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
-		System.out.println("got here");
 		if (game.getWhiteTurn() == isWhite) {
-			if (board.getSelectedPiece() == null)
+			if (board.getSelectedPiece() == null) {
 				board.highlightMoves(this);
-			else {
+			board.setSelectedPiece(this);
+			} else {
 				board.unhighlightMoves();
 			}
 		}
@@ -35,7 +35,7 @@ public abstract class Piece implements Serializable {
 		if (game.getPieceAtPos(pos) != null) 
 			game.getPieceAtPos(pos).remove();
 		this.pos = pos;
-		board.updatePic();
+		board.updateGraphics();
 		board.unhighlightMoves();
 		board.setSelectedPiece(null);
 		game.nextTurn(); 

@@ -120,7 +120,7 @@ public class King extends Piece {
 		board.unhighlightMoves();
 		board.setSelectedPiece(null);
 		hasMoved = true;
-		board.updatePic();
+		board.updateGraphics();
 		game.nextTurn();
 	}
 	

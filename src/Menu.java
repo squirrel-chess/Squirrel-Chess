@@ -33,14 +33,13 @@ public class Menu extends JPanel {
 			main.setupGame(null);
 		});
 		instruct = new JButton();
-		instruct.setText("Instuctions");
+		instruct.setText("Instructions");
 		loadGame = new JButton();
 		loadGame.setText("Load Game");
 		loadGame.addActionListener((e) -> {
 			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
 					ObjectInputStream ois = new ObjectInputStream(fis)) {
-				 SavedGame sg = (SavedGame) ois.readObject();
-				 main.setupGame(sg.getGame());
+				 main.setupGame((Game) ois.readObject());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e2) {

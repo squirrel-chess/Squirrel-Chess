@@ -8,18 +8,19 @@ public class Square extends JButton {
 	private Game game;
 	private Board board;
 	private Position pos;
-
+	
 	public Square(Game game, Board board, Position pos) {
 		this.inMoveSet = false;
 		this.game = game;
 		this.board = board;
 		this.pos = pos;
+		setOpaque(true);
 	}
 
 	public void click() {
 		System.out.println("Click " + pos);
 		if (board.getSelectedPiece() == null && game.getPieceAtPos(pos) != null) {
-			System.out.println(1);
+			System.out.println("1");
 			game.getPieceAtPos(pos).select();
 		} else if (inMoveSet && board.getSelectedPiece() != null) {
 			System.out.println("2");

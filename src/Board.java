@@ -20,13 +20,15 @@ public class Board extends JPanel implements Serializable {
 	public Board(SquirrelChess main) {
 		this.main = main;
 		game = new Game(this);
+		revalidate();
 		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		initBoard();
 	}
-	
+
 	public Board(SquirrelChess main, Game game) {
 		this.main = main;
 		this.game = game;
+		revalidate();
 		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		initBoard();
 	}
@@ -34,21 +36,22 @@ public class Board extends JPanel implements Serializable {
 	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
-				null) == 1)
+				null) == 1) {
 			game = new Game(this);
-		else
+			main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
+		} else {
 			System.exit(0);
+		}
 	}
 
 	public void highlightMoves(Piece p) {
-		//FIX THIS METHOD
-		System.out.println("Got here 2");
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet(true)) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
 		selectedPiece = p;
+		updateGraphics();
 	}
 
 	public void unhighlightMoves() {
@@ -70,6 +73,7 @@ public class Board extends JPanel implements Serializable {
 			}
 		}
 		selectedPiece = null;
+		updateGraphics();
 	}
 
 	public void initBoard() {
@@ -94,7 +98,7 @@ public class Board extends JPanel implements Serializable {
 				add(squares[i][j]);
 			}
 		}
-		updatePic();
+		updateGraphics();
 	}
 
 	public Piece getSelectedPiece() {
@@ -105,7 +109,7 @@ public class Board extends JPanel implements Serializable {
 		selectedPiece = p;
 	}
 
-	public void updatePic() {
+	public void updateGraphics() {
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
 				squares[i][j].setIcon(null);
@@ -125,8 +129,9 @@ public class Board extends JPanel implements Serializable {
 			}
 		}
 	}
-	
+
 	public void nextTurn(Time whiteTime, Time blackTime) {
+		System.out.println(whiteTime + " " + blackTime);
 		if (game.getWhiteTurn()) {
 			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
@@ -155,17 +160,17 @@ public class Board extends JPanel implements Serializable {
 				}
 			}
 		}
-		updatePic();
+		updateGraphics();
 	}
 
 	public SquirrelChess getMain() {
 		return main;
 	}
-	
+
 	public Game getGame() {
 		return game;
 	}
-	
+
 	public void setGame(Game game) {
 		this.game = game;
 	}

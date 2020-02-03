@@ -44,22 +44,12 @@ public class SquirrelChess implements Serializable {
 		gameGUISetup();
 	}
 
-	public void setupBoard() {
-		text = new JLabel();
-		if (board.getGame().getWhiteTurn())
-			setText(board.getGame().getBlackTime() + "<br>White's Turn<br>" + board.getGame().getWhiteTime());
-		else
-			setText(board.getGame().getBlackTime() + "<br>Black's Turn<br>" + board.getGame().getWhiteTime());
-		board.updatePic();
-		gameGUISetup();
-	}
-
 	private void gameGUISetup() {
 		saveGame = new JButton("Save Game");
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(new SavedGame(board.getGame()));
+				oos.writeObject(board.getGame());
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
