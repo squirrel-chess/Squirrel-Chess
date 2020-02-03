@@ -83,4 +83,9 @@ public class Rook extends Piece {
 	public String toString() {
 		return super.toString() + "Rook";
 	}
+	
+	@Override
+	public int pieceType() {
+		return 2;
+	}
 }

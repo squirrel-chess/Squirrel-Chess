@@ -61,6 +61,10 @@ public class Chess {
 		return frame.getSize();
 	}
 	
+	public GamePanel getGamePanel() {
+		return gamePanel;
+	}
+	
 	public static void main(String[] args) {
 		new Chess();
 	}

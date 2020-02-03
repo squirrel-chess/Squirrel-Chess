@@ -206,4 +206,9 @@ public class Pawn extends Piece {
 		b.addPiece(p);
 		b.updatePic();
 	}
+	
+	@Override
+	public int pieceType() {
+		return 5;
+	}
 }

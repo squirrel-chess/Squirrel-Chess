@@ -65,9 +65,11 @@ public abstract class Piece {
 
 	// REMOVE
 	public void remove(boolean taken) {
-		
 		b.removePiece(this);
 		
+		if (taken) {
+			b.getGame().getGamePanel().addPiece(this);
+		}
 	}
 
 	public Position getPos() {
@@ -101,4 +103,10 @@ public abstract class Piece {
 	public boolean isKing() {
 		return false;
 	}
+	
+	// PIECE TYPE - use isKing for king
+	public int pieceType() {
+		return -1;
+	}
+	
 }
