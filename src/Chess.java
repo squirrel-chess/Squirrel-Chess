@@ -18,10 +18,10 @@ public class Chess {
 	private JLabel text;
 	private Board board;
 	JButton pause;
-	long pausedTime=0;
+	static long pausedTime=0;
 	long minChange=0;
-	Time timePausedWhite;
-	Time timePausedBlack;
+	static Time timePausedWhite;
+	static Time timePausedBlack;
 	private int mins, secs;
 
 	public Chess() {
@@ -63,7 +63,7 @@ public class Chess {
 				int minsWhite = board.getWhiteTime().getMins();
 				int secsWhite = board.getWhiteTime().getSecs();
 				int minsBlack = board.getBlackTime().getMins();
-				int secsBlack = board.getWhiteTime().getSecs();
+				int secsBlack = board.getBlackTime().getSecs();
 				JOptionPane.showMessageDialog(null, "Game Paused.");
 				timePausedWhite = new Time(minsWhite,secsWhite);
 				timePausedBlack = new Time(minsBlack,secsBlack);
@@ -72,10 +72,13 @@ public class Chess {
 			} else 
 				if (pause.getText().equals("Play")) {
 					pause.setText("Pause");
+					board.setBlackTime(timePausedBlack);
+					board.setWhiteTime(timePausedWhite);
+					System.out.println(board.getBlackTime());
 					if (board.getWhiteTurn() == true) {
-						setText(timePausedWhite + "<br>White's Turn<br>" + timePausedBlack);
+						setText(timePausedBlack  + " (Black)" + "<br>White's Turn<br>" + timePausedWhite + " (White)");
 					} else {
-						setText(timePausedWhite + "<br>Black's Turn<br>" + timePausedBlack);
+						setText(timePausedBlack  + " (Black)" + "<br>Black's Turn<br>" + timePausedWhite + " (White)");
 					}
 					System.out.println(pausedTime);
 					

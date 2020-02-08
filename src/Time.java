@@ -3,6 +3,7 @@ public class Time {
 	private int secs;
 	private int millis;
 	private long lastTime;
+	private long currentMillis;
 
 	public Time(int mins, int secs) {
 		this.mins = mins;
@@ -13,7 +14,25 @@ public class Time {
 	public void startTurn() {
 		lastTime = System.currentTimeMillis();
 	}
-
+	public long getLastTime() {
+		return lastTime;
+	}
+	public long getCurrentMillis() {
+		return currentMillis;
+	}
+	public int toMillis() {
+		int mils = 0;
+		mils += mins*60000;
+		mils += secs*1000;
+		mils+= millis;
+		return mils;
+	}
+	public void setMins(int min) {
+		mins = min;
+	}
+	public void setSecs(int sec) {
+		secs = sec;
+	}
 	public void endTurn() {
 		long timeChange = System.currentTimeMillis() - lastTime;
 		long minChange = timeChange / 60000;
