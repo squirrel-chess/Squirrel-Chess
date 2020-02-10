@@ -24,6 +24,7 @@ public class Chess {
 	static Time timePausedBlack;
 	private int mins, secs;
 
+
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		menu = new Menu(this);
@@ -67,10 +68,13 @@ public class Chess {
 				JOptionPane.showMessageDialog(null, "Game Paused.");
 				timePausedWhite = new Time(minsWhite,secsWhite);
 				timePausedBlack = new Time(minsBlack,secsBlack);
-			
+				board.getWhiteTime().setPaused(true);
+				board.getBlackTime().setPaused(true);
 				System.out.println(pausedTime);
 			} else 
 				if (pause.getText().equals("Play")) {
+					board.getWhiteTime().setPaused(false);
+					board.getBlackTime().setPaused(false);
 					pause.setText("Pause");
 					board.setBlackTime(timePausedBlack);
 					board.setWhiteTime(timePausedWhite);
