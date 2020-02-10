@@ -79,19 +79,14 @@ public class Game implements Serializable {
 		pieces.add(new Knight(new Position(7, 6), this, board, true));
 	}
 
-	public Game(Board board, ArrayList<Piece> pieces, boolean whiteTurn) {
-		int mins, secs;
-		do {
-			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
-			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
-			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
-				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
-		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
-
-		whiteTime = new Time(mins, secs);
-		blackTime = new Time(mins, secs);
+	public Game(Board board, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn, Position wKingPos, Position bKingPos) {
 		this.board = board;
 		this.pieces = pieces;
+		this.whiteTime = whiteTime;
+		this.blackTime = blackTime;
+		this.whiteTurn = whiteTurn;
+		this.wKingPos = wKingPos;
+		this.bKingPos = bKingPos;
 	}
 
 	public ArrayList<Piece> getPieces() {
@@ -253,4 +248,15 @@ public class Game implements Serializable {
 		return blackTime;
 	}
 	
+	public Position getWKingPos() {
+		return wKingPos;
+	}
+	
+	public Position getBKingPos() {
+		return bKingPos;
+	}
+	
+	public void setBoard(Board board) {
+		this.board = board;
+	}
 }

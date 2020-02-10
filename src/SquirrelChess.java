@@ -50,6 +50,7 @@ public class SquirrelChess implements Serializable {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 				oos.writeObject(board.getGame());
+				oos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

@@ -18,19 +18,22 @@ public class Board extends JPanel implements Serializable {
 	private Piece selectedPiece;
 
 	public Board(SquirrelChess main) {
+		selectedPiece = null;
 		this.main = main;
 		game = new Game(this);
-		revalidate();
 		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		initBoard();
+		revalidate();
 	}
 
 	public Board(SquirrelChess main, Game game) {
+		selectedPiece = null;
+		this.game = new Game(this, game.getPieces(), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn(), game.getWKingPos(), game.getBKingPos());
 		this.main = main;
 		this.game = game;
-		revalidate();
 		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		initBoard();
+		revalidate();
 	}
 
 	public void playAgainMenu() {
@@ -45,6 +48,8 @@ public class Board extends JPanel implements Serializable {
 	}
 
 	public void highlightMoves(Piece p) {
+		System.out.println("WHY WONT YOU HIGHLIGHT");
+		System.out.println(squares[p.getPos().getRow()][p.getPos().getCol()]);
 		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
 		for (Position pos : p.getMoveSet(true)) {
 			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
