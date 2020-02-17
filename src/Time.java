@@ -61,15 +61,19 @@ public class Time {
 		lastEnd = System.currentTimeMillis();
 		if(paused==false) {
 			accumulatedTime+= ((double)lastEnd-(double)start)/1000.0;
-			accumulatedTime = accumulatedTime/60000;
-			System.out.println(lastEnd);
-			System.out.println(start);
-			//accumulatedTime +=(double) System.currentTimeMillis()/1000.0;
-//			System.out.println(accumulatedTime);
-//			System.out.println(System.currentTimeMillis());
+			System.out.println(accumulatedTime);//9 numsd
+			System.out.println(System.currentTimeMillis());//12
+		//	accumulatedTime = accumulatedTime/60000;
+		//	System.out.println(lastEnd);
+			//System.out.println(start);
+			//accumulatedTime +=(double) System.currentTimeMillis()/1000.0
+			accumulatedTime = (double)(System.currentTimeMillis()- accumulatedTime);
 			
 		}
-		long timeChange = (long) (System.currentTimeMillis() - lastTime);
+		
+		long timeChange = (long) (accumulatedTime- lastTime);
+		System.out.println(lastTime);
+		System.out.println(timeChange); //should be around 3000 millis --> 3 seconds
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
 		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));

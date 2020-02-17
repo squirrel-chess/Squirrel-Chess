@@ -70,7 +70,7 @@ public class Chess {
 				timePausedBlack = new Time(minsBlack,secsBlack);
 				board.getWhiteTime().setPaused(true);
 				board.getBlackTime().setPaused(true);
-				System.out.println(pausedTime);
+			//	System.out.println(pausedTime);
 			} else 
 				if (pause.getText().equals("Play")) {
 					board.getWhiteTime().setPaused(false);
@@ -78,13 +78,13 @@ public class Chess {
 					pause.setText("Pause");
 					board.setBlackTime(timePausedBlack);
 					board.setWhiteTime(timePausedWhite);
-					System.out.println(board.getBlackTime());
+					//System.out.println(board.getBlackTime());
 					if (board.getWhiteTurn() == true) {
 						setText(timePausedBlack  + " (Black)" + "<br>White's Turn<br>" + timePausedWhite + " (White)");
 					} else {
 						setText(timePausedBlack  + " (Black)" + "<br>Black's Turn<br>" + timePausedWhite + " (White)");
 					}
-					System.out.println(pausedTime);
+				//	System.out.println(pausedTime);
 					
 				}
 
