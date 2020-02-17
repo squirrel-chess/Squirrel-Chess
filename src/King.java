@@ -1,6 +1,9 @@
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 public class King extends Piece {
 
@@ -132,11 +135,32 @@ public class King extends Piece {
 	public void draw() {
 
 	}
-
+	public static synchronized void playSound(final String url) {
+		  new Thread(new Runnable() {
+		  // The wrapper thread is unnecessary, unless it blocks on the
+		  // Clip finishing; see comments.
+		    public void run() {
+		      try {
+		        Clip clip = AudioSystem.getClip();
+		        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+		          this.getClass().getResourceAsStream(url));
+		        clip.open(inputStream);
+		        clip.start(); 
+		      } catch (Exception e) {
+		        System.err.println(e.getMessage());
+		      }
+		    }
+		  }).start();
+		}
 	@Override
 	public void move(Position pos) {
-		if (b.getPieceAtPos(pos) != null)
+		if (b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).remove();
+			playSound("chomp.wav");
+		}
+		else {
+			playSound("whack.wav");
+		}
 		if (pos.equals(new Position(7, 2))) {
 			this.pos = pos;
 			b.wKingPos = pos;
