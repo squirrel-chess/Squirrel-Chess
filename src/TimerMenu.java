@@ -34,8 +34,9 @@ public class TimerMenu extends JPanel implements ActionListener {
 		back.setBounds(40, 400, 100, 40);
 		add(back);
 		hours = new JTextField();
-		hours.setBounds(50, 50, 20, 20);
+		hours.setBounds(40, 50, 20, 20);
 		add(hours);
+		
 	}
 
 	@Override
