@@ -25,15 +25,15 @@ public class Menu extends JPanel implements ActionListener{
 	public Menu(Chess game) {
 		this.game = game;
 		setLayout(null);
-		try {
-			back = ImageIO.read(new File("src/angryimg(1).png"));
-			JLabel picLabel = new JLabel(new ImageIcon(img));
-			picLabel.setBounds(0, 200, 1024, 518);
-			add(picLabel);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+//		try {
+//			back = ImageIO.read(new File("src/angryimg(1).png"));
+//			JLabel picLabel = new JLabel(new ImageIcon(img));
+//			picLabel.setBounds(0, 200, 1024, 518);
+//			add(picLabel);
+//		} catch (IOException e1) {
+//			// TODO Auto-generated catch block
+//			e1.printStackTrace();
+//		}
 		setSize(1000, 1000);
 		title = new JLabel();
 		add(title);

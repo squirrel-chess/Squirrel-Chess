@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class GamePanel extends JPanel {
+public class GamePanel {
 
 	private int panelWidth;
 	private int panelHeight;
@@ -45,8 +46,12 @@ public class GamePanel extends JPanel {
 	private BufferedImage blackBishopImg;
 	private BufferedImage blackKnightImg;
 	private BufferedImage blackPawnImg;
+	
+	// Colors
+	Color backgroundColor = new Color(255, 240, 205);
+	Color darkColor = new Color(77, 40, 0);
 
-	public GamePanel(int width, int height, int x) {
+	public GamePanel(JFrame frame, int width, int height, int x) {
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -60,21 +65,28 @@ public class GamePanel extends JPanel {
 		// calculate height of the center JPanel
 		centerHeight = panelHeight - (gridHeight * 4);
 		
-		add(topGrid);
-		add(center);
-		add(bottomGrid);
-
-		// instantiating JPanels and setting bounds
+		// add panels
 		topGrid = new JPanel();
-		topGrid.setLayout(new GridLayout(2, 8));
-		topGrid.setBounds(panelX, 0, panelWidth, (gridHeight * 2));
-
 		center = new JPanel();
-		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
-
 		bottomGrid = new JPanel();
-		bottomGrid.setLayout(new GridLayout(2, 8));
+
+		frame.add(topGrid);
+		frame.add(center);
+		frame.add(bottomGrid);
+
+		//setting bounds
+		topGrid.setBounds(panelX, 0, panelWidth, (gridHeight * 2));
+		topGrid.setLayout(new GridLayout(2, 8));
+		topGrid.setBackground(backgroundColor);
+
+		// center
+		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
+		center.setBackground(backgroundColor);
+
+		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
+		bottomGrid.setLayout(new GridLayout(2, 8));
+		bottomGrid.setBackground(backgroundColor);
 
 		// instantiate ArrayLists - white taken is a list of WHITE PIECES that are dead
 		whiteTaken = new ArrayList<Piece>();
@@ -97,12 +109,12 @@ public class GamePanel extends JPanel {
 				whiteGrid[i][j] = new JLabel();
 				blackGrid[i][j] = new JLabel();
 				
-				// TEST
 				whiteGrid[i][j].setOpaque(true);
 				blackGrid[i][j].setOpaque(true);
-
-				whiteGrid[i][j].setBackground(Color.CYAN);
 				
+				whiteGrid[i][j].setBackground(backgroundColor);
+				blackGrid[i][j].setBackground(backgroundColor);
+								
 				topGrid.add(whiteGrid[i][j]);
 				bottomGrid.add(blackGrid[i][j]);
 			}
@@ -198,15 +210,14 @@ public class GamePanel extends JPanel {
 		
 		for (int i = 0; i < blackDisplay.size(); i++) {
 			if (i < 8) {
-				blackGrid[0][i].setIcon(new ImageIcon(whiteImg(blackDisplay.get(i))));
+				blackGrid[0][i].setIcon(new ImageIcon(blackImg(blackDisplay.get(i))));
 			} else {
-				blackGrid[1][i - 8].setIcon(new ImageIcon(whiteImg(blackDisplay.get(i))));
+				blackGrid[1][i - 8].setIcon(new ImageIcon(blackImg(blackDisplay.get(i))));
 			}
 		}
-		
 	}
 	
-	// hashmap with if statements :)
+	// basically a hashmap with if statements :)
 	public BufferedImage whiteImg(int i) {
 		if (i == 1) {
 			return whiteQueenImg;

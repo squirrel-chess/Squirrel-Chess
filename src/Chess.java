@@ -36,16 +36,14 @@ public class Chess {
 	public void setupGame() {
 		text = new JLabel();
 		board = new Board(this);
-		gamePanel = new GamePanel(frameWidth - frameHeight, frameHeight, frameHeight);
+		gamePanel = new GamePanel(frame, frameWidth - frameHeight, frameHeight, frameHeight);
 		
 		frame.setLayout(null);
 		frame.remove(menu);
 		frame.add(board/*, BorderLayout.CENTER*/);
 		//frame.add(text/*, BorderLayout.EAST*/);
-		frame.add(gamePanel);
 		
 		board.setBounds(0, 0, frameHeight, frameHeight);
-		gamePanel.setBounds(frameHeight, 0, frameWidth - frameHeight, frameHeight);
 		
 		//text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
 		
