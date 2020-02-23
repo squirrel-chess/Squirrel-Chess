@@ -36,7 +36,7 @@ public class Menu extends JPanel implements ActionListener {
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
-			this.game.setupGame();
+			game.setupGame();
 		});
 		instruct = new JButton();
 		instruct.setText("Instructions");

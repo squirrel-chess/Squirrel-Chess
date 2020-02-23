@@ -11,6 +11,7 @@ public class Chess {
 	
 	private JFrame frame;
 	private Menu menu;
+	private TimerMenu timeMenu;
 	private JLabel text;
 	private Board board;
 	private int mins, secs;
@@ -31,9 +32,16 @@ public class Chess {
 	}
 	public void setupGame() {
 		text = new JLabel();
+		timeMenu = new TimerMenu(this);
+		frame.setSize(500, 500);
+		frame.remove(menu);
+		frame.add(timeMenu);
+	}
+	
+	public void playGame() {
 		board = new Board(this);
 		frame.setLayout(new BorderLayout());
-		frame.remove(menu);
+		frame.remove(timeMenu);
 		frame.add(board, BorderLayout.CENTER);
 		frame.add(text, BorderLayout.EAST);
 		frame.pack();
@@ -41,7 +49,6 @@ public class Chess {
 		frame.setResizable(false);
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		
 	}
 	public Dimension getFrameDimension() {
 		return frame.getSize();
