@@ -25,7 +25,7 @@ public class Board extends JPanel {
 	public Position bKingPos;
 	
 	// Colors
-	Color blackSquareColor = new Color(128, 64, 0);
+	Color blackSquareColor = new Color(133, 77, 20);
 	Color whiteSquareColor = new Color(255, 239, 204);
 	Color darkColor = new Color(77, 40, 0);
 

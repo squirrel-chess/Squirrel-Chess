@@ -33,6 +33,7 @@ public class Chess {
 		text.setText("<html>" + str + "</html>");
 		frame.pack();
 	}
+	
 	public void setupGame() {
 		text = new JLabel();
 		board = new Board(this);

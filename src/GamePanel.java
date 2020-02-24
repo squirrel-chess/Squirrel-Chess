@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -78,15 +79,18 @@ public class GamePanel {
 		topGrid.setBounds(panelX, 0, panelWidth, (gridHeight * 2));
 		topGrid.setLayout(new GridLayout(2, 8));
 		topGrid.setBackground(backgroundColor);
+		topGrid.setBorder(BorderFactory.createLineBorder(darkColor, 3));
 
 		// center
 		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
 		center.setBackground(backgroundColor);
+		center.setBorder(BorderFactory.createLineBorder(darkColor, 3));
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
 		bottomGrid.setLayout(new GridLayout(2, 8));
 		bottomGrid.setBackground(backgroundColor);
+		bottomGrid.setBorder(BorderFactory.createLineBorder(darkColor, 3));
 
 		// instantiate ArrayLists - white taken is a list of WHITE PIECES that are dead
 		whiteTaken = new ArrayList<Piece>();
@@ -102,9 +106,6 @@ public class GamePanel {
 		
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 8; j++) {
-				
-				//TESTING
-				System.out.println("i: " + i + ", j: " + j);
 				
 				whiteGrid[i][j] = new JLabel();
 				blackGrid[i][j] = new JLabel();
@@ -171,27 +172,10 @@ public class GamePanel {
 				}
 			}
 		}
-
-		// TESTING TESTING TESTING
-		System.out.println("\n blackDisplay:");
-		for (int i = 0; i < blackDisplay.size(); i++) {
-			System.out.println(i + ": " + blackDisplay.get(i));
-		}
-		System.out.println("===============\n");
-		
-		System.out.println("\n whiteDisplay:");
-		for (int i = 0; i < whiteDisplay.size(); i++) {
-			System.out.println(i + ": " + whiteDisplay.get(i));
-		}
-		System.out.println("===============\n");
-		// TESTING TESTING TESTING
 		
 	}
 
 	public void displayTaken() {
-		
-		// TESTING TESTING TESTING
-		System.out.println("displaying taken");
 		
 		for (int i = 0; i < 2; i++) {
 			for (int j = 0; j < 8; j++) {
