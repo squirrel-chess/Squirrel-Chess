@@ -48,11 +48,16 @@ public class GamePanel {
 	private BufferedImage blackKnightImg;
 	private BufferedImage blackPawnImg;
 	
+	// text for time
+	private JLabel timeText;
+	
 	// Colors
 	Color backgroundColor = new Color(255, 240, 205);
 	Color darkColor = new Color(77, 40, 0);
 
 	public GamePanel(JFrame frame, int width, int height, int x) {
+		
+		timeText = new JLabel();
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -85,6 +90,7 @@ public class GamePanel {
 		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
 		center.setBackground(backgroundColor);
 		center.setBorder(BorderFactory.createLineBorder(darkColor, 3));
+		center.add(timeText);
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
@@ -199,6 +205,10 @@ public class GamePanel {
 				blackGrid[1][i - 8].setIcon(new ImageIcon(blackImg(blackDisplay.get(i))));
 			}
 		}
+	}
+	
+	public void setTimeText(String text) {
+		timeText.setText("<html>" + text + "</html>");
 	}
 	
 	// basically a hashmap with if statements :)

@@ -11,7 +11,7 @@ public class Chess {
 	
 	private JFrame frame;
 	private Menu menu;
-	private JLabel text;
+	//private JLabel text;
 	private Board board;
 	private int mins, secs;
 	
@@ -30,17 +30,18 @@ public class Chess {
 	}
 	
 	public void setText(String str) {
-		text.setText("<html>" + str + "</html>");
+		gamePanel.setTimeText("<html>" + str + "</html>");
 		frame.pack();
 	}
 	
 	public void setupGame() {
-		text = new JLabel();
+		//text = new JLabel();
+		gamePanel = new GamePanel(new JFrame(), 0, 0, 0);     //to make sure the bottomGrid panel doesn't jump to the top left
 		board = new Board(this);
-		gamePanel = new GamePanel(frame, frameWidth - frameHeight, frameHeight, frameHeight);
+		gamePanel = new GamePanel(frame, frameWidth - frameHeight, frameHeight, frameHeight); 
 		
-		frame.setLayout(null);
 		frame.remove(menu);
+		frame.setLayout(null);
 		frame.add(board/*, BorderLayout.CENTER*/);
 		//frame.add(text/*, BorderLayout.EAST*/);
 		
@@ -53,6 +54,8 @@ public class Chess {
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		//frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		
+		setText(board.getText());
+
 		frame.pack();
 	}
 	

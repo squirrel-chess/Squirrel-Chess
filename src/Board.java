@@ -57,7 +57,9 @@ public class Board extends JPanel {
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		
+		game.setText(getText());
+		
 		whiteTurn = true;
 		initPieces();
 	}
@@ -372,7 +374,9 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			
+			game.setText(getText());
+			
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				
@@ -384,7 +388,9 @@ public class Board extends JPanel {
 			}
 		} else {
 			blackTime.endTurn();
-			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			
+			game.setText(getText());
+			
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				
@@ -418,5 +424,11 @@ public class Board extends JPanel {
 
 	public Chess getGame() {
 		return game;
+	}
+	
+	public String getText() {
+		// TESTING
+		System.out.println(blackTime);
+		return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
 	}
 }
