@@ -57,23 +57,32 @@ public class Time {
 	public void setSecs(int sec) {
 		secs = sec;
 	}
+	long passedTime = 0;
 	public void endTurn() {
 		lastEnd = System.currentTimeMillis();
+		long timeChange = 0;
 		if(paused==false) {
-			accumulatedTime+= ((double)lastEnd-(double)start)/1000.0;
-			System.out.println(accumulatedTime);//9 numsd
-			System.out.println(System.currentTimeMillis());//12
 		//	accumulatedTime = accumulatedTime/60000;
 		//	System.out.println(lastEnd);
-			//System.out.println(start);
-			//accumulatedTime +=(double) System.currentTimeMillis()/1000.0
-			accumulatedTime = (double)(System.currentTimeMillis()- accumulatedTime);
-			
+			//System.out.println(((double)lastEnd-(double)start));
+			//accumulatedTime = (double)(System.currentTimeMillis()- accumulatedTime);
+			 timeChange = (long) Math.abs(accumulatedTime-lastTime);
+			 
+		//	 System.out.println(accumulatedTime); 
+			 // accumulated is about double its previous time after play is pressed --> which is why the time its 0 immeidately after play button
+			// System.out.println(lastTime);
+
+			 passedTime = 0;
+		} else {
+			passedTime+= System.currentTimeMillis()-accumulatedTime;
 		}
+		System.out.println(accumulatedTime);
 		
-		long timeChange = (long) (accumulatedTime- lastTime);
-		System.out.println(lastTime);
-		System.out.println(timeChange); //should be around 3000 millis --> 3 seconds
+	//	System.out.println(timeChange);
+		
+		//System.out.println(accumulatedTime);
+		//System.out.println(lastTime);
+	//	System.out.println(timeChange); //should be around 3000 millis --> 3 seconds
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
 		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));
