@@ -23,7 +23,6 @@ public class Game implements Serializable {
 	public Game(Board board) {
 		int mins, secs;
 		do {
-			System.out.println("this works");
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
 			secs = Integer.parseInt(JOptionPane.showInputDialog("Enter number of seconds"));
 			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))

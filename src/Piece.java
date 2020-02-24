@@ -21,11 +21,8 @@ public abstract class Piece implements Serializable {
 	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
-		System.out.println("WHY WONT YOU WORK");
 		if (game.getWhiteTurn() == isWhite) {
-			System.out.println("second print");
 			if (board.getSelectedPiece() == null) {
-				System.out.println("third print");
 				board.highlightMoves(this);
 			board.setSelectedPiece(this);
 			} else {
