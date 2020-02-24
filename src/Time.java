@@ -62,7 +62,7 @@ public class Time {
 		lastEnd = System.currentTimeMillis();
 		long timeChange = 0;
 		if(paused==false) {
-		//	accumulatedTime = accumulatedTime/60000;
+			accumulatedTime+= ((double)lastEnd-(double)start);
 		//	System.out.println(lastEnd);
 			//System.out.println(((double)lastEnd-(double)start));
 			//accumulatedTime = (double)(System.currentTimeMillis()- accumulatedTime);
