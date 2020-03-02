@@ -2,6 +2,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
@@ -166,7 +169,23 @@ public class Pawn extends Piece {
 	public String toString() {
 		return super.toString() + "Pawn";
 	}
-
+	public static synchronized void playSound(final String url) {
+		  new Thread(new Runnable() {
+		  // The wrapper thread is unnecessary, unless it blocks on the
+		  // Clip finishing; see comments.
+		    public void run() {
+		      try {
+		        Clip clip = AudioSystem.getClip();
+		        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+		          this.getClass().getResourceAsStream(url));
+		        clip.open(inputStream);
+		        clip.start(); 
+		      } catch (Exception e) {
+		        System.err.println(e.getMessage());
+		      }
+		    }
+		  }).start();
+		}
 	private void promoMenu() {
 		b.removePiece(this);
 		String[] options = { "Bishop", "Knight", "Queen", "Rook" };
@@ -205,6 +224,7 @@ public class Pawn extends Piece {
 		}
 		b.addPiece(p);
 		b.updatePic();
+		playSound("AHHHHHHHHHH.wav");
 	}
 	
 	@Override
