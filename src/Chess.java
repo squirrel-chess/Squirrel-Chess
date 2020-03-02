@@ -23,6 +23,8 @@ public class Chess {
 	static Time timePausedWhite;
 	static Time timePausedBlack;
 	private int mins, secs;
+	PauseScreen pauseScreen = new PauseScreen(); 
+	private Board bor;
 
 
 	public Chess() {
@@ -59,6 +61,9 @@ public class Chess {
 		pause.addActionListener((e) -> {
 			
 			if (pause.getText().equals("Pause")) {
+				bor = board;
+				frame.remove(board);
+				frame.add(pauseScreen);
 				pause.setText("Play");
 				pausedTime = System.currentTimeMillis();
 				int minsWhite = board.getWhiteTime().getMins();
@@ -71,8 +76,11 @@ public class Chess {
 				board.getWhiteTime().setPaused(true);
 				board.getBlackTime().setPaused(true);
 			//	System.out.println(pausedTime);
+				
 			} else 
 				if (pause.getText().equals("Play")) {
+					frame.remove(pauseScreen);
+					frame.add(bor);
 					board.getWhiteTime().setPaused(false);
 					board.getBlackTime().setPaused(false);
 					pause.setText("Pause");
@@ -85,6 +93,7 @@ public class Chess {
 						setText(timePausedBlack  + " (Black)" + "<br>Black's Turn<br>" + timePausedWhite + " (White)");
 					}
 				//	System.out.println(pausedTime);
+					frame.pack();
 					
 				}
 
