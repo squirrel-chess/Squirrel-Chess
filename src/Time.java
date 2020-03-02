@@ -6,7 +6,7 @@ public class Time {
 	private long currentMillis;
 	private boolean paused = false;
 	static private double accumulatedTime = 0;
-	private long start;
+	static private long start;
 	private long lastEndW;
 	private long lastEndB;
 	private long lastEnd;
@@ -57,31 +57,33 @@ public class Time {
 	public void setSecs(int sec) {
 		secs = sec;
 	}
-	long passedTime = 0;
+	static long passedTime = 0;
 	public void endTurn() {
 		lastEnd = System.currentTimeMillis();
 		long timeChange = 0;
 		if(paused==false) {
+			System.out.println(lastEnd);
+			System.out.println(start);//hits 0 when play button is pressed
 			accumulatedTime+= ((double)lastEnd-(double)start);
 		//	System.out.println(lastEnd);
 			//System.out.println(((double)lastEnd-(double)start));
 			//accumulatedTime = (double)(System.currentTimeMillis()- accumulatedTime);
-			 timeChange = (long) Math.abs(accumulatedTime-lastTime);
-			 
+			//System.out.println(passedTime);
+			if(passedTime>0) {
+				System.out.println("asdf");
+			 timeChange = (long) Math.abs((accumulatedTime)-lastTime-passedTime);
+			} else {
+				timeChange = (long) Math.abs((accumulatedTime)-lastTime);
+				start = lastTime;
+			}
 		//	 System.out.println(accumulatedTime); 
 			 // accumulated is about double its previous time after play is pressed --> which is why the time its 0 immeidately after play button
-			// System.out.println(lastTime);
 
 			 passedTime = 0;
 		} else {
 			passedTime+= System.currentTimeMillis()-accumulatedTime;
 		}
-		System.out.println(accumulatedTime);
-		
-	//	System.out.println(timeChange);
-		
-		//System.out.println(accumulatedTime);
-		//System.out.println(lastTime);
+		//System.out.println(timeChange);
 	//	System.out.println(timeChange); //should be around 3000 millis --> 3 seconds
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
