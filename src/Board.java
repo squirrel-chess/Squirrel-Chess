@@ -375,12 +375,10 @@ public class Board extends JPanel {
 		if (whiteTurn) {
 			whiteTime.endTurn();
 			
-			game.setText(getText());
-			
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				
-				//playAgainMenu();		// CHANGE
+				playAgainMenu();
 				
 			} else {
 				whiteTurn = false;
@@ -389,33 +387,19 @@ public class Board extends JPanel {
 		} else {
 			blackTime.endTurn();
 			
-			game.setText(getText());
-			
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				
-				//playAgainMenu();		// CHANGE
+				playAgainMenu();
 				
 			} else {
 				whiteTurn = true;
 				whiteTime.startTurn();
 			}
 		}
-//		for (int i = 0; i < 8; i++) {
-//			for (int j = 0; j < 8; j++) {
-//				if ((i + j) % 2 == 1) {
-//					if (whiteTurn) {
-//						squares[i][j].setBackground(Color.LIGHT_GRAY);
-//					} else {
-//						squares[i][j].setBackground(Color.GRAY);
-//					}
-//				} else if (whiteTurn) {
-//					squares[i][j].setBackground(Color.WHITE);
-//				} else {
-//					squares[i][j].setBackground(Color.LIGHT_GRAY);
-//				}
-//			}
-//		}
+		
+		game.setText(getText());
+
 	}
 
 	public boolean getWhiteTurn() {
@@ -429,6 +413,11 @@ public class Board extends JPanel {
 	public String getText() {
 		// TESTING
 		System.out.println(blackTime);
-		return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
+		if (whiteTurn) {
+			return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
+		} else {
+			return "<>" + blackTime + "<br>Black's Turn<br>" + whiteTime;
+		}
+			
 	}
 }
