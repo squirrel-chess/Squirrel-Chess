@@ -27,6 +27,7 @@ public class Menu extends JPanel implements ActionListener {
 	public Menu(Chess game) {
 		this.game = game;
 		setLayout(null);
+
 		setSize(1000, 1000);
 		title = new JLabel();
 		add(title);

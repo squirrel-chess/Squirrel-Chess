@@ -138,7 +138,7 @@ public class Pawn extends Piece {
 				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
 			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol()));
-			pieceRemoved.remove();
+			pieceRemoved.remove(true);
 			b.updatePic();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
@@ -147,7 +147,7 @@ public class Pawn extends Piece {
 				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
 			Piece pieceRemoved = b.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol()));
-			pieceRemoved.remove();
+			pieceRemoved.remove(true);
 			b.updatePic();
 			b.unhighlightMoves();
 			b.setSelectedPiece(null);
@@ -225,5 +225,10 @@ public class Pawn extends Piece {
 		b.addPiece(p);
 		b.updatePic();
 		playSound("AHHHHHHHHHH.wav");
+	}
+	
+	@Override
+	public int pieceType() {
+		return 5;
 	}
 }

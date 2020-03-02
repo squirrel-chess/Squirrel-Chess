@@ -155,7 +155,7 @@ public class King extends Piece {
 	@Override
 	public void move(Position pos) {
 		if (b.getPieceAtPos(pos) != null) {
-			b.getPieceAtPos(pos).remove();
+			b.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
 		}
 		else {
@@ -186,7 +186,7 @@ public class King extends Piece {
 			} else {
 				b.bKingPos = pos;
 			}
-		}
+		} 
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		hasMoved = true;

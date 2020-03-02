@@ -66,4 +66,9 @@ public class Bishop extends Piece {
 	public String toString() {
 		return "Bishop" + super.toString();
 	}
+	
+	@Override
+	public int pieceType() {
+		return 3;
+	}
 }

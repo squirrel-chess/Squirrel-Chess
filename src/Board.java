@@ -2,10 +2,12 @@
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -21,6 +23,11 @@ public class Board extends JPanel {
 
 	public Position wKingPos;
 	public Position bKingPos;
+	
+	// Colors
+	Color blackSquareColor = new Color(133, 77, 20);
+	Color whiteSquareColor = new Color(255, 239, 204);
+	Color darkColor = new Color(77, 40, 0);
 
 	public Board(Chess game) {
 		this.game = game;
@@ -50,7 +57,9 @@ public class Board extends JPanel {
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		game.setText(whiteTime + "<br>White's turn.<br>" + blackTime);
+		
+		game.setText(getText());
+		
 		whiteTurn = true;
 		initPieces();
 	}
@@ -60,9 +69,9 @@ public class Board extends JPanel {
 	}
 
 	public void highlightMoves(Piece p) {
-		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
+		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);		// dark green
 		for (Position pos : p.getMoveSet(true)) {
-			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
+			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));	// light green
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
 		selectedPiece = p;
@@ -73,14 +82,14 @@ public class Board extends JPanel {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
 					if (whiteTurn) {
-						squares[i][j].setBackground(Color.LIGHT_GRAY);
+						squares[i][j].setBackground(blackSquareColor);
 					} else {
-						squares[i][j].setBackground(Color.GRAY);
+						squares[i][j].setBackground(blackSquareColor);
 					}
 				} else if (whiteTurn) {
-					squares[i][j].setBackground(Color.WHITE);
+					squares[i][j].setBackground(whiteSquareColor);
 				} else {
-					squares[i][j].setBackground(Color.LIGHT_GRAY);
+					squares[i][j].setBackground(whiteSquareColor);
 				}
 				squares[i][j].setInMoveSet(false);
 			}
@@ -89,12 +98,15 @@ public class Board extends JPanel {
 	}
 
 	public void removePiece(Piece p) {
+		
 		pieces.remove(p);
+		
 	}
 
 	private void initBoard() {
+		//setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		squares = new Square[8][8];
-		selectedPiece = null;
+		selectedPiece = null;	
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -102,9 +114,9 @@ public class Board extends JPanel {
 				squares[i][j].setOpaque(true);
 				squares[i][j].setBorderPainted(false);
 				if ((i + j) % 2 == 1) {
-					squares[i][j].setBackground(Color.LIGHT_GRAY);
+					squares[i][j].setBackground(blackSquareColor);
 				} else {
-					squares[i][j].setBackground(Color.WHITE);
+					squares[i][j].setBackground(whiteSquareColor);
 				}
 				int a = i;
 				int b = j;
@@ -114,6 +126,7 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
+		setBackground(darkColor);
 	}
 
 	Rook whiteR1;
@@ -361,11 +374,11 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			game.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				
-				//playAgainMenu();		// CHANGE
+				playAgainMenu();
 				
 			} else {
 				whiteTurn = false;
@@ -373,32 +386,20 @@ public class Board extends JPanel {
 			}
 		} else {
 			blackTime.endTurn();
-			game.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				
-				//playAgainMenu();		// CHANGE
+				playAgainMenu();
 				
 			} else {
 				whiteTurn = true;
 				whiteTime.startTurn();
 			}
 		}
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if ((i + j) % 2 == 1) {
-					if (whiteTurn) {
-						squares[i][j].setBackground(Color.LIGHT_GRAY);
-					} else {
-						squares[i][j].setBackground(Color.GRAY);
-					}
-				} else if (whiteTurn) {
-					squares[i][j].setBackground(Color.WHITE);
-				} else {
-					squares[i][j].setBackground(Color.LIGHT_GRAY);
-				}
-			}
-		}
+		
+		game.setText(getText());
+
 	}
 
 	public boolean getWhiteTurn() {
@@ -407,5 +408,16 @@ public class Board extends JPanel {
 
 	public Chess getGame() {
 		return game;
+	}
+	
+	public String getText() {
+		// TESTING
+		System.out.println(blackTime);
+		if (whiteTurn) {
+			return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
+		} else {
+			return "<>" + blackTime + "<br>Black's Turn<br>" + whiteTime;
+		}
+			
 	}
 }

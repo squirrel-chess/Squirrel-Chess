@@ -11,10 +11,14 @@ public class Chess {
 	
 	private JFrame frame;
 	private Menu menu;
-	private JLabel text;
+	//private JLabel text;
 	private Board board;
 	private int mins, secs;
-
+	
+	private GamePanel gamePanel;
+	
+	public int frameHeight = (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 130;
+	public int frameWidth = (int) Toolkit.getDefaultToolkit().getScreenSize().getWidth();
 	
 	public Chess() {
 		frame = new JFrame("Squirrel Chess");
@@ -26,25 +30,41 @@ public class Chess {
 	}
 	
 	public void setText(String str) {
-		text.setText("<html>" + str + "</html>");
+		gamePanel.setTimeText("<html>" + str + "</html>");
 		frame.pack();
 	}
+	
 	public void setupGame() {
-		text = new JLabel();
+		//text = new JLabel();
+		gamePanel = new GamePanel(new JFrame(), 0, 0, 0);     //to make sure the bottomGrid panel doesn't jump to the top left
 		board = new Board(this);
-		frame.setLayout(new BorderLayout());
+		gamePanel = new GamePanel(frame, frameWidth - frameHeight, frameHeight, frameHeight); 
+		
 		frame.remove(menu);
-		frame.add(board, BorderLayout.CENTER);
-		frame.add(text, BorderLayout.EAST);
-		frame.pack();
+		frame.setLayout(null);
+		frame.add(board/*, BorderLayout.CENTER*/);
+		//frame.add(text/*, BorderLayout.EAST*/);
+		
+		board.setBounds(0, 0, frameHeight, frameHeight);
+		
+		//text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setResizable(false);
 		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		//frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		
+		setText(board.getText());
+
+		frame.pack();
 	}
+	
 	public Dimension getFrameDimension() {
 		return frame.getSize();
+	}
+	
+	public GamePanel getGamePanel() {
+		return gamePanel;
 	}
 	
 	public static void main(String[] args) {

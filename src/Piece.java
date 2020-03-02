@@ -45,7 +45,7 @@ public abstract class Piece {
 
 	public void move(Position pos) {
 		if (b.getPieceAtPos(pos) != null) {
-			b.getPieceAtPos(pos).remove();
+			b.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
 		}
 		else {
@@ -77,7 +77,7 @@ public abstract class Piece {
 	public Piece simMove(Position pos) {
 		if (b.getPieceAtPos(pos) != null) {
 			Piece removed = b.getPieceAtPos(pos);
-			b.getPieceAtPos(pos).remove();
+			b.getPieceAtPos(pos).remove(false);
 			
 			this.pos = pos;
 			
@@ -87,8 +87,13 @@ public abstract class Piece {
 		return null;
 	}
 
-	public void remove() {
+	// REMOVE
+	public void remove(boolean taken) {
 		b.removePiece(this);
+		
+		if (taken) {
+			b.getGame().getGamePanel().addPiece(this);
+		}
 	}
 
 	public Position getPos() {
@@ -122,4 +127,10 @@ public abstract class Piece {
 	public boolean isKing() {
 		return false;
 	}
+	
+	// PIECE TYPE - use isKing for king
+	public int pieceType() {
+		return -1;
+	}
+	
 }
