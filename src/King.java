@@ -162,7 +162,7 @@ public class King extends Piece {
 			} else {
 				b.bKingPos = pos;
 			}
-		}
+		} 
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		hasMoved = true;
