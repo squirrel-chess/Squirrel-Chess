@@ -65,7 +65,6 @@ public class TimerMenu extends JPanel implements ActionListener {
 		}
 		add(nHour);
 		pHour = new JButton();
-		// add action listener to pHour(e)-> {
 		pHour.setBounds(70, yVal, 40, 40);
 		try {
 			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("rightAr.png"));
@@ -85,7 +84,7 @@ public class TimerMenu extends JPanel implements ActionListener {
 		add(pHour);
 		
 		mins = new JTextField();
-		mins.setBounds(140, yVal, 30, 40);
+		mins.setBounds(170, yVal, 30, 40);
 		add(mins);
 		nMin = new JButton();
 		nMin.addActionListener((e)-> {
@@ -107,7 +106,7 @@ public class TimerMenu extends JPanel implements ActionListener {
 		}
 		add(nMin);
 		pMin = new JButton();
-		pMin.setBounds(170, yVal, 40, 40);
+		pMin.setBounds(190, yVal, 40, 40);
 		try {
 			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("rightAr.png"));
 			pMin.setIcon(new ImageIcon(img));
