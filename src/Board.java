@@ -1,15 +1,11 @@
- import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class Board extends JPanel {
 	private Chess game;
@@ -20,10 +16,11 @@ public class Board extends JPanel {
 	private Time blackTime;
 	private boolean whiteTurn;
 	private King king;
+	private Timer timer;
 
 	public Position wKingPos;
 	public Position bKingPos;
-	
+
 	// Colors
 	Color blackSquareColor = new Color(133, 77, 20);
 	Color whiteSquareColor = new Color(255, 239, 204);
@@ -34,10 +31,20 @@ public class Board extends JPanel {
 		pieces = new ArrayList<Piece>();
 		initBoard();
 		newGame();
+		timer = new Timer(1000, (e) -> {
+			if (whiteTurn)
+				whiteTime.update();
+			else
+				blackTime.update();
+			game.setText(getText());
+		});
+		timer.start();
 	}
+
 	public ArrayList<Piece> getPieces() {
 		return pieces;
 	}
+
 	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
@@ -57,9 +64,9 @@ public class Board extends JPanel {
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		
+
 		game.setText(getText());
-		
+
 		whiteTurn = true;
 		initPieces();
 	}
@@ -69,9 +76,9 @@ public class Board extends JPanel {
 	}
 
 	public void highlightMoves(Piece p) {
-		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);		// dark green
+		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN); // dark green
 		for (Position pos : p.getMoveSet(true)) {
-			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));	// light green
+			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160)); // light green
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
 		selectedPiece = p;
@@ -98,15 +105,17 @@ public class Board extends JPanel {
 	}
 
 	public void removePiece(Piece p) {
-		
+
 		pieces.remove(p);
-		
+
 	}
 
 	private void initBoard() {
-		//setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		// setPreferredSize(new Dimension((int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		squares = new Square[8][8];
-		selectedPiece = null;	
+		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
 		for (int i = 0; i < 8; i++) {
 			for (int j = 0; j < 8; j++) {
@@ -274,7 +283,7 @@ public class Board extends JPanel {
 			replacePiece(taken);
 
 		}
-		
+
 		return ret;
 
 	}
@@ -331,7 +340,8 @@ public class Board extends JPanel {
 
 								p.simMove(original); // move the piece to it's original position
 
-								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
 
 								replacePiece(removed); // replace the removed piece
 
@@ -373,31 +383,29 @@ public class Board extends JPanel {
 
 	public void nextTurn() {
 		if (whiteTurn) {
-			whiteTime.endTurn();
-			
+			whiteTime.update();
+
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-				
+
 				playAgainMenu();
-				
+
 			} else {
 				whiteTurn = false;
-				blackTime.startTurn();
 			}
 		} else {
-			blackTime.endTurn();
-			
+			blackTime.update();
+
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-				
+
 				playAgainMenu();
-				
+
 			} else {
 				whiteTurn = true;
-				whiteTime.startTurn();
 			}
 		}
-		
+
 		game.setText(getText());
 
 	}
@@ -409,7 +417,7 @@ public class Board extends JPanel {
 	public Chess getGame() {
 		return game;
 	}
-	
+
 	public String getText() {
 		// TESTING
 		System.out.println(blackTime);
@@ -418,6 +426,6 @@ public class Board extends JPanel {
 		} else {
 			return "<>" + blackTime + "<br>Black's Turn<br>" + whiteTime;
 		}
-			
+
 	}
 }

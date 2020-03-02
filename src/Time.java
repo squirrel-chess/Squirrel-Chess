@@ -10,11 +10,7 @@ public class Time {
 		lastTime = System.currentTimeMillis();
 	}
 
-	public void startTurn() {
-		lastTime = System.currentTimeMillis();
-	}
-
-	public void endTurn() {
+	public void update() {
 		long timeChange = System.currentTimeMillis() - lastTime;
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
@@ -33,6 +29,7 @@ public class Time {
 			secs = secs + 60;
 			mins--;
 		}
+		lastTime = System.currentTimeMillis();
 	}
 
 	public int getMins() {
