@@ -78,14 +78,69 @@ public class Game implements Serializable {
 		pieces.add(new Knight(new Position(7, 6), this, board, true));
 	}
 
-	public Game(Board board, ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn, Position wKingPos, Position bKingPos) {
+	public Game(Board board, ArrayList<String> pieceStrings, Time whiteTime, Time blackTime, boolean whiteTurn) {
 		this.board = board;
-		this.pieces = pieces;
 		this.whiteTime = whiteTime;
 		this.blackTime = blackTime;
 		this.whiteTurn = whiteTurn;
-		this.wKingPos = wKingPos;
-		this.bKingPos = bKingPos;
+		Position pos;
+		boolean isWhite;
+		String wKingString = "";
+		String bKingString = "";
+		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		for (String s : pieceStrings) {
+			isWhite = (s.length() == 12);
+			pos = new Position(s.substring(2, 8));
+			switch (s.substring(0, 2)) {
+			case "Bi":
+				pieces.add(new Bishop(pos, this, board, isWhite));
+				break;
+
+			case "Ki":
+				if (isWhite)
+					wKingString = s;
+				else
+					bKingString = s;
+				break;
+
+			case "Kn":
+				pieces.add(new Knight(pos, this, board, isWhite));
+				break;
+
+			case "Pa":
+				pieces.add(new Pawn(pos, this, board, isWhite));
+				break;
+
+			case "Qu":
+				pieces.add(new Queen(pos, this, board, isWhite));
+				break;
+
+			case "Ro":
+				if (isWhite) {
+					if (whiteR1 == null)
+						whiteR1 = new Rook(pos, this, board, true);
+					else
+						whiteR2 = new Rook(pos, this, board, true);
+				} else {
+					if (blackR1 == null)
+						blackR1 = new Rook(pos, this, board, false);
+					else
+						blackR2 = new Rook(pos, this, board, false);
+				}
+				break;
+			}
+		}
+		pieces.add(new King(new Position(wKingString.substring(2, 8)), this, board, true, whiteR1, whiteR2));
+		pieces.add(new King(new Position(bKingString.substring(2, 8)), this, board, false, blackR1, blackR2));
+		
+		for (Piece p : pieces) {
+			if (p instanceof King) {
+				if (p.isWhite())
+					wKingPos = p.getPos();
+				else
+					bKingPos = p.getPos();
+			}
+		}
 	}
 
 	public ArrayList<Piece> getPieces() {
@@ -246,15 +301,15 @@ public class Game implements Serializable {
 	public Time getBlackTime() {
 		return blackTime;
 	}
-	
+
 	public Position getWKingPos() {
 		return wKingPos;
 	}
-	
+
 	public Position getBKingPos() {
 		return bKingPos;
 	}
-	
+
 	public void setBoard(Board board) {
 		this.board = board;
 	}

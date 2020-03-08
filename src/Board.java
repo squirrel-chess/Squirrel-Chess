@@ -26,15 +26,12 @@ public class Board extends JPanel implements Serializable {
 		revalidate();
 	}
 
-	public Board(SquirrelChess main, Game game) {
+	public Board(SquirrelChess main, SavedGame sg) {
 		selectedPiece = null;
 		this.main = main;
+		game = new Game(this, sg.getPieces(), sg.getWhiteTime(), sg.getBlackTime(), sg.getWhiteTurn());
 		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
-		this.game = game;
-		//this.game = new Game(this, game.getPieces(), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn(),
-				//game.getWKingPos(), game.getBKingPos());
 		initBoard();
-		main.setText(game.getBlackTime() + "<br>White's Turn<br>" + game.getWhiteTime());
 		revalidate();
 	}
 

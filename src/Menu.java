@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -30,7 +31,7 @@ public class Menu extends JPanel {
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
-			main.setupGame(null);
+			main.setupGame();
 		});
 		instruct = new JButton();
 		instruct.setText("Instructions");
@@ -39,7 +40,7 @@ public class Menu extends JPanel {
 		loadGame.addActionListener((e) -> {
 			try (FileInputStream fis = new FileInputStream(new File("src/savedGame.dat"));
 					ObjectInputStream ois = new ObjectInputStream(fis)) {
-				 main.setupGame((Game) ois.readObject());
+				 main.setupGame((SavedGame) ois.readObject());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			} catch (ClassNotFoundException e2) {

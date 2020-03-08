@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -34,13 +35,15 @@ public class SquirrelChess implements Serializable {
 		frame.pack();
 	}
 
-	public void setupGame(Game game) {
+	public void setupGame() {
 		text = new JLabel();
-		if (game == null) {
-			board = new Board(this);
-		} else {
-			board = new Board(this, game);
-		}
+		board = new Board(this);
+		gameGUISetup();
+	}
+
+	public void setupGame(SavedGame sg) {
+		text = new JLabel();
+		board = new Board(this, sg);
 		gameGUISetup();
 	}
 
@@ -49,7 +52,8 @@ public class SquirrelChess implements Serializable {
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(board.getGame());
+				Game game = board.getGame();
+				oos.writeObject(new SavedGame(game.getPieces(), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn()));
 				oos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -69,6 +73,14 @@ public class SquirrelChess implements Serializable {
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
 				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+	}
+	
+	private ArrayList<String> pieceArrayToStringArray(ArrayList<Piece> pieces) {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (Piece p : pieces) {
+			ret.add(p.getClass().getName().substring(0, 2) + p.getPos());
+		}
+		return ret;
 	}
 
 	public Dimension getFrameDimension() {
