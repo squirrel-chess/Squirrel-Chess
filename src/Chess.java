@@ -83,7 +83,16 @@ public class Chess {
 				
 			} else 
 				if (pause.getText().equals("Play")) {
-					frame.remove(pauseScreen);
+					if(board.getWhiteTurn()) {
+//						board.getWhiteTime().setStartValue(System.currentTimeMillis());
+						board.getWhiteTime().startTurn();
+					} else {
+						//board.getBlackTime().setStartValue(System.currentTimeMillis());
+						board.getBlackTime().startTurn();
+					}
+					
+					//pauseScreen.setOpaque(true);
+					//frame.remove(pauseScreen);
 					frame.add(board);
 					board.updatePic();
 //					for (int i = 0; i < 8; i++) {
