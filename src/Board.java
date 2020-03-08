@@ -411,8 +411,6 @@ public class Board extends JPanel {
 	}
 	
 	public String getText() {
-		// TESTING
-		System.out.println(blackTime);
 		if (whiteTurn) {
 			return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
 		} else {
