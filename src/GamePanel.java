@@ -13,10 +13,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class GamePanel {
+	
+	Chess game;
 
 	private int panelWidth;
 	private int panelHeight;
 	private int panelX;
+	
+	private JFrame frame;
 
 	// these grids are just the panels
 	private JPanel topGrid;
@@ -54,10 +58,21 @@ public class GamePanel {
 	// Colors
 	Color backgroundColor = new Color(255, 240, 205);
 	Color darkColor = new Color(77, 40, 0);
+	
+	// Buttons
+	JButton returnMenu;
+	JButton newGame;
 
-	public GamePanel(JFrame frame, int width, int height, int x) {
+	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
+		
+		this.game = game;
+		this.frame = frame;
 		
 		timeText = new JLabel();
+		
+		// buttons
+		newGame = new JButton();
+		returnMenu = new JButton();
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -90,7 +105,10 @@ public class GamePanel {
 		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
 		center.setBackground(backgroundColor);
 		center.setBorder(BorderFactory.createLineBorder(darkColor, 3));
+		
 		center.add(timeText);
+		center.add(newGame);
+		center.add(returnMenu);
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
@@ -104,6 +122,7 @@ public class GamePanel {
 
 		setupGrids();
 		setupImages();
+		setupButtons();
 	}
 	
 	public void setupGrids() {
@@ -144,6 +163,28 @@ public class GamePanel {
 		} catch (IOException e) {
 			
 		}
+	}
+	
+	public void setupButtons() {
+		
+		returnMenu.setText("Return to Menu");
+		newGame.setText("New Game");
+		
+		returnMenu.addActionListener((e) -> {
+			frame.remove(topGrid);
+			frame.remove(center);
+			frame.remove(bottomGrid);
+			game.returnMenu();
+		});
+		
+		newGame.addActionListener((e) -> {
+			whiteTaken = new ArrayList<Piece>();
+			blackTaken = new ArrayList<Piece>();
+			sortPieces();
+			displayTaken();
+			game.newGame();
+		});
+		
 	}
 
 	public void addPiece(Piece p) {

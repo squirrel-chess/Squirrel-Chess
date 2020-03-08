@@ -36,9 +36,9 @@ public class Chess {
 	
 	public void setupGame() {
 		//text = new JLabel();
-		gamePanel = new GamePanel(new JFrame(), 0, 0, 0);     //to make sure the bottomGrid panel doesn't jump to the top left
+		gamePanel = new GamePanel(this, new JFrame(), 0, 0, 0);     //to make sure the bottomGrid panel doesn't jump to the top left
 		board = new Board(this);
-		gamePanel = new GamePanel(frame, frameWidth - frameHeight, frameHeight, frameHeight); 
+		gamePanel = new GamePanel(this, frame, frameWidth - frameHeight, frameHeight, frameHeight); 
 		
 		frame.remove(menu);
 		frame.setLayout(null);
@@ -57,6 +57,19 @@ public class Chess {
 		setText(board.getText());
 
 		frame.pack();
+	}
+	
+	public void returnMenu() {
+		
+		frame.remove(board);
+		menu = new Menu(this);
+		frame.add(menu);
+		frame.setSize(1000, 1000);
+		
+	}
+	
+	public void newGame() {
+		board.newGame();
 	}
 	
 	public Dimension getFrameDimension() {
