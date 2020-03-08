@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.FileWriter;
@@ -23,7 +24,7 @@ public class Chess {
 	static Time timePausedWhite;
 	static Time timePausedBlack;
 	private int mins, secs;
-	PauseScreen pauseScreen = new PauseScreen(); 
+	private  PauseScreen pauseScreen;
 	private Board bor;
 
 
@@ -59,11 +60,14 @@ public class Chess {
 		pause.setPreferredSize(new Dimension(100, 500));
 		  
 		pause.addActionListener((e) -> {
-			
+			bor = board;
 			if (pause.getText().equals("Pause")) {
-				bor = board;
+				board.updatePic();
+				pauseScreen = new PauseScreen(); 
 				frame.remove(board);
 				frame.add(pauseScreen);
+				//only turns black when ends on different turn as before(not same)
+				System.out.println("sadf");
 				pause.setText("Play");
 				pausedTime = System.currentTimeMillis();
 				int minsWhite = board.getWhiteTime().getMins();
@@ -80,7 +84,29 @@ public class Chess {
 			} else 
 				if (pause.getText().equals("Play")) {
 					frame.remove(pauseScreen);
-					frame.add(bor);
+					frame.add(board);
+					board.updatePic();
+//					for (int i = 0; i < 8; i++) {
+//						for (int j = 0; j < 8; j++) {
+//							if(board.getPieceAtPos(new Position(i, j))==null) {
+//								
+//								if ((i + j) % 2 == 1) {
+//									if (board.getWhiteTurn()) {
+//										board.getSquares()[i][j].setBackground(Color.LIGHT_GRAY);
+//
+//									} else {
+//										board.getSquares()[i][j].setBackground(Color.GRAY);
+//									}
+//								} else if (board.getWhiteTurn()) {
+//									board.getSquares()[i][j].setBackground(Color.WHITE);
+//								} else {
+//									board.getSquares()[i][j].setBackground(Color.LIGHT_GRAY);
+//								}
+//								
+//							}
+//						}
+//						}
+					
 					board.getWhiteTime().setPaused(false);
 					board.getBlackTime().setPaused(false);
 					pause.setText("Pause");
@@ -94,6 +120,7 @@ public class Chess {
 					}
 				//	System.out.println(pausedTime);
 					frame.pack();
+					pauseScreen = new PauseScreen();
 					
 				}
 

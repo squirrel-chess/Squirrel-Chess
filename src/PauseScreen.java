@@ -7,6 +7,6 @@ public class PauseScreen extends JPanel{
 	public PauseScreen(){
 		setLayout(null);
 		setSize(1000, 1000);
-		setBackground(Color.black);
+		setOpaque(false);
 	}
 }

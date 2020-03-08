@@ -31,6 +31,9 @@ public class Board extends JPanel {
 	public ArrayList<Piece> getPieces() {
 		return pieces;
 	}
+	public Square[][] getSquares() {
+		return squares;
+	}
 	public void playAgainMenu() {
 		String[] options = { "No", "Yes" };
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
@@ -413,7 +416,7 @@ public class Board extends JPanel {
 			}
 		}
 	}
-
+	
 	public boolean getWhiteTurn() {
 		return whiteTurn;
 	}
