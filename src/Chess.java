@@ -90,7 +90,6 @@ public class Chess {
 						//board.getBlackTime().setStartValue(System.currentTimeMillis());
 						board.getBlackTime().startTurn();
 					}
-					
 					//pauseScreen.setOpaque(true);
 					//frame.remove(pauseScreen);
 					frame.add(board);
