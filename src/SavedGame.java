@@ -4,19 +4,19 @@ import java.util.ArrayList;
 public class SavedGame implements Serializable {
 	
 	private static final long serialVersionUID = -1951662494698218973L;
-	private ArrayList<Piece> pieces;
+	private ArrayList<String> pieceStrings;
 	private Time whiteTime, blackTime;
 	private boolean whiteTurn;
 	
-	public SavedGame(ArrayList<Piece> pieces, Time whiteTime, Time blackTime, boolean whiteTurn) {
-		this.pieces = pieces;
+	public SavedGame(ArrayList<String> pieceStrings, Time whiteTime, Time blackTime, boolean whiteTurn) {
+		this.pieceStrings = pieceStrings;
 		this.whiteTime = whiteTime;
 		this.blackTime = blackTime;
 		this.whiteTurn = whiteTurn;
 	}
 	
-	public ArrayList<Piece> getPieces() {
-		return pieces;
+	public ArrayList<String> getPieceStrings() {
+		return pieceStrings;
 	}
 	
 	public Time getWhiteTime() {

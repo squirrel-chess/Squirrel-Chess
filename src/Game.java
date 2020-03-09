@@ -31,6 +31,7 @@ public class Game implements Serializable {
 
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
+		System.out.println(whiteTime + " " + blackTime);
 		whiteTurn = true;
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
@@ -87,7 +88,7 @@ public class Game implements Serializable {
 		boolean isWhite;
 		String wKingString = "";
 		String bKingString = "";
-		ArrayList<Piece> pieces = new ArrayList<Piece>();
+		pieces = new ArrayList<Piece>();
 		for (String s : pieceStrings) {
 			isWhite = (s.length() == 12);
 			pos = new Position(s.substring(2, 8));
@@ -97,6 +98,7 @@ public class Game implements Serializable {
 				break;
 
 			case "Ki":
+				System.out.println("got here");
 				if (isWhite)
 					wKingString = s;
 				else
@@ -117,19 +119,27 @@ public class Game implements Serializable {
 
 			case "Ro":
 				if (isWhite) {
-					if (whiteR1 == null)
+					if (whiteR1 == null) {
 						whiteR1 = new Rook(pos, this, board, true);
-					else
+						pieces.add(whiteR1);
+					} else {
 						whiteR2 = new Rook(pos, this, board, true);
+						pieces.add(whiteR2);
+					}
 				} else {
-					if (blackR1 == null)
+					if (blackR1 == null) {
 						blackR1 = new Rook(pos, this, board, false);
-					else
+						pieces.add(blackR1);
+					} else {
 						blackR2 = new Rook(pos, this, board, false);
+						pieces.add(blackR2);
+					}
 				}
 				break;
 			}
 		}
+		System.out.println(wKingString);
+		System.out.println(bKingString);
 		pieces.add(new King(new Position(wKingString.substring(2, 8)), this, board, true, whiteR1, whiteR2));
 		pieces.add(new King(new Position(bKingString.substring(2, 8)), this, board, false, blackR1, blackR2));
 		

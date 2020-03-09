@@ -14,9 +14,9 @@ public class Position implements Serializable {
 	public Position(String pos) {
 		try {
 			row = Integer.parseInt(pos.substring(1, 2));
-			col = Integer.parseInt(pos.substring(5, 6));
+			col = Integer.parseInt(pos.substring(4, 5));
 		} catch (NumberFormatException e) {
-			System.err.print("Something is very wrong.");
+			System.err.println("Something is very wrong.");
 		}
 	}
 

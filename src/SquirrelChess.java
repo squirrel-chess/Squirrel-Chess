@@ -53,7 +53,7 @@ public class SquirrelChess implements Serializable {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
 				Game game = board.getGame();
-				oos.writeObject(new SavedGame(game.getPieces(), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn()));
+				oos.writeObject(new SavedGame(pieceArrayToStringArray(game.getPieces()), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn()));
 				oos.close();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -78,7 +78,7 @@ public class SquirrelChess implements Serializable {
 	private ArrayList<String> pieceArrayToStringArray(ArrayList<Piece> pieces) {
 		ArrayList<String> ret = new ArrayList<String>();
 		for (Piece p : pieces) {
-			ret.add(p.getClass().getName().substring(0, 2) + p.getPos());
+			ret.add(p.getClass().getName().substring(0, 2) + p.getPos() + p.isWhite());
 		}
 		return ret;
 	}
