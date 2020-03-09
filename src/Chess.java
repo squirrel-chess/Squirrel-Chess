@@ -72,6 +72,10 @@ public class Chess {
 		board.newGame();
 	}
 	
+	public void undoMove() {
+		board.loadMove();
+	}
+	
 	public Dimension getFrameDimension() {
 		return frame.getSize();
 	}

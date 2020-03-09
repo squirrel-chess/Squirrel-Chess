@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Stack;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -24,6 +25,8 @@ public class Board extends JPanel {
 	public Position wKingPos;
 	public Position bKingPos;
 	
+	private Stack<BoardLayout> moves;
+	
 	// Colors
 	Color blackSquareColor = new Color(133, 77, 20);
 	Color whiteSquareColor = new Color(255, 239, 204);
@@ -32,6 +35,7 @@ public class Board extends JPanel {
 	public Board(Chess game) {
 		this.game = game;
 		pieces = new ArrayList<Piece>();
+		moves = new Stack<BoardLayout>();
 		initBoard();
 		newGame();
 	}
@@ -369,6 +373,32 @@ public class Board extends JPanel {
 				bKingPos = pos;
 			}
 		}
+	}
+	
+	public void saveMove() {
+		
+		System.out.println("save move");
+		
+		moves.add(new BoardLayout(this));
+		
+	}
+	
+	public void loadMove() {
+		
+		System.out.println("load move");
+		
+		if (moves.size() > 0) {
+			BoardLayout layout = moves.pop();
+			
+			pieces = new ArrayList<Piece>(layout.pieces);
+			whiteTurn = layout.whiteTurn;
+			wKingPos = layout.wKingPos;
+			bKingPos = layout.bKingPos;
+			
+			updatePic();
+			
+		}
+		
 	}
 
 	public void nextTurn() {

@@ -62,6 +62,7 @@ public class GamePanel {
 	// Buttons
 	JButton returnMenu;
 	JButton newGame;
+	JButton undo;
 
 	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
 		
@@ -73,6 +74,7 @@ public class GamePanel {
 		// buttons
 		newGame = new JButton();
 		returnMenu = new JButton();
+		undo = new JButton();
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -109,6 +111,7 @@ public class GamePanel {
 		center.add(timeText);
 		center.add(newGame);
 		center.add(returnMenu);
+		center.add(undo);
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
@@ -169,6 +172,7 @@ public class GamePanel {
 		
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
+		undo.setText("Undo");
 		
 		returnMenu.addActionListener((e) -> {
 			frame.remove(topGrid);
@@ -183,6 +187,10 @@ public class GamePanel {
 			sortPieces();
 			displayTaken();
 			game.newGame();
+		});
+		
+		undo.addActionListener((e) -> {
+			game.undoMove();
 		});
 		
 	}
