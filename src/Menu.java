@@ -23,17 +23,26 @@ public class Menu extends JPanel implements ActionListener {
 	BufferedImage img;
 	BufferedImage back;
 	JLabel picLabel;
+	
+	private int width;
+	private int height;
 
-	public Menu(Chess game) {
+	public Menu(Chess game, int width, int height) {
+		
 		this.game = game;
+		this.width = width;
+		this.height = height;
+				
 		setLayout(null);
 
-		setSize(1000, 1000);
+		//setSize(width, height);
+		setBounds(0, 0, width, height);
+		
 		title = new JLabel();
 		add(title);
 		title.setText("Squirrel Chess");
 		title.setFont(titleFont);
-		title.setBounds(600, 75, 500, 100);
+		title.setBounds((int) width/4, 0, width, (int) height/10);
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
@@ -53,20 +62,20 @@ public class Menu extends JPanel implements ActionListener {
 		try {
 			img = ImageIO.read(new File("src/pic.png"));
 			JLabel picLabel = new JLabel(new ImageIcon(img));
-			picLabel.setBounds(0, 200, 1024, 518);
+			picLabel.setBounds(0, 0, width, (int) (height * (double) (1024/518)));	//1024 x 518
 			add(picLabel);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		play.setBounds(100, 800, 200, 40);
+		play.setBounds((int) (width / 10), height - 85, 200, 40);
 		add(play);
-		instruct.setBounds(400, 800, 200, 40);
+		instruct.setBounds((int) (width/ 10) + 210, height - 85, 200, 40);
 		add(instruct);
 		try {
 			back = ImageIO.read(new File("src/angryimg (1).png"));
 			JLabel picLabels = new JLabel(new ImageIcon(back));
-			picLabels.setBounds(0, 0, 1000, 1000);
+			picLabels.setBounds(0, 0, width, height);
 			add(picLabels);
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
