@@ -1,26 +1,119 @@
+import java.awt.Color;
+import java.awt.GridLayout;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
-public class Game implements Serializable {
+public class Game extends JPanel implements Serializable {
 
-	private static final long serialVersionUID = 8353142734621333312L;
+	private static final long serialVersionUID = 2499641607903690667L;
+	private SquirrelChess main;
+	private Square[][] squares;
+	private Piece selectedPiece;
 	private ArrayList<Piece> pieces;
-	private Board board;
 	private Time whiteTime;
 	private Time blackTime;
 	private boolean whiteTurn;
-
 	public Position wKingPos;
 	public Position bKingPos;
-
 	Rook whiteR1;
 	Rook whiteR2;
 	Rook blackR1;
 	Rook blackR2;
 
-	public Game(Board board) {
+	public Game(SquirrelChess main) {
+		selectedPiece = null;
+		this.main = main;
+		newGame();
+		initBoard();
+		revalidate();
+	}
+
+	public Game(SquirrelChess main, SavedGame sg) {
+		selectedPiece = null;
+		this.main = main;
+		this.whiteTime = sg.getWhiteTime();
+		this.blackTime = sg.getBlackTime();
+		this.whiteTurn = sg.getWhiteTurn();
+		Position pos;
+		boolean isWhite;
+		String wKingString = "";
+		String bKingString = "";
+		pieces = new ArrayList<Piece>();
+		for (String s : sg.getPieceStrings()) {
+			isWhite = (s.length() == 12);
+			pos = new Position(s.substring(2, 8));
+			switch (s.substring(0, 2)) {
+			case "Bi":
+				pieces.add(new Bishop(pos, this, isWhite));
+				break;
+
+			case "Ki":
+				if (isWhite)
+					wKingString = s;
+				else
+					bKingString = s;
+				break;
+
+			case "Kn":
+				pieces.add(new Knight(pos, this, isWhite));
+				break;
+
+			case "Pa":
+				pieces.add(new Pawn(pos, this, isWhite));
+				break;
+
+			case "Qu":
+				pieces.add(new Queen(pos, this, isWhite));
+				break;
+
+			case "Ro":
+				if (isWhite) {
+					if (whiteR1 == null) {
+						whiteR1 = new Rook(pos, this, true);
+						pieces.add(whiteR1);
+					} else {
+						whiteR2 = new Rook(pos, this, true);
+						pieces.add(whiteR2);
+					}
+				} else {
+					if (blackR1 == null) {
+						blackR1 = new Rook(pos, this, false);
+						pieces.add(blackR1);
+					} else {
+						blackR2 = new Rook(pos, this, false);
+						pieces.add(blackR2);
+					}
+				}
+				break;
+			}
+		}
+		pieces.add(new King(new Position(wKingString.substring(2, 8)), this, true, whiteR1, whiteR2));
+		pieces.add(new King(new Position(bKingString.substring(2, 8)), this, false, blackR1, blackR2));
+
+		for (Piece p : pieces) {
+			if (p instanceof King) {
+				if (p.isWhite())
+					wKingPos = p.getPos();
+				else
+					bKingPos = p.getPos();
+			}
+		}
+		if (whiteTurn)
+			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+		else
+			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+		initBoard();
+		revalidate();
+	}
+
+	private void newGame() {
 		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
@@ -31,126 +124,180 @@ public class Game implements Serializable {
 
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
-		System.out.println(whiteTime + " " + blackTime);
-		whiteTurn = true;
 		wKingPos = new Position(7, 4);
 		bKingPos = new Position(0, 4);
-		this.board = board;
 
 		pieces = new ArrayList<Piece>();
-		whiteR1 = new Rook(new Position(0, 0), this, board, false);
-		whiteR2 = new Rook(new Position(0, 7), this, board, false);
-		blackR1 = new Rook(new Position(7, 0), this, board, true);
-		blackR2 = new Rook(new Position(7, 7), this, board, true);
+		whiteR1 = new Rook(new Position(0, 0), this, false);
+		whiteR2 = new Rook(new Position(0, 7), this, false);
+		blackR1 = new Rook(new Position(7, 0), this, true);
+		blackR2 = new Rook(new Position(7, 7), this, true);
 
 		pieces.add(whiteR1);
 		pieces.add(whiteR2);
 		pieces.add(blackR1);
 		pieces.add(blackR2);
 
-		pieces.add(new Knight(new Position(0, 1), this, board, false));
-		pieces.add(new Bishop(new Position(0, 2), this, board, false));
-		pieces.add(new Queen(new Position(0, 3), this, board, false));
-		pieces.add(new King(new Position(0, 4), this, board, false, blackR1, blackR2));
-		pieces.add(new Bishop(new Position(0, 5), this, board, false));
-		pieces.add(new Knight(new Position(0, 6), this, board, false));
-		pieces.add(new Pawn(new Position(1, 0), this, board, false));
-		pieces.add(new Pawn(new Position(1, 1), this, board, false));
-		pieces.add(new Pawn(new Position(1, 2), this, board, false));
-		pieces.add(new Pawn(new Position(1, 3), this, board, false));
-		pieces.add(new Pawn(new Position(1, 4), this, board, false));
-		pieces.add(new Pawn(new Position(1, 5), this, board, false));
-		pieces.add(new Pawn(new Position(1, 6), this, board, false));
-		pieces.add(new Pawn(new Position(1, 7), this, board, false));
-		// white pieces
-		pieces.add(new Pawn(new Position(6, 0), this, board, true));
-		pieces.add(new Pawn(new Position(6, 1), this, board, true));
-		pieces.add(new Pawn(new Position(6, 2), this, board, true));
-		pieces.add(new Pawn(new Position(6, 3), this, board, true));
-		pieces.add(new Pawn(new Position(6, 4), this, board, true));
-		pieces.add(new Pawn(new Position(6, 5), this, board, true));
-		pieces.add(new Pawn(new Position(6, 6), this, board, true));
-		pieces.add(new Pawn(new Position(6, 7), this, board, true));
-		pieces.add(new Knight(new Position(7, 1), this, board, true));
-		pieces.add(new Bishop(new Position(7, 2), this, board, true));
-		pieces.add(new Queen(new Position(7, 3), this, board, true));
-		pieces.add(new King(new Position(7, 4), this, board, true, whiteR1, whiteR2));
-		pieces.add(new Bishop(new Position(7, 5), this, board, true));
-		pieces.add(new Knight(new Position(7, 6), this, board, true));
+		pieces.add(new Knight(new Position(0, 1), this, false));
+		pieces.add(new Bishop(new Position(0, 2), this, false));
+		pieces.add(new Queen(new Position(0, 3), this, false));
+		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2));
+		pieces.add(new Bishop(new Position(0, 5), this, false));
+		pieces.add(new Knight(new Position(0, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 0), this, false));
+		pieces.add(new Pawn(new Position(1, 1), this, false));
+		pieces.add(new Pawn(new Position(1, 2), this, false));
+		pieces.add(new Pawn(new Position(1, 3), this, false));
+		pieces.add(new Pawn(new Position(1, 4), this, false));
+		pieces.add(new Pawn(new Position(1, 5), this, false));
+		pieces.add(new Pawn(new Position(1, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 7), this, false));
+		pieces.add(new Pawn(new Position(6, 0), this, true));
+		pieces.add(new Pawn(new Position(6, 1), this, true));
+		pieces.add(new Pawn(new Position(6, 2), this, true));
+		pieces.add(new Pawn(new Position(6, 3), this, true));
+		pieces.add(new Pawn(new Position(6, 4), this, true));
+		pieces.add(new Pawn(new Position(6, 5), this, true));
+		pieces.add(new Pawn(new Position(6, 6), this, true));
+		pieces.add(new Pawn(new Position(6, 7), this, true));
+		pieces.add(new Knight(new Position(7, 1), this, true));
+		pieces.add(new Bishop(new Position(7, 2), this, true));
+		pieces.add(new Queen(new Position(7, 3), this, true));
+		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2));
+		pieces.add(new Bishop(new Position(7, 5), this, true));
+		pieces.add(new Knight(new Position(7, 6), this, true));
+		
+		whiteTurn = true;
+		System.out.println(whiteTurn);
+		main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 	}
 
-	public Game(Board board, ArrayList<String> pieceStrings, Time whiteTime, Time blackTime, boolean whiteTurn) {
-		this.board = board;
-		this.whiteTime = whiteTime;
-		this.blackTime = blackTime;
-		this.whiteTurn = whiteTurn;
-		Position pos;
-		boolean isWhite;
-		String wKingString = "";
-		String bKingString = "";
-		pieces = new ArrayList<Piece>();
-		for (String s : pieceStrings) {
-			isWhite = (s.length() == 12);
-			pos = new Position(s.substring(2, 8));
-			switch (s.substring(0, 2)) {
-			case "Bi":
-				pieces.add(new Bishop(pos, this, board, isWhite));
-				break;
+	public void playAgainMenu() {
+		String[] options = { "No", "Yes" };
+		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
+				null) == 1) {
+			newGame();
+		} else {
+			System.exit(0);
+		}
+	}
 
-			case "Ki":
-				System.out.println("got here");
-				if (isWhite)
-					wKingString = s;
-				else
-					bKingString = s;
-				break;
+	public void highlightMoves(Piece p) {
+		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
+		for (Position pos : p.getMoveSet(true)) {
+			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
+			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
+		}
+		selectedPiece = p;
+		updateGraphics();
+	}
 
-			case "Kn":
-				pieces.add(new Knight(pos, this, board, isWhite));
-				break;
-
-			case "Pa":
-				pieces.add(new Pawn(pos, this, board, isWhite));
-				break;
-
-			case "Qu":
-				pieces.add(new Queen(pos, this, board, isWhite));
-				break;
-
-			case "Ro":
-				if (isWhite) {
-					if (whiteR1 == null) {
-						whiteR1 = new Rook(pos, this, board, true);
-						pieces.add(whiteR1);
+	public void unhighlightMoves() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 1) {
+					if (whiteTurn) {
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
 					} else {
-						whiteR2 = new Rook(pos, this, board, true);
-						pieces.add(whiteR2);
+						squares[i][j].setBackground(Color.GRAY);
 					}
+				} else if (whiteTurn) {
+					squares[i][j].setBackground(Color.WHITE);
 				} else {
-					if (blackR1 == null) {
-						blackR1 = new Rook(pos, this, board, false);
-						pieces.add(blackR1);
-					} else {
-						blackR2 = new Rook(pos, this, board, false);
-						pieces.add(blackR2);
-					}
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
 				}
-				break;
+				squares[i][j].setInMoveSet(false);
 			}
 		}
-		System.out.println(wKingString);
-		System.out.println(bKingString);
-		pieces.add(new King(new Position(wKingString.substring(2, 8)), this, board, true, whiteR1, whiteR2));
-		pieces.add(new King(new Position(bKingString.substring(2, 8)), this, board, false, blackR1, blackR2));
-		
-		for (Piece p : pieces) {
-			if (p instanceof King) {
-				if (p.isWhite())
-					wKingPos = p.getPos();
+		selectedPiece = null;
+		updateGraphics();
+	}
+
+	public void initBoard() {
+		squares = new Square[8][8];
+		selectedPiece = null;
+		setLayout(new GridLayout(8, 8));
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				squares[i][j] = new Square(this, new Position(i, j));
+				squares[i][j].setOpaque(true);
+				squares[i][j].setBorderPainted(false);
+				if ((i + j) % 2 == 0 && whiteTurn)
+					squares[i][j].setBackground(Color.WHITE);
+				else if ((i + j) % 2 == 1 && !whiteTurn)
+					squares[i][j].setBackground(Color.GRAY);
 				else
-					bKingPos = p.getPos();
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+				int a = i;
+				int b = j;
+				squares[i][j].addActionListener((e) -> {
+					squares[a][b].click();
+				});
+				add(squares[i][j]);
 			}
 		}
+		updateGraphics();
+	}
+
+	public Piece getSelectedPiece() {
+		return selectedPiece;
+	}
+
+	public void setSelectedPiece(Piece p) {
+		selectedPiece = p;
+	}
+
+	public void updateGraphics() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				squares[i][j].setIcon(null);
+			}
+		}
+		for (Piece p : pieces) {
+			try {
+				BufferedImage img;
+				if (p.isWhite())
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "W.png"));
+				else
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "B.png"));
+				squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(img));
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Resources not located, stopping game");
+				System.exit(0);
+			}
+		}
+	}
+
+	public void nextTurn(Time whiteTime, Time blackTime) {
+		if (whiteTurn) {
+			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			if (whiteTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
+				playAgainMenu();
+			}
+		} else {
+			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			if (blackTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
+				playAgainMenu();
+			}
+		}
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 1) {
+					if (whiteTurn) {
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
+					} else {
+						squares[i][j].setBackground(Color.GRAY);
+					}
+				} else if (whiteTurn) {
+					squares[i][j].setBackground(Color.WHITE);
+				} else {
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+				}
+			}
+		}
+		updateGraphics();
 	}
 
 	public ArrayList<Piece> getPieces() {
@@ -273,17 +420,42 @@ public class Game implements Serializable {
 	}
 
 	public void nextTurn() {
-		System.out.println(whiteTime + " " + blackTime);
-		whiteTurn = !whiteTurn;
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			board.nextTurn(whiteTime, blackTime);
+			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			if (whiteTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
+				playAgainMenu();
+			}
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+					if ((i + j) % 2 == 1)
+						squares[i][j].setBackground(Color.GRAY);
+					else
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
+				}
+			}
 			blackTime.startTurn();
 		} else {
 			blackTime.endTurn();
-			board.nextTurn(whiteTime, blackTime);
+			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			if (blackTime.isZero()) {
+				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
+				playAgainMenu();
+			}
+			for (int i = 0; i < 8; i++) {
+				for (int j = 0; j < 8; j++) {
+					if ((i + j) % 2 == 1)
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
+					else
+						squares[i][j].setBackground(Color.WHITE);
+				}
+			}
 			whiteTime.startTurn();
 		}
+		updateGraphics();
+		whiteTurn = !whiteTurn;
+
 	}
 
 	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
@@ -318,9 +490,5 @@ public class Game implements Serializable {
 
 	public Position getBKingPos() {
 		return bKingPos;
-	}
-
-	public void setBoard(Board board) {
-		this.board = board;
 	}
 }

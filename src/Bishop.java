@@ -4,8 +4,8 @@ public class Bishop extends Piece {
 
 	private static final long serialVersionUID = 7642991190474293351L;
 
-	public Bishop(Position pos, Game game, Board board, boolean isWhite) {
-		super(pos, game, board, isWhite);
+	public Bishop(Position pos, Game game, boolean isWhite) {
+		super(pos, game, isWhite);
 	}
 
 	@Override

@@ -6,8 +6,8 @@ public class King extends Piece {
 	private Rook rook1;
 	private Rook rook2;
 	boolean hasMoved = false;
-	public King(Position pos, Game game, Board board, boolean isWhite, Rook rook1, Rook rook2) {
-		super(pos, game, board, isWhite);
+	public King(Position pos, Game game, boolean isWhite, Rook rook1, Rook rook2) {
+		super(pos, game, isWhite);
 		this.rook1 = rook1;// white
 		this.rook2 = rook2;// black
 	}
@@ -117,10 +117,10 @@ public class King extends Piece {
 				game.bKingPos = pos;
 			}
 		}
-		board.unhighlightMoves();
-		board.setSelectedPiece(null);
+		game.unhighlightMoves();
+		game.setSelectedPiece(null);
 		hasMoved = true;
-		board.updateGraphics();
+		game.updateGraphics();
 		game.nextTurn();
 	}
 	

@@ -4,8 +4,8 @@ public class Queen extends Piece {
 
 	private static final long serialVersionUID = -1782948667490553479L;
 
-	public Queen(Position pos, Game game, Board board, boolean isWhite) {
-		super(pos, game, board, isWhite);
+	public Queen(Position pos, Game game, boolean isWhite) {
+		super(pos, game, isWhite);
 	}
 
 	@Override

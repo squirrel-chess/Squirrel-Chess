@@ -6,14 +6,12 @@ public abstract class Piece implements Serializable {
 	private static final long serialVersionUID = -8963802459683023645L;
 	protected Position pos;
 	protected Game game;
-	protected Board board;
 	protected boolean isWhite;
 
-	public Piece(Position pos, Game game, Board board, boolean isWhite) {
+	public Piece(Position pos, Game game, boolean isWhite) {
 		this.pos = pos;
 		this.game = game;
 		this.isWhite = isWhite;
-		this.board = board;
 	}
 
 	public abstract void draw();
@@ -22,11 +20,11 @@ public abstract class Piece implements Serializable {
 
 	public void select() {
 		if (game.getWhiteTurn() == isWhite) {
-			if (board.getSelectedPiece() == null) {
-				board.highlightMoves(this);
-			board.setSelectedPiece(this);
+			if (game.getSelectedPiece() == null) {
+				game.highlightMoves(this);
+			game.setSelectedPiece(this);
 			} else {
-				board.unhighlightMoves();
+				game.unhighlightMoves();
 			}
 		}
 	}
@@ -35,9 +33,9 @@ public abstract class Piece implements Serializable {
 		if (game.getPieceAtPos(pos) != null) 
 			game.getPieceAtPos(pos).remove();
 		this.pos = pos;
-		board.updateGraphics();
-		board.unhighlightMoves();
-		board.setSelectedPiece(null);
+		game.updateGraphics();
+		game.unhighlightMoves();
+		game.setSelectedPiece(null);
 		game.nextTurn(); 
 	}
 	

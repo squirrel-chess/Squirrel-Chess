@@ -8,8 +8,8 @@ public class Pawn extends Piece {
 	private boolean hasMoved;
 	String fileName;
 
-	public Pawn(Position pos, Game game, Board board, boolean isWhite) {
-		super(pos, game, board, isWhite);
+	public Pawn(Position pos, Game game, boolean isWhite) {
+		super(pos, game, isWhite);
 		hasMoved = false;
 	}
 	boolean movedTwo = false;
@@ -98,27 +98,27 @@ public class Pawn extends Piece {
 		Piece p;
 		switch (option) {
 		case 0:
-			if (isWhite) p = new Bishop(pos, game, board, true);
-			else p = new Bishop(pos, game, board, false);
-			board.updateGraphics();
+			if (isWhite) p = new Bishop(pos, game, true);
+			else p = new Bishop(pos, game, false);
+			game.updateGraphics();
 			break;
 		case 1:
-			if (isWhite) p = new Knight(pos, game, board, true);
-			else p = new Knight(pos, game, board, false);
-			board.updateGraphics();
+			if (isWhite) p = new Knight(pos, game, true);
+			else p = new Knight(pos, game, false);
+			game.updateGraphics();
 			break;
 		case 2:
-			if (isWhite) p = new Queen(pos, game, board, true);
-			else p = new Queen(pos, game, board, false);
-			board.updateGraphics();
+			if (isWhite) p = new Queen(pos, game, true);
+			else p = new Queen(pos, game, false);
+			game.updateGraphics();
 			break;
 		default:
-			if (isWhite) p = new Rook(pos, game, board, true);
-			else p = new Rook(pos, game, board, false);
-			board.updateGraphics();
+			if (isWhite) p = new Rook(pos, game, true);
+			else p = new Rook(pos, game, false);
+			game.updateGraphics();
 			break;
 		}
 		game.addPiece(p);
-		board.updateGraphics();
+		game.updateGraphics();
 	}
 }

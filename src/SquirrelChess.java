@@ -19,7 +19,7 @@ public class SquirrelChess implements Serializable {
 	private Menu menu;
 	private JLabel text;
 	private JButton saveGame;
-	private Board board;
+	private Game game;
 
 	public SquirrelChess() {
 		frame = new JFrame("Squirrel Chess");
@@ -37,13 +37,13 @@ public class SquirrelChess implements Serializable {
 
 	public void setupGame() {
 		text = new JLabel();
-		board = new Board(this);
+		game = new Game(this);
 		gameGUISetup();
 	}
 
 	public void setupGame(SavedGame sg) {
 		text = new JLabel();
-		board = new Board(this, sg);
+		game = new Game(this, sg);
 		gameGUISetup();
 	}
 
@@ -52,7 +52,6 @@ public class SquirrelChess implements Serializable {
 		saveGame.addActionListener((al) -> {
 			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
 					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				Game game = board.getGame();
 				oos.writeObject(new SavedGame(pieceArrayToStringArray(game.getPieces()), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn()));
 				oos.close();
 			} catch (IOException e) {
@@ -62,7 +61,7 @@ public class SquirrelChess implements Serializable {
 
 		frame.setLayout(new BorderLayout());
 		frame.remove(menu);
-		frame.add(board, BorderLayout.CENTER);
+		frame.add(game, BorderLayout.CENTER);
 		frame.add(text, BorderLayout.EAST);
 		frame.add(saveGame, BorderLayout.SOUTH);
 		frame.setVisible(true);
