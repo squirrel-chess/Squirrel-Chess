@@ -2,36 +2,18 @@ public class Time {
 	private int mins;
 	private int secs;
 	private int millis;
-	 private long lastTime;
+	private long lastTime;
 	static private long lastTimeHold;
 	private long currentMillis;
 	private boolean paused = false;
 	static private double accumulatedTime = 0;
-	 private long start;
-	private long lastEndW;
-	private long lastEndB;
-	 private long lastEnd;
+	private long start;
+	private long lastEnd;
 
 	public Time(int mins, int secs) {
 		this.mins = mins;
 		this.secs = secs;
 		lastTime = System.currentTimeMillis();
-	}
-
-	public long getLastW() {
-		return lastEndW;
-	}
-
-	public long getBlackW() {
-		return lastEndB;
-	}
-
-	public void setLastW(long l) {
-		lastEndW = l;
-	}
-
-	public void setLastB(long l) {
-		lastEndB = l;
 	}
 
 	public boolean getPaused() {
@@ -44,8 +26,8 @@ public class Time {
 
 	public void startTurn() {
 		long l = 0;
-		if(lastTimeHold>0) {
-			l+=lastTime - lastTimeHold;
+		if (lastTimeHold > 0) {
+			l += lastTime - lastTimeHold;
 		}
 		lastTime = System.currentTimeMillis() - l;
 		start = System.currentTimeMillis();
@@ -99,29 +81,18 @@ public class Time {
 
 	public void endTurn() {
 		lastEnd = System.currentTimeMillis();
-		System.out.println(lastTimeHold+ "hold");
-		System.out.println(lastTime +"lastTime");
-	
+		System.out.println(lastTimeHold + "hold");
+		System.out.println(lastTime + "lastTime");
+
 		long timeChange = 0;
-		if (paused == false) {
-			accumulatedTime += ((double) lastEnd - (double) start);
+		if (start > 0) {
+			if (paused == false) {
+				accumulatedTime = ((double) lastEnd - (double) start);
 
-			if (passedTime > 0) {
-				System.out.println("asdf");
-
-				timeChange = (long) Math.abs((accumulatedTime) - lastTime - passedTime);
-
-			} else {
-				// timeChange = (long) Math.abs((accumulatedTime) - lastTime);
-				timeChange = (long) (accumulatedTime) - lastTime;
-				//lastTIme is a much larger than accumulatedtime after paused and then play
-				System.out.println(timeChange);
+				timeChange = (long) (accumulatedTime);
 			}
-
-			passedTime = 0;
+			System.out.println(timeChange);
 		}
-		// System.out.println(timeChange); //should be around 3000 millis --> 3
-		// seconds
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
 		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));
@@ -139,9 +110,7 @@ public class Time {
 			secs = secs + 60;
 			mins--;
 		}
-		}
-		// startTurn();
-	
+	}
 
 	public int getMins() {
 		return mins;

@@ -130,8 +130,8 @@ public class Chess {
 				board.getWhiteTime().setPaused(false);
 				board.getBlackTime().setPaused(false);
 				pause.setText("Pause");
-				// board.setBlackTime(timePausedBlack);
-				// board.setWhiteTime(timePausedWhite);
+//				 board.setBlackTime(timePausedBlack);
+//				 board.setWhiteTime(timePausedWhite);
 				// System.out.println(board.getBlackTime());
 				if (board.getWhiteTurn() == true) {
 					setText(timePausedBlack + " (Black)" + "<br>White's Turn<br>" + timePausedWhite + " (White)");

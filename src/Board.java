@@ -369,7 +369,7 @@ public class Board extends JPanel {
 //			whiteTime.setMins((int) tempMins);
 //			whiteTime.setSecs((int) tempSecs);
 			whiteTime.endTurn();
-			whiteTime.setLastW(System.currentTimeMillis());
+		//	whiteTime.setLastW(System.currentTimeMillis());
 			game.setText(blackTime + " (Black)" + "<br>Black's Turn<br>" + whiteTime + " (White)");
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
@@ -387,7 +387,7 @@ public class Board extends JPanel {
 //			blackTime.setMins((int) tempMins);
 //			blackTime.setSecs((int) tempSecs);
 			blackTime.endTurn();
-			blackTime.setLastB(System.currentTimeMillis());
+		//	blackTime.setLastB(System.currentTimeMillis());
 			game.setText(blackTime + " (Black)" + "<br>White's Turn<br>" + whiteTime + " (White)");
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
