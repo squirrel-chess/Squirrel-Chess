@@ -2,15 +2,15 @@ public class Time {
 	private int mins;
 	private int secs;
 	private int millis;
-	static private long lastTime;
+	 private long lastTime;
 	static private long lastTimeHold;
 	private long currentMillis;
 	private boolean paused = false;
 	static private double accumulatedTime = 0;
-	static private long start;
+	 private long start;
 	private long lastEndW;
 	private long lastEndB;
-	static private long lastEnd;
+	 private long lastEnd;
 
 	public Time(int mins, int secs) {
 		this.mins = mins;
@@ -43,7 +43,11 @@ public class Time {
 	}
 
 	public void startTurn() {
-		lastTime = System.currentTimeMillis();
+		long l = 0;
+		if(lastTimeHold>0) {
+			l+=lastTime - lastTimeHold;
+		}
+		lastTime = System.currentTimeMillis() - l;
 		start = System.currentTimeMillis();
 	}
 
@@ -95,7 +99,8 @@ public class Time {
 
 	public void endTurn() {
 		lastEnd = System.currentTimeMillis();
-		System.out.println(lastTimeHold);
+		System.out.println(lastTimeHold+ "hold");
+		System.out.println(lastTime +"lastTime");
 	
 		long timeChange = 0;
 		if (paused == false) {
@@ -108,7 +113,8 @@ public class Time {
 
 			} else {
 				// timeChange = (long) Math.abs((accumulatedTime) - lastTime);
-				timeChange = (long) (accumulatedTime) - lastTime; //lastTIme is a much larger than accumulatedtime after paused and then play
+				timeChange = (long) (accumulatedTime) - lastTime;
+				//lastTIme is a much larger than accumulatedtime after paused and then play
 				System.out.println(timeChange);
 			}
 

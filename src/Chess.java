@@ -91,18 +91,21 @@ public class Chess {
 				if (board.getWhiteTurn()) {
 					// board.getWhiteTime().setStartValue(System.currentTimeMillis());
 					board.getWhiteTime().startTurn();
-					board.getWhiteTime().setLastTime(board.getWhiteTime().getLastTimeHold());
+				//	board.getWhiteTime().setLastTime(board.getWhiteTime().getLastTimeHold());
 
 				} else {
 					// board.getBlackTime().setStartValue(System.currentTimeMillis());
 					board.getBlackTime().startTurn();
-					board.getBlackTime().setLastTime(board.getBlackTime().getLastTimeHold());
+				//	board.getBlackTime().setLastTime(board.getBlackTime().getLastTimeHold());
 				}
+			//	board.getWhiteTime().setStartValue(System.currentTimeMillis());
 				System.out.println(board.getWhiteTime().getLastTime() + "last");
 				// pauseScreen.setOpaque(true);
 				// frame.remove(pauseScreen);
 				frame.add(board);
 				board.updatePic();
+				
+				
 				// for (int i = 0; i < 8; i++) {
 				// for (int j = 0; j < 8; j++) {
 				// if(board.getPieceAtPos(new Position(i, j))==null) {
