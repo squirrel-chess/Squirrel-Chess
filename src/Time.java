@@ -3,6 +3,10 @@ public class Time {
 	private int secs;
 	private int millis;
 	private long lastTime;
+	private boolean paused = false;
+	static private double accumulatedTime = 0;
+	private long start;
+	private long lastEnd;
 
 	public Time(int mins, int secs) {
 		this.mins = mins;
@@ -10,12 +14,63 @@ public class Time {
 		lastTime = System.currentTimeMillis();
 	}
 
+	public boolean getPaused() {
+		return paused;
+	}
+
+	public void setPaused(boolean b) {
+		paused = b;
+	}
+
 	public void startTurn() {
 		lastTime = System.currentTimeMillis();
+		start = System.currentTimeMillis();
+	}
+
+	public long getLastTime() {
+		return lastTime;
+	}
+
+	public void setLastTime(long s) {
+		lastTime = s;
+	}
+
+	public int toMillis() {
+		int mils = 0;
+		mils += mins * 60000;
+		mils += secs * 1000;
+		mils += millis;
+		return mils;
+	}
+
+	public void setMins(int min) {
+		mins = min;
+	}
+
+	public void setSecs(int sec) {
+		secs = sec;
+	}
+
+	public void setStartValue(long s) {
+		start = s;
+	}
+
+	public long getStart() {
+		return start;
 	}
 
 	public void endTurn() {
-		long timeChange = System.currentTimeMillis() - lastTime;
+		lastEnd = System.currentTimeMillis();
+
+		long timeChange = 0;
+		if (start > 0) {
+			if (paused == false) {
+				accumulatedTime = ((double) lastEnd - (double) start);
+
+				timeChange = (long) (accumulatedTime);
+			}
+			System.out.println(timeChange);
+		}
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
 		long milliChange = (timeChange - (minChange * 60000) - (secChange * 1000));
