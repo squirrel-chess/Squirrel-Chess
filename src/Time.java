@@ -3,8 +3,6 @@ public class Time {
 	private int secs;
 	private int millis;
 	private long lastTime;
-	static private long lastTimeHold;
-	private long currentMillis;
 	private boolean paused = false;
 	static private double accumulatedTime = 0;
 	private long start;
@@ -25,11 +23,7 @@ public class Time {
 	}
 
 	public void startTurn() {
-		long l = 0;
-		if (lastTimeHold > 0) {
-			l += lastTime - lastTimeHold;
-		}
-		lastTime = System.currentTimeMillis() - l;
+		lastTime = System.currentTimeMillis();
 		start = System.currentTimeMillis();
 	}
 
@@ -39,10 +33,6 @@ public class Time {
 
 	public void setLastTime(long s) {
 		lastTime = s;
-	}
-
-	public long getCurrentMillis() {
-		return currentMillis;
 	}
 
 	public int toMillis() {
@@ -69,20 +59,8 @@ public class Time {
 		return start;
 	}
 
-	public void setLastTimeHold(long l) {
-		lastTimeHold = l;
-	}
-
-	public long getLastTimeHold() {
-		return lastTimeHold;
-	}
-
-	static long passedTime = 0;
-
 	public void endTurn() {
 		lastEnd = System.currentTimeMillis();
-		System.out.println(lastTimeHold + "hold");
-		System.out.println(lastTime + "lastTime");
 
 		long timeChange = 0;
 		if (start > 0) {

@@ -65,47 +65,37 @@ public class Chess {
 				pauseScreen = new PauseScreen();
 				frame.remove(board);
 				frame.add(pauseScreen);
-				// only turns black when ends on different turn as before(not
-				// same)
-				System.out.println("sadf");
 				pause.setText("Play");
 				pausedTime = System.currentTimeMillis();
-				int minsWhite = board.getWhiteTime().getMins();
-				int secsWhite = board.getWhiteTime().getSecs();
-				int minsBlack = board.getBlackTime().getMins();
-				int secsBlack = board.getBlackTime().getSecs();
 				JOptionPane.showMessageDialog(null, "Game Paused.");
-				timePausedWhite = new Time(minsWhite, secsWhite);
-				timePausedBlack = new Time(minsBlack, secsBlack);
 				board.getWhiteTime().setPaused(true);
 				board.getBlackTime().setPaused(true);
 				if (board.getWhiteTurn()) {
-					board.getWhiteTime().setLastTimeHold(board.getWhiteTime().getLastTime());
-
+					board.getWhiteTime().endTurn();
+					setText(board.getBlackTime() + " (Black)" + "<br>White's Turn<br>" + board.getWhiteTime()
+					+ " (White)");
+//					board.getBlackTime().startTurn();
+//					board.getBlackTime().endTurn();
+					
 				} else {
-					board.getBlackTime().setLastTimeHold(board.getBlackTime().getLastTime());
+					board.getBlackTime().endTurn();
+					board.getWhiteTime().startTurn();
+					board.getWhiteTime().endTurn();
+					setText(board.getBlackTime() + " (Black)" + "<br>Black's Turn<br>" + board.getWhiteTime()
+							+ " (White)");
 				}
-				System.out.println(board.getWhiteTime().getLastTime() + "last");
-
+//				board.getWhiteTime().setSecs(board.getWhiteTime().getSecs()+1);
+//				board.getBlackTime().setSecs(board.getBlackTime().getSecs()+1);
 			} else if (pause.getText().equals("Play")) {
 				if (board.getWhiteTurn()) {
-					// board.getWhiteTime().setStartValue(System.currentTimeMillis());
 					board.getWhiteTime().startTurn();
-				//	board.getWhiteTime().setLastTime(board.getWhiteTime().getLastTimeHold());
-
 				} else {
-					// board.getBlackTime().setStartValue(System.currentTimeMillis());
 					board.getBlackTime().startTurn();
-				//	board.getBlackTime().setLastTime(board.getBlackTime().getLastTimeHold());
 				}
-			//	board.getWhiteTime().setStartValue(System.currentTimeMillis());
 				System.out.println(board.getWhiteTime().getLastTime() + "last");
-				// pauseScreen.setOpaque(true);
-				// frame.remove(pauseScreen);
 				frame.add(board);
 				board.updatePic();
-				
-				
+
 				// for (int i = 0; i < 8; i++) {
 				// for (int j = 0; j < 8; j++) {
 				// if(board.getPieceAtPos(new Position(i, j))==null) {
@@ -130,15 +120,6 @@ public class Chess {
 				board.getWhiteTime().setPaused(false);
 				board.getBlackTime().setPaused(false);
 				pause.setText("Pause");
-//				 board.setBlackTime(timePausedBlack);
-//				 board.setWhiteTime(timePausedWhite);
-				// System.out.println(board.getBlackTime());
-				if (board.getWhiteTurn() == true) {
-					setText(timePausedBlack + " (Black)" + "<br>White's Turn<br>" + timePausedWhite + " (White)");
-				} else {
-					setText(timePausedBlack + " (Black)" + "<br>Black's Turn<br>" + timePausedWhite + " (White)");
-				}
-				// System.out.println(pausedTime);
 				frame.pack();
 				pauseScreen = new PauseScreen();
 
