@@ -32,7 +32,6 @@ public class Game extends JPanel implements Serializable {
 		this.main = main;
 		newGame();
 		initBoard();
-		revalidate();
 	}
 
 	public Game(SquirrelChess main, SavedGame sg) {
@@ -105,12 +104,14 @@ public class Game extends JPanel implements Serializable {
 					bKingPos = p.getPos();
 			}
 		}
-		if (whiteTurn)
+		if (whiteTurn) {
 			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
-		else
+			whiteTime.startTurn();
+		} else {
 			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			blackTime.startTurn();
+		}
 		initBoard();
-		revalidate();
 	}
 
 	private void newGame() {

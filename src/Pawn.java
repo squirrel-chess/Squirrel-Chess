@@ -12,12 +12,14 @@ public class Pawn extends Piece {
 		super(pos, game, isWhite);
 		hasMoved = false;
 	}
+
 	boolean movedTwo = false;
+
 	@Override
 	public ArrayList<Position> getMoveSet(boolean check) {
 		ArrayList<Position> ret = new ArrayList<Position>();
-		if (isWhite) {//white
-			if (!hasMoved) { //hasn't moved
+		if (isWhite) {// white
+			if (!hasMoved) { // hasn't moved
 				if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
 						&& (game.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) == null)) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
@@ -26,18 +28,18 @@ public class Pawn extends Piece {
 				if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null)
 						&& (game.getPieceAtPos(new Position(pos.getRow() - 2, pos.getCol())) != null))
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
-			} else { //has moved
+			} else { // has moved
 				if (game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() - 1, pos.getCol()));
 				}
 			}
-			
+
 			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
 			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
 				ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
-		} else {//black
-			if (!hasMoved) { //hasn't moved
+		} else {// black
+			if (!hasMoved) { // hasn't moved
 				if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
 						&& (game.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) == null)) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
@@ -46,28 +48,28 @@ public class Pawn extends Piece {
 				if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null)
 						&& (game.getPieceAtPos(new Position(pos.getRow() + 2, pos.getCol())) != null))
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
-			} else { //has moved
+			} else { // has moved
 				if (game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) == null) {
 					ret.add(new Position(pos.getRow() + 1, pos.getCol()));
 				}
 			}
-			
+
 			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
 			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() - 1));
 		}
-		
+
 		if (check) {
 			ret = game.moveIntoCheck(this, ret);
 		}
-		
+
 		return removeInvalidMoves(ret);
 	}
-	
+
 	@Override
 	public void move(Position pos) {
-		if(isWhite && pos.getRow()-2==0) {
+		if (isWhite && pos.getRow() - 2 == 0) {
 			movedTwo = true;
 		}
 		super.move(pos);
@@ -98,23 +100,31 @@ public class Pawn extends Piece {
 		Piece p;
 		switch (option) {
 		case 0:
-			if (isWhite) p = new Bishop(pos, game, true);
-			else p = new Bishop(pos, game, false);
+			if (isWhite)
+				p = new Bishop(pos, game, true);
+			else
+				p = new Bishop(pos, game, false);
 			game.updateGraphics();
 			break;
 		case 1:
-			if (isWhite) p = new Knight(pos, game, true);
-			else p = new Knight(pos, game, false);
+			if (isWhite)
+				p = new Knight(pos, game, true);
+			else
+				p = new Knight(pos, game, false);
 			game.updateGraphics();
 			break;
 		case 2:
-			if (isWhite) p = new Queen(pos, game, true);
-			else p = new Queen(pos, game, false);
+			if (isWhite)
+				p = new Queen(pos, game, true);
+			else
+				p = new Queen(pos, game, false);
 			game.updateGraphics();
 			break;
 		default:
-			if (isWhite) p = new Rook(pos, game, true);
-			else p = new Rook(pos, game, false);
+			if (isWhite)
+				p = new Rook(pos, game, true);
+			else
+				p = new Rook(pos, game, false);
 			game.updateGraphics();
 			break;
 		}
