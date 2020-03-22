@@ -70,6 +70,9 @@ public class Time {
 				timeChange = (long) (accumulatedTime);
 			}
 			System.out.println(timeChange);
+		} else {
+			accumulatedTime = ((double) lastEnd - (double) start);
+			timeChange = (long) (accumulatedTime) - lastTime;
 		}
 		long minChange = timeChange / 60000;
 		long secChange = (timeChange - (minChange * 60000)) / 1000;
