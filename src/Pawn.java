@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
 public class Pawn extends Piece {
@@ -7,6 +11,10 @@ public class Pawn extends Piece {
 	private static final long serialVersionUID = -2651334521992229263L;
 	private boolean hasMoved;
 	String fileName;
+	Position initialPos;
+	// boolean movedTwo = false;
+//	static boolean canEnPassantRight = false;
+	// static boolean canEnPassantLeft = false;
 
 	public Pawn(Position pos, Game game, boolean isWhite) {
 		super(pos, game, isWhite);
@@ -14,6 +22,7 @@ public class Pawn extends Piece {
 	}
 
 	boolean movedTwo = false;
+	static boolean blankSpot = false;
 
 	@Override
 	public ArrayList<Position> getMoveSet(boolean check) {
@@ -34,6 +43,14 @@ public class Pawn extends Piece {
 				}
 			}
 
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) instanceof Pawn
+					&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)).canEnPassantRight == true) {
+				ret.add(new Position(pos.getRow() - 1, pos.getCol() - 1));
+			}
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)) instanceof Pawn
+					&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)).canEnPassantLeft == true) {
+				ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
+			}
 			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() - 1, pos.getCol() + 1));
 			if ((game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
@@ -54,6 +71,15 @@ public class Pawn extends Piece {
 				}
 			}
 
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) instanceof Pawn
+					&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)).canEnPassantRight == true) {
+				ret.add(new Position(pos.getRow() + 1, pos.getCol() - 1));
+			}
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)) instanceof Pawn
+					&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)).canEnPassantLeft == true) {
+				ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
+			}
+
 			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() + 1)) != null) && pos.getCol() != 7)
 				ret.add(new Position(pos.getRow() + 1, pos.getCol() + 1));
 			if ((game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol() - 1)) != null) && pos.getCol() != 0)
@@ -69,10 +95,24 @@ public class Pawn extends Piece {
 
 	@Override
 	public void move(Position pos) {
+		initialPos = game.getSelectedPiece().getPos();
 		if (isWhite && pos.getRow() - 2 == 0) {
 			movedTwo = true;
 		}
+		blankSpot = false;
+		if (game.getPieceAtPos(pos) == null) {
+			blankSpot = true;
+		}
 		super.move(pos);
+		for (Piece p : game.getPieces()) {
+			if (p instanceof Pawn) {
+				Position position = p.getPos();
+				game.getPieceAtPos(position).canEnPassantRight = false;
+				game.getPieceAtPos(position).canEnPassantLeft = false;
+			}
+		}
+		game.getPieceAtPos(pos).canEnPassantRight = false;
+		game.getPieceAtPos(pos).canEnPassantLeft = false;
 		hasMoved = true;
 		if (isWhite) {
 			if (pos.getRow() == 0)
@@ -81,7 +121,43 @@ public class Pawn extends Piece {
 			if (pos.getRow() == 7)
 				promoMenu();
 		}
+		if (Math.abs(pos.getRow() - initialPos.getRow()) == 2) {
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() + 1)) instanceof Pawn) {
+				game.getPieceAtPos(pos).canEnPassantRight = true;
+			}
+			if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) instanceof Pawn) {
+				game.getPieceAtPos(pos).canEnPassantLeft = true;
+			}
+			movedTwo = true;
+
+		}
+		if (blankSpot == true && game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) != null
+				&& game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol())) instanceof Pawn
+				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
+				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
+			Piece pieceRemoved = game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol()));
+			pieceRemoved.remove(true);
+			game.updatePic();
+			game.unhighlightMoves();
+			game.setSelectedPiece(null);
+		} else if (blankSpot == true && game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) != null
+				&& game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) instanceof Pawn
+				&& Math.abs(initialPos.getRow() - pos.getRow()) == 1
+				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
+			Piece pieceRemoved = game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol()));
+			pieceRemoved.remove(true);
+			game.updatePic();
+			game.unhighlightMoves();
+			game.setSelectedPiece(null);
+		}
+
 	}
+
+//	boolean canDoEnPassantRight() {
+//		if(canEnPassantRight == true) {
+//			return true;
+//		} 
+//		}
 
 	@Override
 	public void draw() {
@@ -91,7 +167,23 @@ public class Pawn extends Piece {
 	public String toString() {
 		return super.toString() + "Pawn";
 	}
-
+	public static synchronized void playSound(final String url) {
+		  new Thread(new Runnable() {
+		  // The wrapper thread is unnecessary, unless it blocks on the
+		  // Clip finishing; see comments.
+		    public void run() {
+		      try {
+		        Clip clip = AudioSystem.getClip();
+		        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+		          this.getClass().getResourceAsStream(url));
+		        clip.open(inputStream);
+		        clip.start(); 
+		      } catch (Exception e) {
+		        System.err.println(e.getMessage());
+		      }
+		    }
+		  }).start();
+		}
 	private void promoMenu() {
 		game.removePiece(this);
 		String[] options = { "Bishop", "Knight", "Queen", "Rook" };
@@ -130,5 +222,11 @@ public class Pawn extends Piece {
 		}
 		game.addPiece(p);
 		game.updateGraphics();
+		playSound("AHHHHHHHHHH.wav");
+	}
+	
+	@Override
+	public int pieceType() {
+		return 5;
 	}
 }

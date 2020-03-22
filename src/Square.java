@@ -22,10 +22,14 @@ public class Square extends JButton {
 			game.getSelectedPiece().move(pos);
 			if (game.testCheck(true)) {
 				JOptionPane.showMessageDialog(null, "Black wins!");
-				game.playAgainMenu();
-			} else if (game.testCheck(false)) {
+				
+				//b.playAgainMenu();
+				
+			} else if (game.testCheckmate(false)) {
 				JOptionPane.showMessageDialog(null, "White wins!");
-				game.playAgainMenu();
+				
+				//b.playAgainMenu();
+				
 			} else if (game.testCheck(true)) {
 				JOptionPane.showMessageDialog(null, "White King is in check!");
 			} else if (game.testCheck(false)) {

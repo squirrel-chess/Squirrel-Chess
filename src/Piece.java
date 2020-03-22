@@ -1,9 +1,16 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.swing.JOptionPane;
 
 public abstract class Piece implements Serializable {
 
 	private static final long serialVersionUID = -8963802459683023645L;
+	boolean canEnPassantRight = false;
+	boolean canEnPassantLeft = false;
 	protected Position pos;
 	protected Game game;
 	protected boolean isWhite;
@@ -31,19 +38,40 @@ public abstract class Piece implements Serializable {
 	}
 
 	public void move(Position pos) {
-		if (game.getPieceAtPos(pos) != null) 
-			game.getPieceAtPos(pos).remove();
+		if (game.getPieceAtPos(pos) != null) {
+			game.getPieceAtPos(pos).remove(true);
+			playSound("chomp.wav");
+		}
+		else {
+			playSound("whack.wav");
+		}
 		this.pos = pos;
 		game.updateGraphics();
 		game.unhighlightMoves();
 		game.setSelectedPiece(null);
 		game.nextTurn(); 
 	}
-	
+	public static synchronized void playSound(final String url) {
+		  new Thread(new Runnable() {
+		  // The wrapper thread is unnecessary, unless it blocks on the
+		  // Clip finishing; see comments.
+		    public void run() {
+		      try {
+		        Clip clip = AudioSystem.getClip();
+		        AudioInputStream inputStream = AudioSystem.getAudioInputStream(
+		          this.getClass().getResourceAsStream(url));
+		        clip.open(inputStream);
+		        clip.start(); 
+		      } catch (Exception e) {
+		        System.err.println(e.getMessage());
+		      }
+		    }
+		  }).start();
+		}
 	public Piece simMove(Position pos) {
 		if (game.getPieceAtPos(pos) != null) {
 			Piece removed = game.getPieceAtPos(pos);
-			game.getPieceAtPos(pos).remove();
+			game.getPieceAtPos(pos).remove(false);
 			
 			this.pos = pos;
 			
@@ -53,8 +81,13 @@ public abstract class Piece implements Serializable {
 		return null;
 	}
 
-	public void remove() {
+	// REMOVE
+	public void remove(boolean taken) {
 		game.removePiece(this);
+		
+		if (taken) {
+			game.getGame().getGamePanel().addPiece(this);
+		}
 	}
 
 	public Position getPos() {
@@ -85,5 +118,10 @@ public abstract class Piece implements Serializable {
 	
 	public boolean isWhite() {
 		return isWhite;
+	}
+	
+	// PIECE TYPE - use isKing for king
+	public int pieceType() {
+		return -1;
 	}
 }
