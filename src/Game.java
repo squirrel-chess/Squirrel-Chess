@@ -166,10 +166,22 @@ public class Game extends JPanel implements Serializable {
 		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
-		
+
 		whiteTurn = true;
 		System.out.println(whiteTurn);
 		main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+	}
+	
+	private void repaintSquares() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 0)
+					squares[i][j].setBackground(Color.WHITE);
+				else
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+			}
+		}
+
 	}
 
 	public void playAgainMenu() {
@@ -177,6 +189,7 @@ public class Game extends JPanel implements Serializable {
 		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
 				null) == 1) {
 			newGame();
+			repaintSquares();
 		} else {
 			System.exit(0);
 		}
@@ -266,38 +279,6 @@ public class Game extends JPanel implements Serializable {
 				System.exit(0);
 			}
 		}
-	}
-
-	public void nextTurn(Time whiteTime, Time blackTime) {
-		if (whiteTurn) {
-			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
-			if (whiteTime.isZero()) {
-				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-				playAgainMenu();
-			}
-		} else {
-			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
-			if (blackTime.isZero()) {
-				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-				playAgainMenu();
-			}
-		}
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				if ((i + j) % 2 == 1) {
-					if (whiteTurn) {
-						squares[i][j].setBackground(Color.LIGHT_GRAY);
-					} else {
-						squares[i][j].setBackground(Color.GRAY);
-					}
-				} else if (whiteTurn) {
-					squares[i][j].setBackground(Color.WHITE);
-				} else {
-					squares[i][j].setBackground(Color.LIGHT_GRAY);
-				}
-			}
-		}
-		updateGraphics();
 	}
 
 	public ArrayList<Piece> getPieces() {
@@ -426,36 +407,38 @@ public class Game extends JPanel implements Serializable {
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				playAgainMenu();
-			}
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-					if ((i + j) % 2 == 1)
-						squares[i][j].setBackground(Color.GRAY);
-					else
-						squares[i][j].setBackground(Color.LIGHT_GRAY);
+			} else {
+				for (int i = 0; i < 8; i++) {
+					for (int j = 0; j < 8; j++) {
+						if ((i + j) % 2 == 1)
+							squares[i][j].setBackground(Color.GRAY);
+						else
+							squares[i][j].setBackground(Color.LIGHT_GRAY);
+					}
 				}
+				blackTime.startTurn();
+				whiteTurn = !whiteTurn;
 			}
-			blackTime.startTurn();
 		} else {
 			blackTime.endTurn();
 			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 				playAgainMenu();
-			}
-			for (int i = 0; i < 8; i++) {
-				for (int j = 0; j < 8; j++) {
-					if ((i + j) % 2 == 1)
-						squares[i][j].setBackground(Color.LIGHT_GRAY);
-					else
-						squares[i][j].setBackground(Color.WHITE);
+			} else {
+				for (int i = 0; i < 8; i++) {
+					for (int j = 0; j < 8; j++) {
+						if ((i + j) % 2 == 1)
+							squares[i][j].setBackground(Color.LIGHT_GRAY);
+						else
+							squares[i][j].setBackground(Color.WHITE);
+					}
 				}
+				whiteTime.startTurn();
+				whiteTurn = !whiteTurn;
 			}
-			whiteTime.startTurn();
 		}
 		updateGraphics();
-		whiteTurn = !whiteTurn;
-
 	}
 
 	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {

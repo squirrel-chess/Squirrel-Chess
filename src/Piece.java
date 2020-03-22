@@ -19,6 +19,7 @@ public abstract class Piece implements Serializable {
 	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
+		System.out.println(game.getWhiteTurn());
 		if (game.getWhiteTurn() == isWhite) {
 			if (game.getSelectedPiece() == null) {
 				game.highlightMoves(this);
