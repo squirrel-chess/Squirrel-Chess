@@ -63,7 +63,7 @@ public class Chess {
 		
 		//text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
 		
-		System.out.println(frameWidth + ", " + frameHeight);
+		System.out.println(frameWidth + ",s " + frameHeight);
 		System.out.println(frame.getContentPane().getHeight());
 		System.out.println(frame.getHeight());
 		
