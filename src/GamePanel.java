@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class GamePanel {
 	
-	Chess game;
+	SquirrelChess main;
 
 	private int panelWidth;
 	private int panelHeight;
@@ -63,9 +63,9 @@ public class GamePanel {
 	JButton returnMenu;
 	JButton newGame;
 
-	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
+	public GamePanel(SquirrelChess game, JFrame frame, int width, int height, int x) {
 		
-		this.game = game;
+		this.main = game;
 		this.frame = frame;
 		
 		timeText = new JLabel();
@@ -174,7 +174,7 @@ public class GamePanel {
 			frame.remove(topGrid);
 			frame.remove(center);
 			frame.remove(bottomGrid);
-			game.returnMenu();
+			main.returnMenu();
 		});
 		
 		newGame.addActionListener((e) -> {
@@ -182,7 +182,7 @@ public class GamePanel {
 			blackTaken = new ArrayList<Piece>();
 			sortPieces();
 			displayTaken();
-			game.newGame();
+			main.setupGame();
 		});
 		
 	}

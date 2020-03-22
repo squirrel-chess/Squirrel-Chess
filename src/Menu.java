@@ -15,7 +15,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Menu extends JPanel implements ActionListener {
-	private Chess game;
+	private SquirrelChess game;
 	JLabel title;
 	JButton play;
 	JButton instruct;
@@ -24,7 +24,7 @@ public class Menu extends JPanel implements ActionListener {
 	BufferedImage back;
 	JLabel picLabel;
 
-	public Menu(Chess game) {
+	public Menu(SquirrelChess game) {
 		this.game = game;
 		setLayout(null);
 
