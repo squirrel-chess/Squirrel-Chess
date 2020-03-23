@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -26,6 +28,11 @@ public class Board extends JPanel implements Serializable {
 	Rook whiteR2;
 	Rook blackR1;
 	Rook blackR2;
+
+	// Colors
+	Color blackSquareColor = new Color(133, 77, 20);
+	Color whiteSquareColor = new Color(255, 239, 204);
+	Color darkColor = new Color(77, 40, 0);
 
 	public Board(Chess main) {
 		selectedPiece = null;
@@ -167,6 +174,8 @@ public class Board extends JPanel implements Serializable {
 		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2));
 		pieces.add(new Bishop(new Position(7, 5), this, true));
 		pieces.add(new Knight(new Position(7, 6), this, true));
+		
+		main.setText(getText());
 
 		whiteTurn = true;
 		System.out.println(whiteTurn);
@@ -197,9 +206,9 @@ public class Board extends JPanel implements Serializable {
 	}
 
 	public void highlightMoves(Piece p) {
-		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN);
+		squares[p.getPos().getRow()][p.getPos().getCol()].setBackground(Color.GREEN); // dark green
 		for (Position pos : p.getMoveSet(true)) {
-			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160));
+			squares[pos.getRow()][pos.getCol()].setBackground(new Color(160, 255, 160)); // light green
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
 		selectedPiece = p;
@@ -227,7 +236,10 @@ public class Board extends JPanel implements Serializable {
 		updateGraphics();
 	}
 
-	public void initBoard() {
+	private void initBoard() {
+		// setPreferredSize(new Dimension((int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110, (int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 		squares = new Square[8][8];
 		selectedPiece = null;
 		setLayout(new GridLayout(8, 8));
@@ -358,7 +370,6 @@ public class Board extends JPanel implements Serializable {
 			replacePiece(taken);
 
 		}
-		// }
 		return ret;
 	}
 
@@ -463,7 +474,6 @@ public class Board extends JPanel implements Serializable {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
 				playAgainMenu();
@@ -481,9 +491,9 @@ public class Board extends JPanel implements Serializable {
 			}
 		} else {
 			blackTime.endTurn();
-			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
+
 				playAgainMenu();
 			} else {
 				for (int i = 0; i < 8; i++) {
@@ -537,5 +547,25 @@ public class Board extends JPanel implements Serializable {
 
 	public Position getBKingPos() {
 		return bKingPos;
+	}
+
+	public void setWhiteTime(Time t) {
+		whiteTime = t;
+	}
+
+	public void setBlackTime(Time t) {
+		blackTime = t;
+	}
+
+	public Chess getGame() {
+		return main;
+	}
+
+	public String getText() {
+		if (whiteTurn) {
+			return "<>" + blackTime + " (Black)" + "<br>White's Turn<br>" + whiteTime + " (White)";
+		} else {
+			return "<>" + blackTime + " (Black)" + "<br>Black's Turn<br>" + whiteTime + " (White)";
+		}
 	}
 }
