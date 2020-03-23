@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -62,17 +63,25 @@ public class GamePanel {
 	// Buttons
 	JButton returnMenu;
 	JButton newGame;
+	JButton donation;
 
+	private JLabel space;
+	private JLabel space2;
+	
 	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
 		
 		this.game = game;
 		this.frame = frame;
 		
 		timeText = new JLabel();
+		space = new JLabel();
+		space2 = new JLabel();
 		
 		// buttons
 		newGame = new JButton();
 		returnMenu = new JButton();
+		donation = new JButton();
+		
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -95,17 +104,24 @@ public class GamePanel {
 		frame.add(center);
 		frame.add(bottomGrid);
 
+	
+
 		//setting bounds
 		topGrid.setBounds(panelX, 0, panelWidth, (gridHeight * 2));
-		topGrid.setLayout(new GridLayout(2, 8));
+		topGrid.setLayout(new GridLayout(8, 10));
 		topGrid.setBackground(backgroundColor);
 		topGrid.setBorder(BorderFactory.createLineBorder(darkColor, 3));
-
+		donation.setBounds(800, center.getY(), 400, 400);
+		topGrid.add(space);
+		//topGrid.add(space2);
+	//	donation.setSize(800, 400);
+		topGrid.add(donation);
+		
+		
 		// center
 		center.setBounds(panelX, (gridHeight * 2), panelWidth, centerHeight);
 		center.setBackground(backgroundColor);
 		center.setBorder(BorderFactory.createLineBorder(darkColor, 3));
-		
 		center.add(timeText);
 		center.add(newGame);
 		center.add(returnMenu);
@@ -170,6 +186,9 @@ public class GamePanel {
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
 		
+		donation.setText("Click here to donate to the San Diego Food Bank.");
+		
+		
 		returnMenu.addActionListener((e) -> {
 			frame.remove(topGrid);
 			frame.remove(center);
@@ -183,6 +202,15 @@ public class GamePanel {
 			sortPieces();
 			displayTaken();
 			game.newGame();
+		});
+		
+		donation.addActionListener((e) -> {
+			try {
+				URI uri = new URI("https://interland3.donorperfect.net/weblink/weblink.aspx?name=E33999&id=3");
+				java.awt.Desktop.getDesktop().browse(uri);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
 		});
 		
 	}
