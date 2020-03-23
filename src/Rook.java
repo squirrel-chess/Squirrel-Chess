@@ -6,7 +6,7 @@ public class Rook extends Piece {
 
 	private static final long serialVersionUID = 5038678748630012418L;
 
-	public Rook(Position pos, Game game, boolean isWhite) {
+	public Rook(Position pos, Board game, boolean isWhite) {
 		super(pos, game, isWhite);
 	}
 

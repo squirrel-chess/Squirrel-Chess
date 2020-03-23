@@ -12,10 +12,10 @@ public abstract class Piece implements Serializable {
 	boolean canEnPassantRight = false;
 	boolean canEnPassantLeft = false;
 	protected Position pos;
-	protected Game game;
+	protected Board game;
 	protected boolean isWhite;
 
-	public Piece(Position pos, Game game, boolean isWhite) {
+	public Piece(Position pos, Board game, boolean isWhite) {
 		this.pos = pos;
 		this.game = game;
 		this.isWhite = isWhite;
@@ -86,7 +86,7 @@ public abstract class Piece implements Serializable {
 		game.removePiece(this);
 		
 		if (taken) {
-			game.getGame().getGamePanel().addPiece(this);
+			game.getMain().getGamePanel().addPiece(this);
 		}
 	}
 

@@ -11,7 +11,7 @@ public class King extends Piece {
 	private Rook rook1;
 	private Rook rook2;
 	boolean hasMoved = false;
-	public King(Position pos, Game game, boolean isWhite, Rook rook1, Rook rook2) {
+	public King(Position pos, Board game, boolean isWhite, Rook rook1, Rook rook2) {
 		super(pos, game, isWhite);
 		this.rook1 = rook1;// white
 		this.rook2 = rook2;// black

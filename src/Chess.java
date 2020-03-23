@@ -12,16 +12,16 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-public class SquirrelChess implements Serializable {
+public class Chess implements Serializable {
 
 	private static final long serialVersionUID = -4112312333502533585L;
 	private JFrame frame;
 	private Menu menu;
 	private JLabel text;
 	private JButton saveGame;
-	private Game game;
+	private Board game;
 
-	public SquirrelChess() {
+	public Chess() {
 		frame = new JFrame("Squirrel Chess");
 		menu = new Menu(this);
 		frame.add(menu);
@@ -37,13 +37,13 @@ public class SquirrelChess implements Serializable {
 
 	public void setupGame() {
 		text = new JLabel();
-		game = new Game(this);
+		game = new Board(this);
 		gameGUISetup();
 	}
 
 	public void setupGame(SavedGame sg) {
 		text = new JLabel();
-		game = new Game(this, sg);
+		game = new Board(this, sg);
 		gameGUISetup();
 	}
 	
@@ -94,6 +94,6 @@ public class SquirrelChess implements Serializable {
 	}
 
 	public static void main(String[] args) {
-		new SquirrelChess();
+		new Chess();
 	}
 }

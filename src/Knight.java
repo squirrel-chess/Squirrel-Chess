@@ -4,7 +4,7 @@ public class Knight extends Piece {
 
 	private static final long serialVersionUID = 3003340149398527709L;
 
-	public Knight(Position pos, Game game, boolean isWhite) {
+	public Knight(Position pos, Board game, boolean isWhite) {
 		super(pos, game, isWhite);
 	}
 

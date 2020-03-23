@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 
 public class GamePanel {
 	
-	SquirrelChess main;
+	Chess main;
 
 	private int panelWidth;
 	private int panelHeight;
@@ -63,7 +63,7 @@ public class GamePanel {
 	JButton returnMenu;
 	JButton newGame;
 
-	public GamePanel(SquirrelChess game, JFrame frame, int width, int height, int x) {
+	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
 		
 		this.main = game;
 		this.frame = frame;

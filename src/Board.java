@@ -10,10 +10,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Game extends JPanel implements Serializable {
+public class Board extends JPanel implements Serializable {
 
 	private static final long serialVersionUID = 2499641607903690667L;
-	private SquirrelChess main;
+	private Chess main;
 	private Square[][] squares;
 	private Piece selectedPiece;
 	private ArrayList<Piece> pieces;
@@ -27,14 +27,14 @@ public class Game extends JPanel implements Serializable {
 	Rook blackR1;
 	Rook blackR2;
 
-	public Game(SquirrelChess main) {
+	public Board(Chess main) {
 		selectedPiece = null;
 		this.main = main;
 		newGame();
 		initBoard();
 	}
 
-	public Game(SquirrelChess main, SavedGame sg) {
+	public Board(Chess main, SavedGame sg) {
 		selectedPiece = null;
 		this.main = main;
 		this.whiteTime = sg.getWhiteTime();
@@ -515,7 +515,7 @@ public class Game extends JPanel implements Serializable {
 		return ret;
 	}
 	
-	public SquirrelChess getMain() {
+	public Chess getMain() {
 		return main;
 	}
 

@@ -16,7 +16,7 @@ public class Pawn extends Piece {
 //	static boolean canEnPassantRight = false;
 	// static boolean canEnPassantLeft = false;
 
-	public Pawn(Position pos, Game game, boolean isWhite) {
+	public Pawn(Position pos, Board game, boolean isWhite) {
 		super(pos, game, isWhite);
 		hasMoved = false;
 	}

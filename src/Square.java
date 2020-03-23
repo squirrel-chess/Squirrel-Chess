@@ -5,10 +5,10 @@ public class Square extends JButton {
 
 	private static final long serialVersionUID = -3661941489557446453L;
 	private boolean inMoveSet;
-	private Game game;
+	private Board game;
 	private Position pos;
 	
-	public Square(Game game, Position pos) {
+	public Square(Board game, Position pos) {
 		this.inMoveSet = false;
 		this.game = game;
 		this.pos = pos;
