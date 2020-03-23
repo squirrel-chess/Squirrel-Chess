@@ -16,13 +16,14 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel implements ActionListener {
 	private Chess game;
-	JLabel title;
-	JButton play;
-	JButton instruct;
-	Font titleFont = new Font("didot", Font.ITALIC, 60);
-	BufferedImage img;
-	BufferedImage back;
-	JLabel picLabel;
+	private JLabel title;
+	private JButton play;
+	private JButton instruct;
+	private JButton load;
+	private Font titleFont = new Font("didot", Font.ITALIC, 60);
+	private BufferedImage img;
+	private BufferedImage back;
+	private JLabel picLabel;
 
 	public Menu(Chess game) {
 		this.game = game;
@@ -48,6 +49,11 @@ public class Menu extends JPanel implements ActionListener {
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
+		});
+		load = new JButton();
+		load.setText("Load Game");
+		load.addActionListener((e) -> {
+			this.game.setupGame(sg.); //WORK ON THIS NEXT TIME
 		});
 
 		try {

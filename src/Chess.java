@@ -11,13 +11,14 @@ import java.util.ArrayList;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class Chess {
 
 	private static final long serialVersionUID = -4112312333502533585L;
 	private JFrame frame;
 	private Menu menu;
-	// private JLabel text;
+	//private JLabel text;
 	private Board board;
 	private int mins, secs;
 	private PauseScreen pauseScreen;
@@ -37,7 +38,7 @@ public class Chess {
 	}
 
 	public void setText(String str) {
-		text.setText("<html>" + str + "</html>");
+		gamePanel.setTimeText("<html>" + str + "</html>");
 		frame.pack();
 	}
 	
@@ -70,15 +71,14 @@ public class Chess {
 		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 
 		setText(board.getText());
+	}
 
 	public void setupGame(SavedGame sg) {
-		text = new JLabel();
-		game = new Board(this, sg);
-		gameGUISetup();
+		board = new Board(this, sg);
 	}
 
 	public void returnMenu() {
-		frame.remove(game);
+		frame.remove(board);
 		menu = new Menu(this);
 		frame.add(menu);
 		frame.setSize(1000, 1000);
@@ -86,33 +86,6 @@ public class Chess {
 		menu = new Menu(this);
 		frame.add(menu);
 		frame.setSize(1000, 1000);
-	}
-
-	private void gameGUISetup() {
-		saveGame = new JButton("Save Game");
-		saveGame.addActionListener((al) -> {
-			try (FileOutputStream fos = new FileOutputStream(new File("src/savedGame.dat"));
-					ObjectOutputStream oos = new ObjectOutputStream(fos)) {
-				oos.writeObject(new SavedGame(pieceArrayToStringArray(game.getPieces()), game.getWhiteTime(), game.getBlackTime(), game.getWhiteTurn()));
-				oos.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
-
-		frame.setLayout(new BorderLayout());
-		frame.remove(menu);
-		frame.add(game, BorderLayout.CENTER);
-		frame.add(text, BorderLayout.EAST);
-		frame.add(saveGame, BorderLayout.SOUTH);
-		frame.setVisible(true);
-		frame.pack();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setResizable(false);
-		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
-		frame.setSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
-				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
 	}
 	
 	private ArrayList<String> pieceArrayToStringArray(ArrayList<Piece> pieces) {
@@ -124,7 +97,7 @@ public class Chess {
 	}
 
 	public void pauseClicked() {
-		board.updatePic();
+		board.updateGraphics();
 
 		frame.remove(board);
 		pauseScreen = new PauseScreen();
@@ -138,7 +111,7 @@ public class Chess {
 	}
 
 	public void playClicked() {
-		board.updatePic();
+		board.updateGraphics();
 		if (board.getWhiteTurn()) {
 			board.getWhiteTime().startTurn();
 		} else {
@@ -150,10 +123,6 @@ public class Chess {
 		board.getBlackTime().setPaused(false);
 		frame.pack();
 		pauseScreen = new PauseScreen();
-	}
-
-	public void newGame() {
-		board.newGame();
 	}
 
 	public Dimension getFrameDimension() {

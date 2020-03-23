@@ -56,14 +56,15 @@ public class GamePanel {
 	private JLabel timeText;
 
 	// Colors
-	Color backgroundColor = new Color(255, 240, 205);
-	Color darkColor = new Color(77, 40, 0);
+	private Color backgroundColor = new Color(255, 240, 205);
+	private Color darkColor = new Color(77, 40, 0);
 
 	// Buttons
-	JButton returnMenu;
-	JButton newGame;
-	JButton pause;
-
+	private JButton returnMenu;
+	private JButton newGame;
+	private JButton pause;
+	private JButton save;
+	
 	private PauseScreen pauseScreen;
 	private Board bor;
 
@@ -77,6 +78,7 @@ public class GamePanel {
 		newGame = new JButton();
 		returnMenu = new JButton();
 		pause = new JButton();
+		save = new JButton();
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -114,6 +116,7 @@ public class GamePanel {
 		center.add(newGame);
 		center.add(returnMenu);
 		center.add(pause);
+		center.add(save);
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
@@ -175,12 +178,13 @@ public class GamePanel {
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
 		pause.setText("Pause");
+		save.setText("Save Game");
 
 		returnMenu.addActionListener((e) -> {
 			frame.remove(topGrid);
 			frame.remove(center);
 			frame.remove(bottomGrid);
-			main.returnMenu();
+			game.returnMenu();
 		});
 
 		newGame.addActionListener((e) -> {
@@ -188,7 +192,7 @@ public class GamePanel {
 			blackTaken = new ArrayList<Piece>();
 			sortPieces();
 			displayTaken();
-			main.setupGame();
+			game.setupGame();
 		});
 		pause.addActionListener((e) -> {
 			if (pause.getText().equals("Pause")) {
