@@ -380,6 +380,65 @@ public class Game extends JPanel implements Serializable {
 		}
 		return false;
 	}
+	
+	public boolean testCheckmate(boolean isWhite) {
+
+		if (testCheck(true) || testCheck(false)) { // if neither of the kings are in check, don't check for checkmate
+			for (int i = 0; i < pieces.size(); i++) { // iterate through all pieces
+
+				Piece p = pieces.get(i);
+
+				if (p.isWhite == isWhite) { // only check move sets of color of king in check
+
+					Position original = p.getPos(); // save original position of piece
+
+					for (Position pos : p.getMoveSet(true)) { // iterate through all available moves
+
+						Piece removed = p.simMove(pos); // save piece removed to put back later. Sim move the piece
+
+						moveKingPos(isWhite, p, p.pos); // if the piece is a king, the kingPos needs to be updated
+
+						if (isWhite) {
+							if (!testCheck(true)) { // test if king of isWhite color is in check
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace removed piece
+
+								return false; // if not in check anymore, the king is not in check
+							}
+						} else {
+							if (!testCheck(false)) { // test if king of isWhite color is in check
+
+								p.simMove(original); // move the piece to it's original position
+
+								moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be
+																	// updated
+
+								replacePiece(removed); // replace the removed piece
+
+								return false; // if not in check anymore, the king is not in check
+							}
+						}
+
+						p.simMove(original); // even if not in check, move the piece to it's original position
+
+						moveKingPos(isWhite, p, original); // if the piece is a king, the kingPos needs to be updated
+
+						replacePiece(removed); // even if not in check, replace removed piece
+
+					}
+				}
+			}
+		} else { // if neither of the kings are in check, don't check for checkmate
+			return false;
+		}
+
+		return true;
+	}
+
 
 	public void replacePiece(Piece p) { // for checkmate
 		if (p != null) {
@@ -454,6 +513,10 @@ public class Game extends JPanel implements Serializable {
 				ret.add(p.getPos());
 		}
 		return ret;
+	}
+	
+	public SquirrelChess getMain() {
+		return main;
 	}
 
 	public void addPiece(Piece p) {

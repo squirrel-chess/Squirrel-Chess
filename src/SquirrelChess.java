@@ -46,6 +46,13 @@ public class SquirrelChess implements Serializable {
 		game = new Game(this, sg);
 		gameGUISetup();
 	}
+	
+	public void returnMenu() {
+		frame.remove(game);
+		menu = new Menu(this);
+		frame.add(menu);
+		frame.setSize(1000, 1000);
+	}
 
 	private void gameGUISetup() {
 		saveGame = new JButton("Save Game");

@@ -137,7 +137,7 @@ public class Pawn extends Piece {
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
 			Piece pieceRemoved = game.getPieceAtPos(new Position(pos.getRow() - 1, pos.getCol()));
 			pieceRemoved.remove(true);
-			game.updatePic();
+			game.updateGraphics();
 			game.unhighlightMoves();
 			game.setSelectedPiece(null);
 		} else if (blankSpot == true && game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol())) != null
@@ -146,7 +146,7 @@ public class Pawn extends Piece {
 				&& Math.abs(initialPos.getCol() - pos.getCol()) == 1) {
 			Piece pieceRemoved = game.getPieceAtPos(new Position(pos.getRow() + 1, pos.getCol()));
 			pieceRemoved.remove(true);
-			game.updatePic();
+			game.updateGraphics();
 			game.unhighlightMoves();
 			game.setSelectedPiece(null);
 		}
