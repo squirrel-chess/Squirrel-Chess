@@ -44,6 +44,9 @@ public abstract class Piece {
 	}
 
 	public void move(Position pos) {
+		
+		b.saveMove();
+		
 		if (b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
@@ -51,7 +54,7 @@ public abstract class Piece {
 		else {
 			playSound("whack.wav");
 		}
-		this.pos = pos;
+		this.pos = pos;		
 		b.updatePic();
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
@@ -74,6 +77,7 @@ public abstract class Piece {
 		    }
 		  }).start();
 		}
+	
 	public Piece simMove(Position pos) {
 		if (b.getPieceAtPos(pos) != null) {
 			Piece removed = b.getPieceAtPos(pos);

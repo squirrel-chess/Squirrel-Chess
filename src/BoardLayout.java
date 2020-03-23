@@ -2,18 +2,21 @@ import java.util.ArrayList;
 
 public class BoardLayout {
 	
-	public ArrayList<Piece> pieces;
-	public boolean whiteTurn;
+	ArrayList<Piece> pieces;
 	
-	public Position wKingPos;
-	public Position bKingPos;
+	boolean whiteTurn;
 	
+	Position wKingPos;
+	Position bKingPos;
+
 	public BoardLayout(Board b) {
 		
-		this.pieces = new ArrayList<Piece>(b.getPieces());
-		this.whiteTurn = b.getWhiteTurn();
-		this.wKingPos = b.wKingPos;
-		this.bKingPos = b.bKingPos;
+		pieces = new ArrayList<Piece>(b.getPieces());
+		
+		whiteTurn = b.getWhiteTurn();
+		
+		wKingPos = b.wKingPos;
+		bKingPos = b.bKingPos;
 		
 	}
 	

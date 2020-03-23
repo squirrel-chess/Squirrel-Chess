@@ -17,6 +17,7 @@ public class Square extends JButton {
 	}
 
 	public void click() {
+				
 		if (b.getSelectedPiece() == null && b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).select();
 		} else if (inMoveSet && b.getSelectedPiece() != null) {
@@ -37,9 +38,7 @@ public class Square extends JButton {
 			} else if (b.testCheck(false)) {
 				JOptionPane.showMessageDialog(null, "Black King is in check!");
 			}
-			
-			b.saveMove();
-			
+						
 		} else {
 			b.setSelectedPiece(null);
 			b.unhighlightMoves();

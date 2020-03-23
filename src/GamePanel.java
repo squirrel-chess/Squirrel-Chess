@@ -205,6 +205,10 @@ public class GamePanel {
 		sortPieces();
 		displayTaken();
 	}
+	
+	public void removePiece(Piece p) {
+		
+	}
 
 	// TAKEN = PIECES, DISPLAY = INTS
 	public void sortPieces() {
