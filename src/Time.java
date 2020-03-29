@@ -1,4 +1,8 @@
-public class Time {
+import java.io.Serializable;
+
+public class Time implements Serializable {
+
+	private static final long serialVersionUID = -3367084560866721485L;
 	private int mins;
 	private int secs;
 	private int millis;

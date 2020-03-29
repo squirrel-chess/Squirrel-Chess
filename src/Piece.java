@@ -1,32 +1,24 @@
-import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.swing.JOptionPane;
 
-public abstract class Piece {
+public abstract class Piece implements Serializable {
+
+	private static final long serialVersionUID = -8963802459683023645L;
 	boolean canEnPassantRight = false;
 	boolean canEnPassantLeft = false;
 	protected Position pos;
-	protected Board b;
+	protected Board game;
 	protected boolean isWhite;
-	protected BufferedImage image;
 
-	public Piece(Position pos, Board b, boolean isWhite, String fileName) {
+	public Piece(Position pos, Board game, boolean isWhite) {
 		this.pos = pos;
-		this.b = b;
+		this.game = game;
 		this.isWhite = isWhite;
-		try {
-			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
-		} catch (IOException e) {
-			
-		}
-		
 	}
 
 	public abstract void draw();
@@ -34,28 +26,30 @@ public abstract class Piece {
 	public abstract ArrayList<Position> getMoveSet(boolean check);
 
 	public void select() {
-		if (b.getWhiteTurn() == isWhite) {
-			if (b.getSelectedPiece() == null)
-				b.highlightMoves(this);
-			else {
-				b.unhighlightMoves();
+		System.out.println(game.getWhiteTurn());
+		if (game.getWhiteTurn() == isWhite) {
+			if (game.getSelectedPiece() == null) {
+				game.highlightMoves(this);
+			game.setSelectedPiece(this);
+			} else {
+				game.unhighlightMoves();
 			}
 		}
 	}
 
 	public void move(Position pos) {
-		if (b.getPieceAtPos(pos) != null) {
-			b.getPieceAtPos(pos).remove(true);
+		if (game.getPieceAtPos(pos) != null) {
+			game.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
 		}
 		else {
 			playSound("whack.wav");
 		}
 		this.pos = pos;
-		b.updatePic();
-		b.unhighlightMoves();
-		b.setSelectedPiece(null);
-		b.nextTurn(); 
+		game.updateGraphics();
+		game.unhighlightMoves();
+		game.setSelectedPiece(null);
+		game.nextTurn(); 
 	}
 	public static synchronized void playSound(final String url) {
 		  new Thread(new Runnable() {
@@ -75,9 +69,9 @@ public abstract class Piece {
 		  }).start();
 		}
 	public Piece simMove(Position pos) {
-		if (b.getPieceAtPos(pos) != null) {
-			Piece removed = b.getPieceAtPos(pos);
-			b.getPieceAtPos(pos).remove(false);
+		if (game.getPieceAtPos(pos) != null) {
+			Piece removed = game.getPieceAtPos(pos);
+			game.getPieceAtPos(pos).remove(false);
 			
 			this.pos = pos;
 			
@@ -89,10 +83,10 @@ public abstract class Piece {
 
 	// REMOVE
 	public void remove(boolean taken) {
-		b.removePiece(this);
+		game.removePiece(this);
 		
 		if (taken) {
-			b.getGame().getGamePanel().addPiece(this);
+			game.getMain().getGamePanel().addPiece(this);
 		}
 	}
 
@@ -108,7 +102,7 @@ public abstract class Piece {
 	}
 
 	protected ArrayList<Position> removeInvalidMoves(ArrayList<Position> moveSet) {
-		ArrayList<Position> posList = b.getAllFriendlyPiecePos(isWhite);
+		ArrayList<Position> posList = game.getAllFriendlyPiecePos(isWhite);
 		for (int i = 0; i < posList.size(); i++) {
 			for (int j = 0; j < moveSet.size(); j++)
 				if (posList.get(i).equals(moveSet.get(j))) {
@@ -117,20 +111,17 @@ public abstract class Piece {
 		}
 		return moveSet;
 	}
-	public Image getImage() {
-		return image;
-	}
-	public void setImage(Image image) {
-		this.image = (BufferedImage) image;
-	}
 	
 	public boolean isKing() {
 		return false;
+	}
+	
+	public boolean isWhite() {
+		return isWhite;
 	}
 	
 	// PIECE TYPE - use isKing for king
 	public int pieceType() {
 		return -1;
 	}
-	
 }

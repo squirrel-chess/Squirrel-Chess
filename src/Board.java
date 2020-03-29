@@ -2,54 +2,126 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Toolkit;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Board extends JPanel {
-	private Chess game;
+public class Board extends JPanel implements Serializable {
+
+	private static final long serialVersionUID = 2499641607903690667L;
+	private Chess main;
 	private Square[][] squares;
-	private ArrayList<Piece> pieces;
 	private Piece selectedPiece;
+	private ArrayList<Piece> pieces;
 	private Time whiteTime;
 	private Time blackTime;
 	private boolean whiteTurn;
-	private King king;
-
 	public Position wKingPos;
 	public Position bKingPos;
+	Rook whiteR1;
+	Rook whiteR2;
+	Rook blackR1;
+	Rook blackR2;
 
 	// Colors
 	Color blackSquareColor = new Color(133, 77, 20);
 	Color whiteSquareColor = new Color(255, 239, 204);
 	Color darkColor = new Color(77, 40, 0);
 
-	public Board(Chess game) {
-		this.game = game;
-		pieces = new ArrayList<Piece>();
-		initBoard();
+	public Board(Chess main) {
+		selectedPiece = null;
+		this.main = main;
 		newGame();
+		initBoard();
 	}
 
-	public ArrayList<Piece> getPieces() {
-		return pieces;
+	public Board(Chess main, SavedGame sg) {
+		selectedPiece = null;
+		this.main = main;
+		this.whiteTime = sg.getWhiteTime();
+		this.blackTime = sg.getBlackTime();
+		this.whiteTurn = sg.getWhiteTurn();
+		Position pos;
+		boolean isWhite;
+		String wKingString = "";
+		String bKingString = "";
+		pieces = new ArrayList<Piece>();
+		for (String s : sg.getPieceStrings()) {
+			isWhite = (s.length() == 12);
+			pos = new Position(s.substring(2, 8));
+			switch (s.substring(0, 2)) {
+			case "Bi":
+				pieces.add(new Bishop(pos, this, isWhite));
+				break;
+
+			case "Ki":
+				if (isWhite)
+					wKingString = s;
+				else
+					bKingString = s;
+				break;
+
+			case "Kn":
+				pieces.add(new Knight(pos, this, isWhite));
+				break;
+
+			case "Pa":
+				pieces.add(new Pawn(pos, this, isWhite));
+				break;
+
+			case "Qu":
+				pieces.add(new Queen(pos, this, isWhite));
+				break;
+
+			case "Ro":
+				if (isWhite) {
+					if (whiteR1 == null) {
+						whiteR1 = new Rook(pos, this, true);
+						pieces.add(whiteR1);
+					} else {
+						whiteR2 = new Rook(pos, this, true);
+						pieces.add(whiteR2);
+					}
+				} else {
+					if (blackR1 == null) {
+						blackR1 = new Rook(pos, this, false);
+						pieces.add(blackR1);
+					} else {
+						blackR2 = new Rook(pos, this, false);
+						pieces.add(blackR2);
+					}
+				}
+				break;
+			}
+		}
+		pieces.add(new King(new Position(wKingString.substring(2, 8)), this, true, whiteR1, whiteR2));
+		pieces.add(new King(new Position(bKingString.substring(2, 8)), this, false, blackR1, blackR2));
+
+		for (Piece p : pieces) {
+			if (p instanceof King) {
+				if (p.isWhite())
+					wKingPos = p.getPos();
+				else
+					bKingPos = p.getPos();
+			}
+		}
+		if (whiteTurn) {
+			main.setText(getText());
+			whiteTime.startTurn();
+		} else {
+			main.setText(getText());
+			blackTime.startTurn();
+		}
+		initBoard();
 	}
 
-	public void playAgainMenu() {
-		String[] options = { "No", "Yes" };
-		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
-				null) == 1)
-			newGame();
-		else
-			System.exit(0);
-	}
-
-	public void newGame() {
+	private void newGame() {
 		int mins, secs;
 		do {
 			mins = Integer.parseInt(JOptionPane.showInputDialog("Enter number of minutes"));
@@ -57,17 +129,79 @@ public class Board extends JPanel {
 			if (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0))
 				JOptionPane.showMessageDialog(null, "Invalid time entered, enter time again.");
 		} while (!(mins >= 0 && secs >= 0 && secs < 60) || (mins == 0 && secs == 0));
+
 		whiteTime = new Time(mins, secs);
 		blackTime = new Time(mins, secs);
+		wKingPos = new Position(7, 4);
+		bKingPos = new Position(0, 4);
 
-		game.setText(getText());
+		pieces = new ArrayList<Piece>();
+		whiteR1 = new Rook(new Position(0, 0), this, false);
+		whiteR2 = new Rook(new Position(0, 7), this, false);
+		blackR1 = new Rook(new Position(7, 0), this, true);
+		blackR2 = new Rook(new Position(7, 7), this, true);
+
+		pieces.add(whiteR1);
+		pieces.add(whiteR2);
+		pieces.add(blackR1);
+		pieces.add(blackR2);
+
+		pieces.add(new Knight(new Position(0, 1), this, false));
+		pieces.add(new Bishop(new Position(0, 2), this, false));
+		pieces.add(new Queen(new Position(0, 3), this, false));
+		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2));
+		pieces.add(new Bishop(new Position(0, 5), this, false));
+		pieces.add(new Knight(new Position(0, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 0), this, false));
+		pieces.add(new Pawn(new Position(1, 1), this, false));
+		pieces.add(new Pawn(new Position(1, 2), this, false));
+		pieces.add(new Pawn(new Position(1, 3), this, false));
+		pieces.add(new Pawn(new Position(1, 4), this, false));
+		pieces.add(new Pawn(new Position(1, 5), this, false));
+		pieces.add(new Pawn(new Position(1, 6), this, false));
+		pieces.add(new Pawn(new Position(1, 7), this, false));
+		pieces.add(new Pawn(new Position(6, 0), this, true));
+		pieces.add(new Pawn(new Position(6, 1), this, true));
+		pieces.add(new Pawn(new Position(6, 2), this, true));
+		pieces.add(new Pawn(new Position(6, 3), this, true));
+		pieces.add(new Pawn(new Position(6, 4), this, true));
+		pieces.add(new Pawn(new Position(6, 5), this, true));
+		pieces.add(new Pawn(new Position(6, 6), this, true));
+		pieces.add(new Pawn(new Position(6, 7), this, true));
+		pieces.add(new Knight(new Position(7, 1), this, true));
+		pieces.add(new Bishop(new Position(7, 2), this, true));
+		pieces.add(new Queen(new Position(7, 3), this, true));
+		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2));
+		pieces.add(new Bishop(new Position(7, 5), this, true));
+		pieces.add(new Knight(new Position(7, 6), this, true));
+		
+		main.setText(getText());
 
 		whiteTurn = true;
-		initPieces();
+		System.out.println(whiteTurn);
+	}
+	
+	private void repaintSquares() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				if ((i + j) % 2 == 0)
+					squares[i][j].setBackground(Color.WHITE);
+				else
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
+			}
+		}
+
 	}
 
-	public King getKing() {
-		return king;
+	public void playAgainMenu() {
+		String[] options = { "No", "Yes" };
+		if (JOptionPane.showOptionDialog(null, "Would you like to play again?", "Play Again", 0, 0, null, options,
+				null) == 1) {
+			newGame();
+			repaintSquares();
+		} else {
+			System.exit(0);
+		}
 	}
 
 	public void highlightMoves(Piece p) {
@@ -77,6 +211,7 @@ public class Board extends JPanel {
 			squares[pos.getRow()][pos.getCol()].setInMoveSet(true);
 		}
 		selectedPiece = p;
+		updateGraphics();
 	}
 
 	public void unhighlightMoves() {
@@ -84,25 +219,20 @@ public class Board extends JPanel {
 			for (int j = 0; j < 8; j++) {
 				if ((i + j) % 2 == 1) {
 					if (whiteTurn) {
-						squares[i][j].setBackground(blackSquareColor);
+						squares[i][j].setBackground(Color.LIGHT_GRAY);
 					} else {
-						squares[i][j].setBackground(blackSquareColor);
+						squares[i][j].setBackground(Color.GRAY);
 					}
 				} else if (whiteTurn) {
-					squares[i][j].setBackground(whiteSquareColor);
+					squares[i][j].setBackground(Color.WHITE);
 				} else {
-					squares[i][j].setBackground(whiteSquareColor);
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
 				}
 				squares[i][j].setInMoveSet(false);
 			}
 		}
 		selectedPiece = null;
-	}
-
-	public void removePiece(Piece p) {
-
-		pieces.remove(p);
-
+		updateGraphics();
 	}
 
 	private void initBoard() {
@@ -117,11 +247,12 @@ public class Board extends JPanel {
 				squares[i][j] = new Square(this, new Position(i, j));
 				squares[i][j].setOpaque(true);
 				squares[i][j].setBorderPainted(false);
-				if ((i + j) % 2 == 1) {
-					squares[i][j].setBackground(blackSquareColor);
-				} else {
-					squares[i][j].setBackground(whiteSquareColor);
-				}
+				if ((i + j) % 2 == 0 && whiteTurn)
+					squares[i][j].setBackground(Color.WHITE);
+				else if ((i + j) % 2 == 1 && !whiteTurn)
+					squares[i][j].setBackground(Color.GRAY);
+				else
+					squares[i][j].setBackground(Color.LIGHT_GRAY);
 				int a = i;
 				int b = j;
 				squares[i][j].addActionListener((e) -> {
@@ -130,62 +261,66 @@ public class Board extends JPanel {
 				add(squares[i][j]);
 			}
 		}
-		setBackground(darkColor);
+		updateGraphics();
 	}
 
-	Rook whiteR1;
-	Rook whiteR2;
-	Rook blackR1;
-	Rook blackR2;
+	public Piece getSelectedPiece() {
+		return selectedPiece;
+	}
 
-	private void initPieces() {
-		blackR1 = new Rook(new Position(0, 0), this, false, "rookB.png");
-		blackR2 = new Rook(new Position(0, 7), this, false, "rookB.png");
-		whiteR1 = new Rook(new Position(7, 0), this, true, "rookW.png");
-		whiteR2 = new Rook(new Position(7, 7), this, true, "rookW.png");
+	public void setSelectedPiece(Piece p) {
+		selectedPiece = p;
+	}
 
-		pieces = new ArrayList<Piece>();
-		pieces.add(whiteR1);
-		pieces.add(whiteR2);
-		pieces.add(blackR1);
-		pieces.add(blackR2);
+	public void updateGraphics() {
+		for (int i = 0; i < 8; i++) {
+			for (int j = 0; j < 8; j++) {
+				squares[i][j].setIcon(null);
+			}
+		}
+		for (Piece p : pieces) {
+			try {
+				BufferedImage img;
+				if (p.isWhite())
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "W.png"));
+				else
+					img = ImageIO.read(this.getClass().getResourceAsStream(p.getClass().getName() + "B.png"));
+				squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(img));
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(null, "Resources not located, stopping game");
+				System.exit(0);
+			}
+		}
+	}
 
-		// black pieces
+	public ArrayList<Piece> getPieces() {
+		return pieces;
+	}
 
-		pieces.add(new Knight(new Position(0, 1), this, false, "knightB.png"));
-		pieces.add(new Bishop(new Position(0, 2), this, false, "bishopB.png"));
-		pieces.add(new Queen(new Position(0, 3), this, false, "queenB.png"));
-		pieces.add(new King(new Position(0, 4), this, false, blackR1, blackR2, "kingB.png"));
-		pieces.add(new Bishop(new Position(0, 5), this, false, "bishopB.png"));
-		pieces.add(new Knight(new Position(0, 6), this, false, "knightB.png"));
-		pieces.add(new Pawn(new Position(1, 0), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 1), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 2), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 3), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 4), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 5), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 6), this, false, "pawnB.png"));
-		pieces.add(new Pawn(new Position(1, 7), this, false, "pawnB.png"));
-		// white pieces
-		pieces.add(new Pawn(new Position(6, 0), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 1), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 2), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 3), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 4), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 5), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 6), this, true, "pawnW.png"));
-		pieces.add(new Pawn(new Position(6, 7), this, true, "pawnW.png"));
-		pieces.add(new Knight(new Position(7, 1), this, true, "knightW.png"));
-		pieces.add(new Bishop(new Position(7, 2), this, true, "bishopW.png"));
-		pieces.add(new Queen(new Position(7, 3), this, true, "queenW.png"));
-		pieces.add(new King(new Position(7, 4), this, true, whiteR1, whiteR2, "kingW.png"));
-		pieces.add(new Bishop(new Position(7, 5), this, true, "bishopW.png"));
-		pieces.add(new Knight(new Position(7, 6), this, true, "knightW.png"));
+	public ArrayList<Position> getFriendlyPieces(boolean isWhite) {
+		ArrayList<Position> ret = new ArrayList<Position>();
+		for (int i = 0; i < pieces.size(); i++) {
 
-		wKingPos = new Position(7, 4);
-		bKingPos = new Position(0, 4);
+			Piece p = pieces.get(i);
 
-		updatePic();
+			if (p.isWhite && isWhite)
+				ret.add(p.getPos());
+			else if (!p.isWhite && !isWhite)
+				ret.add(p.getPos());
+		}
+		return ret;
+	}
+
+	public void removePiece(Piece p) {
+		pieces.remove(p);
+	}
+
+	public Piece getPieceAtPos(Position pos) {
+		for (Piece p : pieces) {
+			if (p.getPos().equals(pos))
+				return p;
+		}
+		return null;
 	}
 
 	public Rook getWhiteR1() {
@@ -204,56 +339,12 @@ public class Board extends JPanel {
 		return blackR2;
 	}
 
-	public Piece getPieceAtPos(Position pos) {
-		for (Piece p : pieces) {
-			if (p.getPos().equals(pos)) {
-				return p;
-			}
-		}
-		return null;
-	}
-
-	public Piece getSelectedPiece() {
-		return selectedPiece;
-	}
-
-	public void setSelectedPiece(Piece p) {
-		selectedPiece = p;
-	}
-
-	public void updatePic() {
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				squares[i][j].setIcon(null);
-			}
-		}
-		for (Piece p : pieces) {
-			squares[p.getPos().getRow()][p.getPos().getCol()].setIcon(new ImageIcon(p.getImage()));
-		}
-
-	}
-
-	public void addPiece(Piece p) {
-		pieces.add(p);
-	}
-
-	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
-		ArrayList<Position> ret = new ArrayList<Position>();
-		for (int i = 0; i < pieces.size(); i++) {
-
-			Piece p = pieces.get(i);
-
-			if (p.isWhite && isWhite)
-				ret.add(p.getPos());
-			else if (!p.isWhite && !isWhite)
-				ret.add(p.getPos());
-		}
-		return ret;
-	}
-
 	public ArrayList<Position> moveIntoCheck(Piece piece, ArrayList<Position> ret) {
 
 		boolean pWhite = piece.isWhite;
+
+		// if king is not already in check
+		// if (!testCheck(pWhite)) {
 
 		ArrayList<Position> list = ret;
 		int size = ret.size();
@@ -278,9 +369,7 @@ public class Board extends JPanel {
 			replacePiece(taken);
 
 		}
-
 		return ret;
-
 	}
 
 	public boolean testCheck(boolean isWhite) { // checking if the king of isWhite color is in check
@@ -301,7 +390,7 @@ public class Board extends JPanel {
 		}
 		return false;
 	}
-
+	
 	public boolean testCheckmate(boolean isWhite) {
 
 		if (testCheck(true) || testCheck(false)) { // if neither of the kings are in check, don't check for checkmate
@@ -360,6 +449,7 @@ public class Board extends JPanel {
 		return true;
 	}
 
+
 	public void replacePiece(Piece p) { // for checkmate
 		if (p != null) {
 			pieces.add(p);
@@ -376,39 +466,71 @@ public class Board extends JPanel {
 		}
 	}
 
+	public boolean getWhiteTurn() {
+		return whiteTurn;
+	}
+
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.endTurn();
-
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-
 				playAgainMenu();
-
 			} else {
-				whiteTurn = false;
+				for (int i = 0; i < 8; i++) {
+					for (int j = 0; j < 8; j++) {
+						if ((i + j) % 2 == 1)
+							squares[i][j].setBackground(Color.GRAY);
+						else
+							squares[i][j].setBackground(Color.LIGHT_GRAY);
+					}
+				}
 				blackTime.startTurn();
+				whiteTurn = !whiteTurn;
 			}
 		} else {
 			blackTime.endTurn();
-
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
 
 				playAgainMenu();
-
 			} else {
-				whiteTurn = true;
+				for (int i = 0; i < 8; i++) {
+					for (int j = 0; j < 8; j++) {
+						if ((i + j) % 2 == 1)
+							squares[i][j].setBackground(Color.LIGHT_GRAY);
+						else
+							squares[i][j].setBackground(Color.WHITE);
+					}
+				}
 				whiteTime.startTurn();
+				whiteTurn = !whiteTurn;
 			}
 		}
-
-		game.setText(getText());
-
+		main.setText(getText());
+		updateGraphics();
 	}
 
-	public boolean getWhiteTurn() {
-		return whiteTurn;
+	public ArrayList<Position> getAllFriendlyPiecePos(boolean isWhite) {
+		ArrayList<Position> ret = new ArrayList<Position>();
+		for (int i = 0; i < pieces.size(); i++) {
+
+			Piece p = pieces.get(i);
+
+			if (p.isWhite && isWhite)
+				ret.add(p.getPos());
+			else if (!p.isWhite && !isWhite)
+				ret.add(p.getPos());
+		}
+		return ret;
+	}
+	
+	public Chess getMain() {
+		return main;
+	}
+
+	public void addPiece(Piece p) {
+		pieces.add(p);
 	}
 
 	public Time getWhiteTime() {
@@ -417,6 +539,14 @@ public class Board extends JPanel {
 
 	public Time getBlackTime() {
 		return blackTime;
+	}
+
+	public Position getWKingPos() {
+		return wKingPos;
+	}
+
+	public Position getBKingPos() {
+		return bKingPos;
 	}
 
 	public void setWhiteTime(Time t) {
@@ -428,7 +558,7 @@ public class Board extends JPanel {
 	}
 
 	public Chess getGame() {
-		return game;
+		return main;
 	}
 
 	public String getText() {
@@ -437,6 +567,13 @@ public class Board extends JPanel {
 		} else {
 			return "<>" + blackTime + " (Black)" + "<br>Black's Turn<br>" + whiteTime + " (White)";
 		}
-
+	}
+	
+	public ArrayList<String> getPieceStrings() {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (Piece p : pieces) {
+			ret.add(p.getClass().getName().substring(0, 2) + p.getPos() + p.isWhite());
+		}
+		return ret;
 	}
 }

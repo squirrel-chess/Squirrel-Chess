@@ -4,15 +4,10 @@ public class Rook extends Piece {
 	
 	private boolean hasMoved;
 
-	public Rook(Position pos, Board b, boolean isWhite, String fileName) {
-		super(pos, b, isWhite, fileName);
-		if (isWhite) {
-			fileName  = "rookW.png";
-			}
-		else {
-			fileName = "rookB.png";
-		}
-		hasMoved = false;
+	private static final long serialVersionUID = 5038678748630012418L;
+
+	public Rook(Position pos, Board game, boolean isWhite) {
+		super(pos, game, isWhite);
 	}
 
 	@Override
@@ -24,22 +19,22 @@ public class Rook extends Piece {
 		int foundRow2 = 7;
 		
 		for (int i = 1; i < pos.getRow(); i++) {
-			if (b.getPieceAtPos(new Position(i, pos.getCol())) != null) {
+			if (game.getPieceAtPos(new Position(i, pos.getCol())) != null) {
 				foundCol1 = i;
 			}
 		}
 		for (int i = 6; i > pos.getRow(); i--) {
-			if (b.getPieceAtPos(new Position(i, pos.getCol())) != null) {
+			if (game.getPieceAtPos(new Position(i, pos.getCol())) != null) {
 				foundCol2 = i;
 			}
 		}
 		for (int i = 1; i < pos.getCol(); i++) {
-			if (b.getPieceAtPos(new Position(pos.getRow(), i)) != null) {
+			if (game.getPieceAtPos(new Position(pos.getRow(), i)) != null) {
 				foundRow1 = i;
 			}
 		}
 		for (int i = 6; i > pos.getCol(); i--) {
-			if (b.getPieceAtPos(new Position(pos.getRow(), i)) != null) {
+			if (game.getPieceAtPos(new Position(pos.getRow(), i)) != null) {
 				foundRow2 = i;
 			}
 		}
@@ -54,7 +49,7 @@ public class Rook extends Piece {
 		}
 			
 		if (check) {
-			ret = b.moveIntoCheck(this, ret);
+			ret = game.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);

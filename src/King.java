@@ -7,39 +7,43 @@ import javax.sound.sampled.Clip;
 
 public class King extends Piece {
 
+	private static final long serialVersionUID = -633202941094591935L;
 	private Rook rook1;
 	private Rook rook2;
-
 	boolean hasMoved = false;
+	public King(Position pos, Board game, boolean isWhite, Rook rook1, Rook rook2) {
+		super(pos, game, isWhite);
+		this.rook1 = rook1;// white
+		this.rook2 = rook2;// black
+	}
 
-	public King(Position pos, Board b, boolean isWhite, Rook rook1, Rook rook2, String fileName) {
-		super(pos, b, isWhite, fileName);
-		this.rook1 = rook1;
-		this.rook2 = rook2;
-		if (isWhite) {
-			fileName  = "kingW.png";
-			}
-		else {
-			fileName = "kingB.png";
+
+	public boolean whiteLeftAbleToCastle() {
+		if (game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 1)) == null
+				&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 2)) == null
+				&& game.getPieceAtPos(new Position(pos.getRow(), pos.getCol() - 3)) == null && pos.getRow() == 7 && hasMoved) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
 	public boolean leftAbleToCastle() {
 		if (isWhite) {
-				return (b.getPieceAtPos(new Position(7, 1)) == null && b.getPieceAtPos(new Position(7, 2)) == null
-						&& b.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && !hasMoved && !rook1.hasMoved());
+				return (game.getPieceAtPos(new Position(7, 1)) == null && game.getPieceAtPos(new Position(7, 2)) == null
+						&& game.getPieceAtPos(new Position(7, 3)) == null && pos.getRow() == 7 && !hasMoved && !rook1.hasMoved());
 		} else {
-				return (b.getPieceAtPos(new Position(0, 1)) == null && b.getPieceAtPos(new Position(0, 2)) == null
-						&& b.getPieceAtPos(new Position(0, 3)) == null && pos.getRow() == 0 && !hasMoved && !rook1.hasMoved());
+				return (game.getPieceAtPos(new Position(0, 1)) == null && game.getPieceAtPos(new Position(0, 2)) == null
+						&& game.getPieceAtPos(new Position(0, 3)) == null && pos.getRow() == 0 && !hasMoved && !rook1.hasMoved());
 		}
 	}
 
 	public boolean rightAbleToCastle() {
 		if (isWhite) {
-			return (b.getPieceAtPos(new Position(7, 5)) == null && b.getPieceAtPos(new Position(7, 6)) == null
+			return (game.getPieceAtPos(new Position(7, 5)) == null && game.getPieceAtPos(new Position(7, 6)) == null
 					&& pos.getRow() == 7 && !hasMoved && !rook2.hasMoved());
 		} else {
-			return (b.getPieceAtPos(new Position(0, 5)) == null && b.getPieceAtPos(new Position(0, 6)) == null
+			return (game.getPieceAtPos(new Position(0, 5)) == null && game.getPieceAtPos(new Position(0, 6)) == null
 					&& pos.getRow() == 0 && !hasMoved && !rook2.hasMoved());
 		}
 	}
@@ -65,67 +69,67 @@ public class King extends Piece {
 			ret.add(new Position(pos.getRow(), pos.getCol() - 1));
 		
 		if (isWhite && leftAbleToCastle() && check) {		// CHECK???
-			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+			if (game.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(7, 3));			// can't castle through check
-				b.wKingPos = new Position(7, 3);
+				game.wKingPos = new Position(7, 3);
 				
-				if (b.testCheck(isWhite) == false) {
+				if (game.testCheck(isWhite) == false) {
 					ret.add(new Position(7, 2));
 				}
 				
 				simMove(new Position(7, 4));
-				b.wKingPos = new Position(7, 4);
+				game.wKingPos = new Position(7, 4);
 				
 			}
 		}
 		if (isWhite && rightAbleToCastle() && check) {		// CHECK??
-			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+			if (game.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(7, 5));			// can't castle through check
-				b.wKingPos = new Position(7, 5);
+				game.wKingPos = new Position(7, 5);
 				
-				if (b.testCheck(isWhite) == false) {
+				if (game.testCheck(isWhite) == false) {
 					ret.add(new Position(7, 6));
 				}
 				
 				simMove(new Position(7, 4));
-				b.wKingPos = new Position(7, 4);
+				game.wKingPos = new Position(7, 4);
 			}
 		}
 		if (!isWhite && leftAbleToCastle() && check) {		// CHECK?
-			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+			if (game.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(0, 3));			// can't castle through check
-				b.bKingPos = new Position(0, 3);
+				game.bKingPos = new Position(0, 3);
 				
-				if (b.testCheck(isWhite) == false) {
+				if (game.testCheck(isWhite) == false) {
 					ret.add(new Position(0, 2));
 				}
 				
 				simMove(new Position(0, 4));
-				b.bKingPos = new Position(0, 4);
+				game.bKingPos = new Position(0, 4);
 				
 			}
 		}
 		if (!isWhite && rightAbleToCastle() && check) {		// CHECK?
-			if (b.testCheck(isWhite) == false) {		// can't castle out of check
+			if (game.testCheck(isWhite) == false) {		// can't castle out of check
 				
 				simMove(new Position(0, 5));			// can't castle through check
-				b.bKingPos = new Position(0, 5);
+				game.bKingPos = new Position(0, 5);
 				
-				if (b.testCheck(isWhite) == false) {
+				if (game.testCheck(isWhite) == false) {
 					ret.add(new Position(0, 6));
 				}
 				
 				simMove(new Position(0, 4));
-				b.bKingPos = new Position(0, 4);
+				game.bKingPos = new Position(0, 4);
 				
 			}
 		}
 		
 		if (check) {
-			ret = b.moveIntoCheck(this, ret);
+			ret = game.moveIntoCheck(this, ret);
 		}
 		
 		return removeInvalidMoves(ret);
@@ -154,8 +158,8 @@ public class King extends Piece {
 		}
 	@Override
 	public void move(Position pos) {
-		if (b.getPieceAtPos(pos) != null) {
-			b.getPieceAtPos(pos).remove(true);
+		if (game.getPieceAtPos(pos) != null) {
+			game.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
 		}
 		else {
@@ -163,35 +167,35 @@ public class King extends Piece {
 		}
 		if (pos.equals(new Position(7, 2))) {
 			this.pos = pos;
-			b.wKingPos = pos;
-			b.getWhiteR1().castleMove(new Position(7, 3));
+			game.wKingPos = pos;
+			game.getWhiteR1().castleMove(new Position(7, 3));
 		} else if (pos.equals(new Position(0, 2))) {
 			this.pos = pos;
-			b.bKingPos = pos;
-			b.getBlackR1().castleMove(new Position(0, 3));
+			game.bKingPos = pos;
+			game.getBlackR1().castleMove(new Position(0, 3));
 		} else if (pos.equals(new Position(7, 6))) {
 			this.pos = pos;
-			b.wKingPos = pos;
-			b.getWhiteR2().castleMove(new Position(7, 5));
+			game.wKingPos = pos;
+			game.getWhiteR2().castleMove(new Position(7, 5));
 		} else if (pos.equals(new Position(0, 6))) {
 			this.pos = pos;
-			b.bKingPos = pos;
-			b.getBlackR2().castleMove(new Position(0, 5));
+			game.bKingPos = pos;
+			game.getBlackR2().castleMove(new Position(0, 5));
 		} else {
 			this.pos = pos;
 
 			// for check
 			if (isWhite) {
-				b.wKingPos = pos;
+				game.wKingPos = pos;
 			} else {
-				b.bKingPos = pos;
+				game.bKingPos = pos;
 			}
-		} 
-		b.unhighlightMoves();
-		b.setSelectedPiece(null);
+		}
+		game.unhighlightMoves();
+		game.setSelectedPiece(null);
 		hasMoved = true;
-		b.updatePic();
-		b.nextTurn();
+		game.updateGraphics();
+		game.nextTurn();
 	}
 	
 	@Override

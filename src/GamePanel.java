@@ -1,7 +1,10 @@
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -14,7 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class GamePanel {
-
 	Chess game;
 
 	private int panelWidth;
@@ -57,19 +59,19 @@ public class GamePanel {
 	private JLabel timeText;
 
 	// Colors
-	Color backgroundColor = new Color(255, 240, 205);
-	Color darkColor = new Color(77, 40, 0);
+	private Color backgroundColor = new Color(255, 240, 205);
+	private Color darkColor = new Color(77, 40, 0);
 
 	// Buttons
-	JButton returnMenu;
-	JButton newGame;
-	JButton pause;
+	private JButton returnMenu;
+	private JButton newGame;
+	private JButton pause;
+	private JButton save;
 
 	private PauseScreen pauseScreen;
 	private Board bor;
 
 	public GamePanel(Chess game, JFrame frame, int width, int height, int x) {
-
 		this.game = game;
 		this.frame = frame;
 
@@ -79,6 +81,7 @@ public class GamePanel {
 		newGame = new JButton();
 		returnMenu = new JButton();
 		pause = new JButton();
+		save = new JButton();
 
 		// set values passed in from Chess
 		panelWidth = width;
@@ -116,6 +119,7 @@ public class GamePanel {
 		center.add(newGame);
 		center.add(returnMenu);
 		center.add(pause);
+		center.add(save);
 
 		// bottom
 		bottomGrid.setBounds(panelX, ((gridHeight * 2) + centerHeight), panelWidth, (gridHeight * 2));
@@ -177,6 +181,7 @@ public class GamePanel {
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
 		pause.setText("Pause");
+		save.setText("Save Game");
 
 		returnMenu.addActionListener((e) -> {
 			frame.remove(topGrid);
@@ -190,8 +195,9 @@ public class GamePanel {
 			blackTaken = new ArrayList<Piece>();
 			sortPieces();
 			displayTaken();
-			game.newGame();
+			game.setupGame();
 		});
+
 		pause.addActionListener((e) -> {
 			if (pause.getText().equals("Pause")) {
 
@@ -205,6 +211,18 @@ public class GamePanel {
 			}
 		});
 
+		save.addActionListener((e) -> {
+			try {
+				FileOutputStream fos = new FileOutputStream("src/savedGame.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				Board b = game.getBoard();
+				oos.writeObject(new SavedGame(b.getPieceStrings(), b.getWhiteTime(), b.getBlackTime(), b.getWhiteTurn()));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
 	}
 
 	public void addPiece(Piece p) {

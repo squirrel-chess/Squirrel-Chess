@@ -4,7 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.URI;
 
 import javax.imageio.ImageIO;
@@ -16,13 +20,14 @@ import javax.swing.JPanel;
 
 public class Menu extends JPanel implements ActionListener {
 	private Chess game;
-	JLabel title;
-	JButton play;
-	JButton instruct;
-	Font titleFont = new Font("didot", Font.ITALIC, 60);
-	BufferedImage img;
-	BufferedImage back;
-	JLabel picLabel;
+	private JLabel title;
+	private JButton play;
+	private JButton instruct;
+	private JButton load;
+	private Font titleFont = new Font("didot", Font.ITALIC, 60);
+	private BufferedImage img;
+	private BufferedImage back;
+	private JLabel picLabel;
 
 	public Menu(Chess game) {
 		this.game = game;
@@ -49,6 +54,20 @@ public class Menu extends JPanel implements ActionListener {
 				e1.printStackTrace();
 			}
 		});
+		load = new JButton();
+		load.setText("Load Game");
+		load.addActionListener((e) -> {
+			try {
+				FileInputStream fis = new FileInputStream("src/savedGame.dat");
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				this.game.setupGame((SavedGame) ois.readObject());
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			} catch (ClassNotFoundException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 
 		try {
 			img = ImageIO.read(new File("src/pic.png"));
@@ -63,6 +82,8 @@ public class Menu extends JPanel implements ActionListener {
 		add(play);
 		instruct.setBounds(400, 800, 200, 40);
 		add(instruct);
+		load.setBounds(700, 800, 200, 40);
+		add(load);
 		try {
 			back = ImageIO.read(new File("src/angryimg (1).png"));
 			JLabel picLabels = new JLabel(new ImageIcon(back));
