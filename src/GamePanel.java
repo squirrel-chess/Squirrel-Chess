@@ -1,7 +1,10 @@
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
@@ -64,7 +67,7 @@ public class GamePanel {
 	private JButton newGame;
 	private JButton pause;
 	private JButton save;
-	
+
 	private PauseScreen pauseScreen;
 	private Board bor;
 
@@ -194,6 +197,7 @@ public class GamePanel {
 			displayTaken();
 			game.setupGame();
 		});
+
 		pause.addActionListener((e) -> {
 			if (pause.getText().equals("Pause")) {
 
@@ -207,6 +211,18 @@ public class GamePanel {
 			}
 		});
 
+		save.addActionListener((e) -> {
+			try {
+				FileOutputStream fos = new FileOutputStream("src/savedGame.dat");
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				Board b = game.getBoard();
+				oos.writeObject(new SavedGame(b.getPieceStrings(), b.getWhiteTime(), b.getBlackTime(), b.getWhiteTurn()));
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		});
 	}
 
 	public void addPiece(Piece p) {

@@ -18,7 +18,7 @@ public class Chess {
 	private static final long serialVersionUID = -4112312333502533585L;
 	private JFrame frame;
 	private Menu menu;
-	//private JLabel text;
+	// private JLabel text;
 	private Board board;
 	private int mins, secs;
 	private PauseScreen pauseScreen;
@@ -41,7 +41,7 @@ public class Chess {
 		gamePanel.setTimeText("<html>" + str + "</html>");
 		frame.pack();
 	}
-	
+
 	public Board getBoard() {
 		return board;
 	}
@@ -74,7 +74,30 @@ public class Chess {
 	}
 
 	public void setupGame(SavedGame sg) {
+		// text = new JLabel();
+		gamePanel = new GamePanel(this, new JFrame(), 0, 0, 0); // to make sure the bottomGrid panel doesn't jump to the
+																// top left
 		board = new Board(this, sg);
+		gamePanel = new GamePanel(this, frame, frameWidth - frameHeight, frameHeight, frameHeight);
+
+		frame.remove(menu);
+		frame.setLayout(null);
+		frame.add(board/* , BorderLayout.CENTER */);
+		// frame.add(text/*, BorderLayout.EAST*/);
+
+		board.setBounds(0, 0, frameHeight, frameHeight);
+
+		// text.setBounds(frameHeight, 0, frameWidth-frameHeight, frameHeight);
+
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setResizable(false);
+		frame.setPreferredSize(new Dimension((int) Toolkit.getDefaultToolkit().getScreenSize().getWidth(),
+				(int) Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+		// frame.setSize(new Dimension((int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getWidth(), (int)
+		// Toolkit.getDefaultToolkit().getScreenSize().getHeight() - 110));
+
+		setText(board.getText());
 	}
 
 	public void returnMenu() {
@@ -86,14 +109,6 @@ public class Chess {
 		menu = new Menu(this);
 		frame.add(menu);
 		frame.setSize(1000, 1000);
-	}
-	
-	private ArrayList<String> pieceArrayToStringArray(ArrayList<Piece> pieces) {
-		ArrayList<String> ret = new ArrayList<String>();
-		for (Piece p : pieces) {
-			ret.add(p.getClass().getName().substring(0, 2) + p.getPos() + p.isWhite());
-		}
-		return ret;
 	}
 
 	public void pauseClicked() {

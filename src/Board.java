@@ -112,10 +112,10 @@ public class Board extends JPanel implements Serializable {
 			}
 		}
 		if (whiteTurn) {
-			main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
+			main.setText(getText());
 			whiteTime.startTurn();
 		} else {
-			main.setText(blackTime + "<br>Black's Turn<br>" + whiteTime);
+			main.setText(getText());
 			blackTime.startTurn();
 		}
 		initBoard();
@@ -179,7 +179,6 @@ public class Board extends JPanel implements Serializable {
 
 		whiteTurn = true;
 		System.out.println(whiteTurn);
-		main.setText(blackTime + "<br>White's Turn<br>" + whiteTime);
 	}
 	
 	private void repaintSquares() {
@@ -508,6 +507,7 @@ public class Board extends JPanel implements Serializable {
 				whiteTurn = !whiteTurn;
 			}
 		}
+		main.setText(getText());
 		updateGraphics();
 	}
 
@@ -567,5 +567,13 @@ public class Board extends JPanel implements Serializable {
 		} else {
 			return "<>" + blackTime + " (Black)" + "<br>Black's Turn<br>" + whiteTime + " (White)";
 		}
+	}
+	
+	public ArrayList<String> getPieceStrings() {
+		ArrayList<String> ret = new ArrayList<String>();
+		for (Piece p : pieces) {
+			ret.add(p.getClass().getName().substring(0, 2) + p.getPos() + p.isWhite());
+		}
+		return ret;
 	}
 }
