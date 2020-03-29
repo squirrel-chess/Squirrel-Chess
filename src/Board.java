@@ -379,10 +379,19 @@ public class Board extends JPanel {
 		
 		System.out.println("save move");
 		
+		BoardLayout layout = new BoardLayout(this);
+		
 		moves.add(new BoardLayout(this));
 		
+		// TESTING
+		System.out.println("WHAT'S BEING SAVED");
+		for (Piece p : b.getPieces()) {
+			System.out.println(p.toString());
+		}
+		System.out.println("\n ==== \n");
+		
 		System.out.println("\n");
-				
+		
 	}
 	
 	public void loadMove() {
@@ -392,12 +401,30 @@ public class Board extends JPanel {
 		if (moves.size() > 0) {
 			BoardLayout layout = moves.pop();
 			
+			System.out.println("PIECES");
+			for (Piece p : pieces) {
+				System.out.println(p.toString());
+			}
+			System.out.println("\n ==== \n");
+			
+			System.out.println("BOARDLAYOUT");
+			for (Piece p : layout.pieces) {
+				System.out.println(p.toString());
+			}
+			System.out.println("\n ==== \n");
+			
 			pieces = new ArrayList<Piece>(layout.pieces);
 			whiteTurn = layout.whiteTurn;
 			wKingPos = layout.wKingPos;
 			bKingPos = layout.bKingPos;
+			
+			System.out.println("UNDO");
+			for (Piece p : pieces) {
+				System.out.println(p.toString());
+			}
+			System.out.println("\n ==== \n");
 		}
-		
+
 		game.setText(getText());
 		updatePic();
 	

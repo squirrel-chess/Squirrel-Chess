@@ -21,6 +21,7 @@ public abstract class Piece {
 		this.pos = pos;
 		this.b = b;
 		this.isWhite = isWhite;
+		
 		try {
 			image = ImageIO.read(this.getClass().getResourceAsStream(fileName));
 		} catch (IOException e) {
@@ -45,7 +46,21 @@ public abstract class Piece {
 
 	public void move(Position pos) {
 		
+		// TESTING
+		System.out.println("PIECES BEFORE SAVE");
+		for (Piece p : b.getPieces()) {
+			System.out.println(p.toString());
+		}
+		System.out.println("\n ==== \n");
+		
 		b.saveMove();
+		
+		// TESTING
+		System.out.println("PIECES AFTER SAVE");
+		for (Piece p : b.getPieces()) {
+			System.out.println(p.toString());
+		}
+		System.out.println("\n ==== \n");
 		
 		if (b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).remove(true);
@@ -54,11 +69,19 @@ public abstract class Piece {
 		else {
 			playSound("whack.wav");
 		}
-		this.pos = pos;		
+		this.pos = pos;
 		b.updatePic();
 		b.unhighlightMoves();
 		b.setSelectedPiece(null);
 		b.nextTurn(); 
+		
+		// TESTING
+		System.out.println("PIECES AT END");
+		for (Piece p : b.getPieces()) {
+			System.out.println(p.toString());
+		}
+		System.out.println("\n ==== \n");
+		
 	}
 	public static synchronized void playSound(final String url) {
 		  new Thread(new Runnable() {
