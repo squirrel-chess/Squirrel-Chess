@@ -108,13 +108,13 @@ public class GamePanel {
 
 		//setting bounds
 		topGrid.setBounds(panelX, 0, panelWidth, (gridHeight * 2));
-		topGrid.setLayout(new GridLayout(8, 10));
+		//topGrid.setLayout(new GridLayout(8, 10));
 		topGrid.setBackground(backgroundColor);
 		topGrid.setBorder(BorderFactory.createLineBorder(darkColor, 3));
 		donation.setBounds(800, center.getY(), 400, 400);
-		topGrid.add(space);
+		//topGrid.add(space);
 		//topGrid.add(space2);
-	//	donation.setSize(800, 400);
+	donation.setSize(800, 400);
 		topGrid.add(donation);
 		
 		
@@ -186,7 +186,7 @@ public class GamePanel {
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
 		
-		donation.setText("Click here to donate to the San Diego Food Bank.");
+		donation.setText("Click here to donate to the ");
 		
 		
 		returnMenu.addActionListener((e) -> {
