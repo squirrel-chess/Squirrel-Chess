@@ -19,10 +19,13 @@ public class Menu extends JPanel implements ActionListener {
 	JLabel title;
 	JButton play;
 	JButton instruct;
-	Font titleFont = new Font("didot", Font.ITALIC, 60);
+	JButton donation;
+	Font titleFont = new Font("didot", Font.BOLD, 60);
+	Font donationFont = new Font("Times New Roman", Font.ITALIC, 25);
 	BufferedImage img;
 	BufferedImage back;
 	JLabel picLabel;
+	JLabel donationLabel;
 
 	public Menu(Chess game) {
 		this.game = game;
@@ -33,7 +36,12 @@ public class Menu extends JPanel implements ActionListener {
 		add(title);
 		title.setText("Squirrel Chess");
 		title.setFont(titleFont);
-		title.setBounds(600, 75, 500, 100);
+		title.setBounds(300, 100, 500, 100);
+		donationLabel = new JLabel();
+		add(donationLabel);
+		donationLabel.setText("Click the button to donate to the San Diego Food Bank: ");
+		donationLabel.setFont(donationFont);
+		donationLabel.setBounds(30, 25, 600, 100);
 		play = new JButton();
 		play.setText("Play Game");
 		play.addActionListener((e) -> {
@@ -72,6 +80,20 @@ public class Menu extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
+		donation = new JButton();
+		add(donation);
+		donation.setText("DONATE HERE");
+
+		donation.addActionListener((e) -> {
+			try {
+				URI uri = new URI("https://interland3.donorperfect.net/weblink/weblink.aspx?name=E33999&id=3");
+				java.awt.Desktop.getDesktop().browse(uri);
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		donation.setBounds(700, 45, 200, 50);
 	}
 
 	@Override

@@ -186,7 +186,7 @@ public class GamePanel {
 		returnMenu.setText("Return to Menu");
 		newGame.setText("New Game");
 		
-		donation.setText("Click here to donate to the ");
+		donation.setText("Click here to donate to the San Diego Food Bank.");
 		
 		
 		returnMenu.addActionListener((e) -> {
