@@ -1,4 +1,6 @@
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 
@@ -384,23 +386,17 @@ public class Board extends JPanel {
 	public void nextTurn() {
 		if (whiteTurn) {
 			whiteTime.update();
-
 			if (whiteTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - Black wins!");
-
 				playAgainMenu();
-
 			} else {
 				whiteTurn = false;
 			}
 		} else {
 			blackTime.update();
-
 			if (blackTime.isZero()) {
 				JOptionPane.showMessageDialog(null, "Timeout - White wins!");
-
 				playAgainMenu();
-
 			} else {
 				whiteTurn = true;
 			}
@@ -414,17 +410,31 @@ public class Board extends JPanel {
 		return whiteTurn;
 	}
 
+	public Time getWhiteTime() {
+		return whiteTime;
+	}
+
+	public Time getBlackTime() {
+		return blackTime;
+	}
+
+	public void setWhiteTime(Time t) {
+		whiteTime = t;
+	}
+
+	public void setBlackTime(Time t) {
+		blackTime = t;
+	}
+
 	public Chess getGame() {
 		return game;
 	}
 
 	public String getText() {
-		// TESTING
-		System.out.println(blackTime);
 		if (whiteTurn) {
-			return "<>" + blackTime + "<br>White's Turn<br>" + whiteTime;
+			return "<>" + blackTime + " (Black)" + "<br>White's Turn<br>" + whiteTime + " (White)";
 		} else {
-			return "<>" + blackTime + "<br>Black's Turn<br>" + whiteTime;
+			return "<>" + blackTime + " (Black)" + "<br>Black's Turn<br>" + whiteTime + " (White)";
 		}
 
 	}
