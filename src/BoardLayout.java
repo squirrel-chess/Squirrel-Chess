@@ -11,8 +11,9 @@ public class BoardLayout {
 
 	public BoardLayout(Board b) {
 		
-		pieces = new ArrayList<Piece>(b.getPieces());
-		
+		ArrayList<Piece> boardPieces = new ArrayList<Piece>(b.getPieces());
+		pieces = new ArrayList<Piece>(boardPieces);
+
 		whiteTurn = b.getWhiteTurn();
 		
 		wKingPos = b.wKingPos;

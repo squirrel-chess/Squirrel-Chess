@@ -27,7 +27,6 @@ public abstract class Piece {
 		} catch (IOException e) {
 			
 		}
-		
 	}
 
 	public abstract void draw();
@@ -62,6 +61,15 @@ public abstract class Piece {
 		}
 		System.out.println("\n ==== \n");
 		
+		// TESTING
+		System.out.println("POP (AFTER SAVE)");
+		BoardLayout thing = b.moves.pop();
+		for (Piece p : thing.pieces) {
+			System.out.println(p.toString());
+		}
+		b.moves.add(thing);
+		System.out.println("\n ==== \n");
+		
 		if (b.getPieceAtPos(pos) != null) {
 			b.getPieceAtPos(pos).remove(true);
 			playSound("chomp.wav");
@@ -78,6 +86,13 @@ public abstract class Piece {
 		// TESTING
 		System.out.println("PIECES AT END");
 		for (Piece p : b.getPieces()) {
+			System.out.println(p.toString());
+		}
+		System.out.println("\n ==== \n");
+		
+		// TESTING
+		System.out.println("POP (AFTER POS CHANGE)");
+		for (Piece p : b.moves.pop().pieces) {
 			System.out.println(p.toString());
 		}
 		System.out.println("\n ==== \n");

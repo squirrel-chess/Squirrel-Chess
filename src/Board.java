@@ -25,7 +25,8 @@ public class Board extends JPanel {
 	public Position wKingPos;
 	public Position bKingPos;
 	
-	private Stack<BoardLayout> moves;
+	//private Stack<BoardLayout> moves;
+	public Stack<BoardLayout> moves;
 	
 	// Colors
 	Color blackSquareColor = new Color(133, 77, 20);
@@ -381,16 +382,15 @@ public class Board extends JPanel {
 		
 		BoardLayout layout = new BoardLayout(this);
 		
-		moves.add(new BoardLayout(this));
+		//moves.add(new BoardLayout(this));
+		moves.add(layout);
 		
 		// TESTING
 		System.out.println("WHAT'S BEING SAVED");
-		for (Piece p : b.getPieces()) {
+		for (Piece p : layout.pieces) {
 			System.out.println(p.toString());
 		}
 		System.out.println("\n ==== \n");
-		
-		System.out.println("\n");
 		
 	}
 	
