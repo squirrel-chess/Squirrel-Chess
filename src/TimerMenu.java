@@ -22,6 +22,10 @@ public class TimerMenu extends JPanel implements ActionListener {
 	private JButton nMin;
 	private JButton pMin;
 	private JLabel min;
+	private JButton nSec;
+	private JButton pSec;
+	private JTextField sec;
+	private int secNum = 0;
 	private int minNum = 0;
 	private int yVal = 80;
 
@@ -83,6 +87,8 @@ public class TimerMenu extends JPanel implements ActionListener {
 		});
 		add(pHour);
 		
+		
+		
 		mins = new JTextField();
 		mins.setBounds(170, yVal, 30, 40);
 		add(mins);
@@ -115,16 +121,87 @@ public class TimerMenu extends JPanel implements ActionListener {
 		}
 		
 		pMin.addActionListener((e)-> {
-			if (mins.getText().matches("[0-9]+$") && Integer.parseInt(mins.getText())<60) {
+			if (mins.getText().matches("[0-9]+$") && Integer.parseInt(mins.getText())<59) {
 				minNum = Integer.parseInt(mins.getText());
 				minNum++;
 				mins.setText(""+minNum);	
 			}else if(mins.getText().isEmpty()) {
 				mins.setText("1");	
 			}
+			else if(Integer.parseInt(mins.getText())==59) {
+				if (hours.getText().matches("[0-9]+$")) {
+					hourNum = Integer.parseInt(hours.getText());
+					hourNum++;
+					hours.setText(""+hourNum);	
+				}else if(hours.getText().isEmpty()) {
+					hours.setText("1");	
+				}
+				mins.setText("0");
+			}
 		
 		});
 		add(pMin);
+		
+
+		
+		
+		sec = new JTextField();
+		sec.setBounds(290, yVal, 30, 40);
+		add(sec);
+		nSec = new JButton();
+		nSec.addActionListener((e)-> {
+			if (sec.getText().matches("[0-9]+$") && Integer.parseInt(sec.getText())>0) {
+				int i = Integer.parseInt(sec.getText());
+				i--;
+				sec.setText(""+i);	
+			}else if(sec.getText().isEmpty()) {
+				sec.setText("1");	
+			}
+		
+		});
+		nSec.setBounds(260, yVal, 40, 40);
+		try {
+			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("leftAr.png"));
+			nSec.setIcon(new ImageIcon(img));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		add(nSec);
+		pSec = new JButton();
+		pSec.setBounds(310, yVal, 40, 40);
+		try {
+			BufferedImage img = ImageIO.read(this.getClass().getResourceAsStream("rightAr.png"));
+			pSec.setIcon(new ImageIcon(img));
+		} catch (Exception ex) {
+			System.out.println(ex);
+		}
+		
+		pSec.addActionListener((e)-> {
+			if (sec.getText().matches("[0-9]+$") && Integer.parseInt(sec.getText())<59) {
+				secNum = Integer.parseInt(sec.getText());
+				secNum++;
+				sec.setText(""+secNum);	
+			}else if(sec.getText().isEmpty()) {
+				sec.setText("1");	
+			}else if(Integer.parseInt(sec.getText())==59) {
+				if (mins.getText().matches("[0-9]+$") && Integer.parseInt(mins.getText())<59) {
+					minNum = Integer.parseInt(mins.getText());
+					minNum++;
+					mins.setText(""+minNum);	
+				}else if(mins.getText().isEmpty()) {
+					mins.setText("1");	
+				}
+				else if(Integer.parseInt(mins.getText())==59) {
+					hourNum++;
+					hours.setText(""+hourNum);	
+					mins.setText("0");
+				}
+				sec.setText("0");
+			}
+		
+		});
+		add(pSec);
+		
 		
 	}
 
